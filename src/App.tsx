@@ -1,17 +1,28 @@
-import { useEffect, useState } from 'react';
+import jwtDecode from 'jwt-decode';
+import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import { NavBar } from './components/NavBar/NavBar';
+import { Accueil } from './views/Accueil';
+import { Annuaire } from './views/Annuaire';
 import { Login } from './views/Login';
 
+import { useUserStore } from './store/useUserStore';
+import { getLocalStorageToken } from './utils/jwtToken';
+import { Box, Container } from '@chakra-ui/react';
+
 function App() {
-   const [count, setCount] = useState(1);
+   const { setUser } = useUserStore();
 
    const navigate = useNavigate();
 
    // useEffect(() => {
-   //    if (count === 1) {
-   //       if (window.location.pathname.includes('/login')) navigate('/test1');
+   //    const lsToken = getLocalStorageToken();
+
+   //    if (lsToken) {
+   //       setUser(jwtDecode(lsToken));
+
+   //       if (window.location.pathname.includes('/login')) navigate('/accueil');
    //       else navigate(window.location.pathname);
    //    } else {
    //       navigate('/login');
@@ -25,12 +36,14 @@ function App() {
          <Route
             path="/*"
             element={
-               <>
+               <Box>
                   <NavBar />
                   <Routes>
-                     <Route path="/">{/* <Route path="test1" element={<Test1 />} /> */}</Route>
+                     <Route path="/annuaire" element={<Annuaire />} />
+
+                     <Route path="*" element={<Accueil />} />
                   </Routes>
-               </>
+               </Box>
             }
          />
       </Routes>

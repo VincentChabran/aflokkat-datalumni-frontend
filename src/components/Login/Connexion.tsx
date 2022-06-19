@@ -1,0 +1,97 @@
+import { Button, Flex, Heading, VStack } from '@chakra-ui/react';
+import { Form, Formik, FormikHelpers } from 'formik';
+import { useState } from 'react';
+import { useMutation } from 'urql';
+import * as yup from 'yup';
+
+import { setLocalStorageToken } from '../../utils/jwtToken';
+import InputField from '../global/formikField/InputField';
+import InputPassword from '../global/formikField/InputPassword';
+
+export interface ConnexionProps {}
+
+interface Values {
+   email: string;
+   password: string;
+}
+
+const schema = yup.object().shape({
+   email: yup.string().email('Format non valide pour un email...').required('Email requis...'),
+   password: yup.string().required('Mot de passe requis...'),
+});
+
+export function Connexion(props: ConnexionProps) {
+   const [title, setTitle] = useState('Accédez à votre réseau');
+   const [_, execLoginUserMutation] = useMutation(loginUserMutation);
+
+   const submit = async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
+      const variables = {
+         login: {
+            email: values.email,
+            password: values.password,
+         },
+      };
+      setSubmitting(true);
+
+      const { data, error } = await execLoginUserMutation(variables);
+
+      if (error) setTitle('Identifiants incorrect... Veuillez réessayer.');
+
+      if (data) {
+         const { accessToken, user } = data.login;
+
+         if (accessToken && user) {
+            setLocalStorageToken(accessToken);
+            window.location.reload();
+         }
+      }
+
+      setSubmitting(false);
+   };
+
+   return (
+      <>
+         <Heading as="h4" textAlign="center" size="sm" variant="custom">
+            {title}
+         </Heading>
+
+         <Flex justify="center" w="80%">
+            <Formik initialValues={{ email: '', password: '' }} onSubmit={submit} validationSchema={schema}>
+               {(formikProps) => (
+                  <VStack align="stretch" w="100%">
+                     <Form>
+                        <VStack align="stretch" w="100%">
+                           <InputField label="email" name="email" placeholder="Email" borderRadius="full" />
+
+                           <InputPassword label="password" name="password" placeholder="Password" borderRadius="full" />
+
+                           <Button type="submit" borderRadius="full" colorScheme="purple">
+                              Connexion
+                           </Button>
+                        </VStack>
+                     </Form>
+                  </VStack>
+               )}
+            </Formik>
+         </Flex>
+      </>
+   );
+}
+
+const loginUserMutation = `
+mutation Mutation($login: LoginUserInput!) {
+   login(loginUserInput: $login) {
+     accessToken
+     user {
+       id
+       email
+       nom
+       prenom
+       profilPictureName
+       roles
+       mentor
+ 
+     }
+   }
+ }
+`;

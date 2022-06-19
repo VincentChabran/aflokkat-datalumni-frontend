@@ -1,23 +1,11 @@
 import { QuestionIcon } from '@chakra-ui/icons';
-import {
-   Avatar,
-   Box,
-   Button,
-   Flex,
-   HStack,
-   Popover,
-   PopoverArrow,
-   PopoverBody,
-   PopoverCloseButton,
-   PopoverContent,
-   PopoverHeader,
-   PopoverTrigger,
-} from '@chakra-ui/react';
+import { Flex, HStack, Image, useColorModeValue } from '@chakra-ui/react';
 import { FaAddressBook, FaHandshake, FaHome } from 'react-icons/fa';
 import { GoMortarBoard } from 'react-icons/go';
 import { BiCalendar } from 'react-icons/bi';
-import NavItem from '../global/NavItem';
+import NavItem from './NavItem';
 import { NavBurger } from './NavBurger';
+import { UserItem } from './UserItem';
 
 export interface NavBarProps {}
 
@@ -29,11 +17,16 @@ export const navPaths = [
    { href: '/apropos', icon: QuestionIcon, name: 'À propos' },
    { href: '/actualites', icon: BiCalendar, name: 'Actualités' },
 ];
+
 export function NavBar(props: NavBarProps) {
+   const bg = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
    return (
       <>
-         <Box h="50px"></Box>
-         <Flex as="nav" justify={{ base: 'space-around', lg: 'space-between' }} align="center">
+         <Flex maxH="150px" justify="center" overflow="hidden">
+            <Image src="./src/assets/img/header.jpg" alt="Banner" objectFit="cover" />
+         </Flex>
+
+         <Flex as="nav" justify={{ base: 'space-evenly', lg: 'space-between' }} align="center" py="20px" bg={bg}>
             <HStack w={{ lg: '100%', navBar: '90%', xl: '80%' }} display={{ base: 'none', lg: 'flex' }}>
                {navPaths.map((el) => (
                   <NavItem key={el.name} href={el.href} icon={el.icon}>
@@ -44,22 +37,7 @@ export function NavBar(props: NavBarProps) {
 
             <NavBurger />
 
-            <Popover>
-               <PopoverTrigger>
-                  <Flex h="100%">
-                     <Button h="50px" variant="ghost" fontWeight="normal" fontFamily="heading">
-                        <Avatar size="sm" />
-                        User Name FirstName
-                     </Button>
-                  </Flex>
-               </PopoverTrigger>
-               <PopoverContent>
-                  <PopoverArrow />
-                  {/* <PopoverCloseButton /> */}
-                  {/* <PopoverHeader>Confirmation!</PopoverHeader> */}
-                  <PopoverBody>Profil Déco toggle mode</PopoverBody>
-               </PopoverContent>
-            </Popover>
+            <UserItem />
          </Flex>
       </>
    );

@@ -9,6 +9,8 @@ export const Link: ComponentStyleConfig = {
          transitionTimingFunction: 'ease-out',
 
          fontFamily: 'heading', // base = body
+         w: '100%',
+         px: '15px',
 
          cursor: 'pointer',
          textDecoration: 'none',
@@ -18,16 +20,16 @@ export const Link: ComponentStyleConfig = {
 
          _hover: {
             textDecoration: 'none', // base = underline
-            bg: mode('gray.100', 'gray.300')(props), // base = existe pas
-            color: 'blue.500',
+            bg: mode('gray.100', 'blackAlpha.400')(props), // base = existe pas
+            color: mode('blue.500', 'purple.300')(props),
          },
 
          _activeLink: {
-            bg: mode('gray.200', 'gray.700')(props),
+            bg: mode('gray.200', 'blackAlpha.500')(props),
+            color: mode('blue', 'purple.400')(props),
             _hover: {
-               bg: mode('gray.100', 'gray.400')(props),
+               bg: mode('gray.100', 'blackAlpha.400')(props),
             },
-            color: 'blue',
          },
          // Au clic
          _active: {

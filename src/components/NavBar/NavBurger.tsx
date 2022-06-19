@@ -6,17 +6,20 @@ import {
    DrawerContent,
    DrawerHeader,
    DrawerOverlay,
-   Flex,
    IconButton,
    useDisclosure,
 } from '@chakra-ui/react';
-import NavItem from '../global/NavItem';
+import NavItem from './NavItem';
 import { navPaths } from './NavBar';
 
 export interface NavBurgerProps {}
 
 export function NavBurger(props: NavBurgerProps) {
-   const { isOpen: drawerOpen, onToggle: drawerToggle } = useDisclosure();
+   const { isOpen: drawerOpen, onToggle: drawerToggle, onClose } = useDisclosure();
+
+   window.addEventListener('resize', () => {
+      if (window.innerWidth >= 992) onClose();
+   });
 
    return (
       <div>
@@ -28,12 +31,13 @@ export function NavBurger(props: NavBurgerProps) {
             onClick={drawerToggle}
          />
 
-         <Drawer onClose={drawerToggle} isOpen={drawerOpen} placement="left">
+         <Drawer onClose={drawerToggle} isOpen={drawerOpen} placement="left" size="2xs">
             <DrawerOverlay />
             <DrawerContent overflowY="hidden">
-               {/* <DrawerCloseButton /> */}
-
-               <DrawerHeader textAlign="center">Menu</DrawerHeader>
+               <DrawerHeader textAlign="center">
+                  Menu
+                  <DrawerCloseButton />
+               </DrawerHeader>
                <DrawerBody overflowY="hidden" p="0">
                   {navPaths.map((el) => (
                      <NavItem href={el.href} icon={el.icon} key={el.name}>

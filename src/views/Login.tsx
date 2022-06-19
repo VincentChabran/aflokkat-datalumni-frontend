@@ -1,17 +1,17 @@
-import { Box, Button, Flex, Heading, HStack, Image, Text, VStack } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
+import { Box, Button, Flex, Image, useColorModeValue } from '@chakra-ui/react';
 import { useState } from 'react';
-import InputField from '../components/global/formik/InputField';
-import InputPassword from '../components/global/formik/InputPassword';
+import { Connexion } from '../components/Login/Connexion';
 
 export interface LoginProps {}
 
 export function Login(props: LoginProps) {
    const [display, setDisplay] = useState('connexion');
 
+   const bg = useColorModeValue('white', 'gray.800');
+
    return (
       <Flex minH="100vh" justify="center" align="center" bgImg="./src/assets/img/bg2.jpg" bgSize="cover">
-         <Box maxW="360px" w="100%" h="500px" borderRadius="md" bg="white" border="3px solid gray">
+         <Box maxW="360px" w="100%" h="500px" borderRadius="md" bg={bg} border="2px solid ">
             <Flex w="100%" h="100%" flexDir="column" justify="space-evenly" align="center">
                <Flex w="100%" justify="center">
                   <Image src="./src/assets/img/aflopng.png" />
@@ -38,34 +38,7 @@ export function Login(props: LoginProps) {
                   </Button>
                </Flex>
 
-               <Text textAlign="center" fontWeight="semibold">
-                  Accédez à votre réseau
-               </Text>
-
-               <Flex justify="center" w="80%">
-                  <Formik initialValues={{ email: '', password: '' }} onSubmit={console.log}>
-                     {(formikProps) => (
-                        <VStack align="stretch" w="100%">
-                           <Form>
-                              <VStack align="stretch" w="100%">
-                                 <InputField label="email" name="email" placeholder="Email" borderRadius="full" />
-
-                                 <InputPassword
-                                    label="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    borderRadius="full"
-                                 />
-
-                                 <Button borderRadius="full" colorScheme="purple">
-                                    Connexion
-                                 </Button>
-                              </VStack>
-                           </Form>
-                        </VStack>
-                     )}
-                  </Formik>
-               </Flex>
+               {display === 'connexion' && <Connexion />}
             </Flex>
          </Box>
       </Flex>

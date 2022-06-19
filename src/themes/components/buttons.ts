@@ -97,7 +97,7 @@ export const Button = {
             return {
                color: mode(`inherit`, `whiteAlpha.900`)(props),
                _hover: {
-                  bg: mode(`gray.100`, `whiteAlpha.200`)(props),
+                  bg: mode(`gray.100`, `blackAlpha.400`)(props),
                },
                _active: { bg: mode(`gray.200`, `whiteAlpha.300`)(props) },
             };
@@ -149,11 +149,15 @@ export const Button = {
          return {
             // ...base.components.Button.variants.outline(props),
             bg: 'transparent',
-            border: '1px solid',
             fontWeight: 'normal',
-            fontFamily: 'mono',
+            fontSize: 'sm',
+
             _hover: {
-               transform: 'scale(1.2);',
+               color: mode('blue', 'purple.300')(props),
+            },
+
+            _active: {
+               boxShadow: '2xl',
             },
          };
       },

@@ -9,6 +9,7 @@ import {
    IconButton,
    useDisclosure,
 } from '@chakra-ui/react';
+
 import NavItem from './NavItem';
 import { navPaths } from './NavBar';
 

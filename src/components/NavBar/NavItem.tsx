@@ -1,4 +1,4 @@
-import { ComponentWithAs, Flex, FlexProps, Icon, IconProps, Link, VStack } from '@chakra-ui/react';
+import { ComponentWithAs, Flex, Icon, IconProps, Link, VStack } from '@chakra-ui/react';
 import { CSSProperties, MouseEventHandler, ReactElement } from 'react';
 import { IconType } from 'react-icons';
 import { NavLink } from 'react-router-dom';

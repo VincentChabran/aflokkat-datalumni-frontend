@@ -29,7 +29,7 @@ export const Heading: ComponentStyleConfig = {
          lineHeight: [1.33, null, 1.2],
       },
       md: {
-         fontSize: ['md', 'xl'],
+         fontSize: ['xs', 'lg', 'md', 'lg'],
          lineHeight: 1.2,
       },
       sm: { fontSize: 'md', lineHeight: 1.2 },

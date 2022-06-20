@@ -9,25 +9,24 @@ import { Login } from './views/Login';
 
 import { useUserStore } from './store/useUserStore';
 import { getLocalStorageToken } from './utils/jwtToken';
-import { Box, Container } from '@chakra-ui/react';
 
 function App() {
    const { setUser } = useUserStore();
 
    const navigate = useNavigate();
 
-   // useEffect(() => {
-   //    const lsToken = getLocalStorageToken();
+   useEffect(() => {
+      const lsToken = getLocalStorageToken();
 
-   //    if (lsToken) {
-   //       setUser(jwtDecode(lsToken));
+      if (lsToken) {
+         setUser(jwtDecode(lsToken));
 
-   //       if (window.location.pathname.includes('/login')) navigate('/accueil');
-   //       else navigate(window.location.pathname);
-   //    } else {
-   //       navigate('/login');
-   //    }
-   // }, []);
+         if (window.location.pathname.includes('/login')) navigate('/accueil');
+         else navigate(window.location.pathname);
+      } else {
+         navigate('/login');
+      }
+   }, []);
 
    return (
       <Routes>
@@ -36,14 +35,14 @@ function App() {
          <Route
             path="/*"
             element={
-               <Box>
+               <>
                   <NavBar />
                   <Routes>
                      <Route path="/annuaire" element={<Annuaire />} />
 
                      <Route path="*" element={<Accueil />} />
                   </Routes>
-               </Box>
+               </>
             }
          />
       </Routes>

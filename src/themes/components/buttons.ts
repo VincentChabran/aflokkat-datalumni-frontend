@@ -157,7 +157,8 @@ export const Button = {
             },
 
             _active: {
-               boxShadow: '2xl',
+               boxShadow: 'none',
+               color: mode('blue.300', 'purple.500')(props),
             },
          };
       },

@@ -12,8 +12,10 @@ import {
 } from '@chakra-ui/react';
 import { FaUserEdit } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
+
 import { ColorModeSwitcher } from '../global/ColorModoSwitcher';
 import NavItem from './NavItem';
+
 import { useUserStore } from '../../store/useUserStore';
 import { deleteLocalStorageToken } from '../../utils/jwtToken';
 
@@ -30,7 +32,7 @@ export function UserItem(props: UserItemProps) {
    return (
       <Popover placement="bottom-start">
          <PopoverTrigger>
-            <Button variant="custom" h="50px" minW="100px" mr="3px" p="0" overflow="hidden">
+            <Button variant="custom" h="50px" minW="100px" mr="3px" overflow="hidden">
                {/* <Flex w="100%" justify={{ base: 'space-around', lg: 'space-evenly' }} align="center"> */}
                <Avatar size="sm" src={profilPictureName} mr="2px" />
 

@@ -1,12 +1,10 @@
 import jwtDecode from 'jwt-decode';
 import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-
 import { NavBar } from './components/NavBar/NavBar';
 import { Accueil } from './views/Accueil';
 import { Annuaire } from './views/Annuaire';
 import { Login } from './views/Login';
-
 import { useUserStore } from './store/useUserStore';
 import { getLocalStorageToken } from './utils/jwtToken';
 

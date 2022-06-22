@@ -1,10 +1,7 @@
 import { Box, Grid, GridItem } from '@chakra-ui/react';
+import { DisplayUserGrid } from '../components/user/DisplayUserGrid';
 
-import { DisplayUserGrid } from '../components/global/DisplayUserGrid';
-
-export interface AccueilProps {}
-
-export function Accueil(props: AccueilProps) {
+export function Accueil() {
    return (
       <>
          <h1>hello accueil</h1>

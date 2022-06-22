@@ -2,9 +2,7 @@ import { Box, Button, Flex, Image, useColorModeValue } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Connexion } from '../components/Login/Connexion';
 
-export interface LoginProps {}
-
-export function Login(props: LoginProps) {
+export function Login() {
    const [display, setDisplay] = useState('connexion');
 
    const bg = useColorModeValue('white', 'gray.800');

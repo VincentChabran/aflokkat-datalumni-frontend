@@ -1,15 +1,11 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import { DisplayUserGrid } from '../components/user/DisplayUserGrid';
+import { UserSearchBar } from '../components/user/UserSearchBar';
 
-import { DisplayUserGrid } from '../components/global/DisplayUserGrid';
-
-export interface AnnuaireProps {}
-
-export function Annuaire(props: AnnuaireProps) {
+export function Annuaire() {
    return (
       <>
-         <Flex justify="center" py={5} h="100px">
-            <h1>Todo Field de recherche</h1>
-         </Flex>
+         <UserSearchBar />
 
          <Box>
             <DisplayUserGrid />

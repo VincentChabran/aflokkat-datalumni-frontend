@@ -1,37 +1,18 @@
-import { Avatar, Flex, Heading, HStack, Tag, Text, VStack } from '@chakra-ui/react';
-
+import { Avatar, Badge, Flex, Heading, Tag, Text, VStack } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { bgColor } from '../../themes/constants/bgColor';
+import { User } from './DisplayUserGrid';
 
 export interface UserCardProps {
-   user: {
-      id: number;
-      nom: string;
-      prenom: string;
-      profilPictureName: string;
-      roles: string[];
-      formations: [
-         {
-            id: number;
-            nomFormation: string;
-            nomEtablissement: string;
-            anneeObtention: number;
-         },
-      ];
-      experiencePro: [
-         {
-            id: number;
-            fonction: string;
-            entreprise: string;
-         },
-      ];
-   };
+   user: User;
 }
 
 export function UserCard({ user }: UserCardProps) {
-   const { id, nom, prenom, profilPictureName, roles, formations, experiencePro } = user;
-
+   const { id, nom, prenom, profilPictureName, roles, mentor, formations, experiencePro } = user;
    // Trie annee -> 2022,2021,2020
    if (formations[0]) formations.sort((a, b) => a.anneeObtention - b.anneeObtention);
+
+   const navigate = useNavigate();
 
    const bgCard = bgColor();
    const bdColor = roles.includes('admin')
@@ -45,8 +26,25 @@ export function UserCard({ user }: UserCardProps) {
       : 'green.600';
 
    return (
-      <VStack border="2px solid" py={7} px={3} spacing={4} borderRadius="md" bg={bgCard} borderColor={bdColor}>
-         <Avatar size="xl" src={profilPictureName} />
+      <VStack
+         border="2px solid"
+         py={7}
+         px={3}
+         spacing={4}
+         borderRadius="md"
+         bg={bgCard}
+         borderColor={bdColor}
+         pos="relative"
+         onClick={() => navigate(`/profil/${id}`)}
+         _hover={{ cursor: 'pointer' }}
+      >
+         {mentor && (
+            <Badge variant="outline" pos="absolute" top="5" right="5" colorScheme="orange" borderRadius="md">
+               Mentor
+            </Badge>
+         )}
+
+         <Avatar size="xl" src="./src/assets/img/bg0.jpg" />
 
          <Heading size="md" textAlign="center">
             {`${prenom} ${nom}`}

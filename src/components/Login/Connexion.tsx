@@ -3,12 +3,9 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useMutation } from 'urql';
 import * as yup from 'yup';
-
 import { setLocalStorageToken } from '../../utils/jwtToken';
 import InputField from '../global/formikField/InputField';
 import InputPassword from '../global/formikField/InputPassword';
-
-export interface ConnexionProps {}
 
 interface Values {
    email: string;
@@ -20,7 +17,7 @@ const schema = yup.object().shape({
    password: yup.string().required('Mot de passe requis...'),
 });
 
-export function Connexion(props: ConnexionProps) {
+export function Connexion() {
    const [title, setTitle] = useState('Accédez à votre réseau');
    const [_, execLoginUserMutation] = useMutation(loginUserMutation);
 

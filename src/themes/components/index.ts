@@ -4,6 +4,7 @@ import { Input } from './input';
 import { Link } from './link';
 import { Text } from './text';
 import { Drawer } from './drawer';
+import { Select } from './select';
 
 export const components = {
    Button,
@@ -12,4 +13,5 @@ export const components = {
    Link,
    Text,
    Drawer,
+   Select,
 };

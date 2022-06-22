@@ -9,13 +9,10 @@ import {
    IconButton,
    useDisclosure,
 } from '@chakra-ui/react';
-
 import NavItem from './NavItem';
 import { navPaths } from './NavBar';
 
-export interface NavBurgerProps {}
-
-export function NavBurger(props: NavBurgerProps) {
+export function NavBurger() {
    const { isOpen: drawerOpen, onToggle: drawerToggle, onClose } = useDisclosure();
 
    window.addEventListener('resize', () => {

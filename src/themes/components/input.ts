@@ -10,7 +10,7 @@ function getDefaults(props: Record<string, any>) {
 }
 
 export const Input: ComponentStyleConfig = {
-   baseStyle: {
+   baseStyle: (props) => ({
       field: {
          width: '100%',
          minWidth: 0,
@@ -21,35 +21,43 @@ export const Input: ComponentStyleConfig = {
          transitionProperty: 'common',
          transitionDuration: 'normal',
       },
-   },
+   }),
 
    sizes: {
       lg: {
-         fontSize: 'lg',
-         px: 4,
-         h: 12,
-         borderRadius: 'md',
+         field: {
+            fontSize: 'lg',
+            px: 4,
+            h: 12,
+            borderRadius: 'md',
+         },
       },
 
       md: {
-         fontSize: 'md',
-         px: 4,
-         h: 10,
-         borderRadius: 'md',
+         field: {
+            fontSize: 'md',
+            px: 4,
+            h: 10,
+            borderRadius: 'md',
+         },
       },
 
       sm: {
-         fontSize: 'sm',
-         px: 3,
-         h: 8,
-         borderRadius: 'sm',
+         field: {
+            fontSize: 'sm',
+            px: 3,
+            h: 8,
+            borderRadius: 'sm',
+         },
       },
 
       xs: {
-         fontSize: 'xs',
-         px: 2,
-         h: 6,
-         borderRadius: 'sm',
+         field: {
+            fontSize: 'xs',
+            px: 2,
+            h: 6,
+            borderRadius: 'sm',
+         },
       },
    },
 

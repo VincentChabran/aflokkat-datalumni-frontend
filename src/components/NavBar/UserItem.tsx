@@ -12,16 +12,12 @@ import {
 } from '@chakra-ui/react';
 import { FaUserEdit } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
-
 import { ColorModeSwitcher } from '../global/ColorModoSwitcher';
 import NavItem from './NavItem';
-
 import { useUserStore } from '../../store/useUserStore';
 import { deleteLocalStorageToken } from '../../utils/jwtToken';
 
-export interface UserItemProps {}
-
-export function UserItem(props: UserItemProps) {
+export function UserItem() {
    const { prenom, nom, profilPictureName, setUser } = useUserStore();
 
    const deconnection = () => {

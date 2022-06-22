@@ -3,14 +3,10 @@ import { Flex, HStack, Image } from '@chakra-ui/react';
 import { FaAddressBook, FaHandshake, FaHome } from 'react-icons/fa';
 import { GoMortarBoard } from 'react-icons/go';
 import { BiCalendar } from 'react-icons/bi';
-
 import NavItem from './NavItem';
 import { NavBurger } from './NavBurger';
 import { UserItem } from './UserItem';
-
 import { bgColor } from '../../themes/constants/bgColor';
-
-export interface NavBarProps {}
 
 export const navPaths = [
    { href: '/accueil', icon: FaHome, name: 'Accueil' },
@@ -21,7 +17,7 @@ export const navPaths = [
    { href: '/actualites', icon: BiCalendar, name: 'Actualités' },
 ];
 
-export function NavBar(props: NavBarProps) {
+export function NavBar() {
    const bg = bgColor();
 
    return (

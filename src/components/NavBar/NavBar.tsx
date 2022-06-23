@@ -23,7 +23,8 @@ export function NavBar() {
    return (
       <>
          <Flex maxH="150px" justify="center" overflow="hidden">
-            <Image src="./src/assets/img/header.jpg" alt="Banner" objectFit="cover" />
+            {/* <Image src="../src/assets/img/header.jpg" alt="Banner" objectFit="cover" /> */}
+            <Image src="http://localhost:4000/header.jpg" alt="Banner" objectFit="cover" />
          </Flex>
 
          <Flex

@@ -22,6 +22,7 @@ export function SearchByPromotion() {
    return (
       <Select
          w="160px"
+         size={{ base: 'xs', md: 'sm', lg: 'md' }}
          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectByPromotion(parseInt(e.target.value))}
          value={selectByPromotion}
          _hover={{ cursor: 'pointer' }}

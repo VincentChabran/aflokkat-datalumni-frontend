@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { User } from '../components/user/DisplayUserGrid';
+import { User } from '../components/Annuaire/DisplayUserGrid';
 
 interface SelectUserDisplayState {
    // Tous les users après la requete vers le back pour le displayUserGrid
@@ -28,6 +28,8 @@ interface SelectUserDisplayState {
 
    selectByMentor: boolean;
    setSelectByMentor: (checked: boolean) => void;
+
+   resetFilter: () => void;
 }
 
 export const useSelectUserDisplayStore = create<SelectUserDisplayState>((set) => ({
@@ -61,4 +63,13 @@ export const useSelectUserDisplayStore = create<SelectUserDisplayState>((set) =>
 
    selectByMentor: false,
    setSelectByMentor: (isChecked) => set(() => ({ selectByMentor: isChecked })),
+
+   resetFilter: () =>
+      set(() => ({
+         selectByRoles: '',
+         selectByDiplome: '',
+         selectByPromotion: 0,
+         selectByJobSearch: false,
+         selectByMentor: false,
+      })),
 }));

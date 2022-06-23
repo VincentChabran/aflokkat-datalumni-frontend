@@ -15,7 +15,12 @@ export function CheckboxJobSearch() {
 
    return (
       <div>
-         <Checkbox colorScheme="green" onChange={(e) => setSelectByJobSearch(e.target.checked)} defaultChecked={false}>
+         <Checkbox
+            colorScheme="green"
+            onChange={(e) => setSelectByJobSearch(e.target.checked)}
+            defaultChecked={false}
+            isChecked={selectByJobSearch}
+         >
             Recherche d'emploi
          </Checkbox>
       </div>

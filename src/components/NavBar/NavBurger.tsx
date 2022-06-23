@@ -36,7 +36,8 @@ export function NavBurger() {
                   Menu
                   <DrawerCloseButton />
                </DrawerHeader>
-               <DrawerBody overflowY="hidden" p="0">
+
+               <DrawerBody overflowY="hidden" p="0" onClick={drawerToggle}>
                   {navPaths.map((el) => (
                      <NavItem href={el.href} icon={el.icon} key={el.name}>
                         {el.name}

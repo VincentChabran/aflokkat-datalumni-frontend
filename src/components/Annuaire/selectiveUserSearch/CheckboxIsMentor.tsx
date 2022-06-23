@@ -15,7 +15,12 @@ export function CheckboxIsMentor() {
 
    return (
       <div>
-         <Checkbox colorScheme="green" onChange={(e) => setSelectByMentor(e.target.checked)} defaultChecked={false}>
+         <Checkbox
+            colorScheme="green"
+            onChange={(e) => setSelectByMentor(e.target.checked)}
+            defaultChecked={false}
+            isChecked={selectByMentor}
+         >
             Mentor
          </Checkbox>
       </div>

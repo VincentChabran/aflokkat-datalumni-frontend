@@ -9,6 +9,7 @@ import {
    PopoverHeader,
    PopoverTrigger,
    Text,
+   useDisclosure,
 } from '@chakra-ui/react';
 import { FaUserEdit } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
@@ -20,13 +21,15 @@ import { deleteLocalStorageToken } from '../../utils/jwtToken';
 export function UserItem() {
    const { prenom, nom, profilPictureName, setUser } = useUserStore();
 
+   const { isOpen, onOpen, onClose } = useDisclosure();
+
    const deconnection = () => {
       deleteLocalStorageToken();
       setUser({ id: 0, email: '', nom: '', prenom: '', profilPictureName: '', role: '', mentor: false });
    };
 
    return (
-      <Popover placement="bottom-start">
+      <Popover placement="bottom-start" isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
          <PopoverTrigger>
             <Button variant="custom" h="50px" minW="100px" mr="3px" overflow="hidden">
                {/* <Flex w="100%" justify={{ base: 'space-around', lg: 'space-evenly' }} align="center"> */}
@@ -46,10 +49,12 @@ export function UserItem() {
 
          <PopoverContent w={['180px', '250px']}>
             <PopoverArrow />
-            <PopoverHeader>
+
+            <PopoverHeader onClick={onClose}>
                <ColorModeSwitcher w="100%" />
             </PopoverHeader>
-            <PopoverBody>
+
+            <PopoverBody onClick={onClose}>
                <Flex flexDir="column" align="center">
                   <NavItem href="/profil" icon={FaUserEdit} h="40px">
                      Profil

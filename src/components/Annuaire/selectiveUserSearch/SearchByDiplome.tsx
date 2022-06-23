@@ -26,6 +26,7 @@ export function SearchByDiplome() {
    return (
       <Select
          w="180px"
+         size={{ base: 'xs', md: 'sm', lg: 'md' }}
          onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectByDiplome(e.target.value)}
          value={selectByDiplome}
          _hover={{ cursor: 'pointer' }}

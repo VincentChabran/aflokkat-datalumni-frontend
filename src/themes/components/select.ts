@@ -48,7 +48,7 @@ export const Select: ComponentStyleConfig = {
             fontSize: 'sm',
             px: 3,
             h: 8,
-            borderRadius: 'sm',
+            borderRadius: 'md',
             paddingInlineEnd: '2rem',
          },
       },
@@ -58,7 +58,7 @@ export const Select: ComponentStyleConfig = {
             fontSize: 'xs',
             px: 2,
             h: 6,
-            borderRadius: 'sm',
+            borderRadius: 'md',
             paddingInlineEnd: '2rem',
          },
          icon: { insetEnd: '0.25rem' },
@@ -66,8 +66,40 @@ export const Select: ComponentStyleConfig = {
    },
 
    variants: {
-      exemple: (props: StyleFunctionProps) => {
-         return {};
+      outline: (props: StyleFunctionProps) => {
+         return {
+            field: {
+               border: '1px solid',
+               borderColor: mode('gray.400', 'whiteAlpha.400')(props),
+
+               bg: 'inherit',
+               _hover: {
+                  borderColor: mode('gray.300', 'whiteAlpha.400')(props),
+               },
+               // _readOnly: {
+               //    boxShadow: 'none !important',
+               //    userSelect: 'all',
+               // },
+               // _disabled: {
+               //    opacity: 0.4,
+               //    cursor: 'not-allowed',
+               // },
+               // _invalid: {
+               //    borderColor: getColor(theme, ec),
+               //    boxShadow: `0 0 0 1px ${getColor(theme, ec)}`,
+               // },
+               // _focusVisible: {
+               //    zIndex: 1,
+               //    borderColor: getColor(theme, fc),
+               //    boxShadow: `0 0 0 1px ${getColor(theme, fc)}`,
+               // },
+            },
+            addon: {
+               border: '1px solid',
+               borderColor: mode('inherit', 'whiteAlpha.50')(props),
+               bg: mode('gray.100', 'whiteAlpha.300')(props),
+            },
+         };
       },
    },
 

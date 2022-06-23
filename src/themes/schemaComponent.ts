@@ -1,8 +1,8 @@
-import type { ComponentStyleConfig } from "@chakra-ui/theme";
-import { mode, StyleFunctionProps } from "@chakra-ui/theme-tools";
+import type { ComponentStyleConfig } from '@chakra-ui/theme';
+import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 
 export const Name: ComponentStyleConfig = {
-   baseStyle: {},
+   baseStyle: (props: StyleFunctionProps) => ({}),
 
    sizes: {},
 

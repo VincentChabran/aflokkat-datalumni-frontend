@@ -1,30 +1,35 @@
 import { Box, SimpleGrid, Spinner } from '@chakra-ui/react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'urql';
 import { useSelectUserDisplayStore } from '../../store/useSelectUserDisplayStore';
 import { UserCard } from './UserCard';
 
-export interface User {
+export interface UsersGrid {
    id: number;
    nom: string;
    prenom: string;
-   profilPictureName: string;
+   profilPictureName: string | null;
    roles: string[];
    mentor: boolean;
    rechercheEmploi: boolean;
-   formations: {
-      id: number;
-      nomFormation: string;
-      nomEtablissement: string;
-      anneeObtention: number;
-      typeDiplome: string;
-   }[];
+   formations:
+      | {
+           id: number;
+           nomFormation: string;
+           nomEtablissement: string;
+           anneeObtention: number;
+           typeDiplome: string;
+        }[]
+      | null;
 
-   experiencePro: {
-      id: number;
-      fonction: string;
-      entreprise: string;
-   }[];
+   experiencePro:
+      | {
+           id: number;
+           fonction: string;
+           entreprise: string;
+        }[]
+      | null;
 }
 
 export interface DisplayUserGridProps {
@@ -36,13 +41,15 @@ export interface DisplayUserGridProps {
 export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = [undefined], mentor = false }: DisplayUserGridProps) {
    const { setUsers, displayUsers, setDisplayUsers } = useSelectUserDisplayStore();
 
+   const navigate = useNavigate();
+
    const [{ data, fetching, error }] = useQuery({ query: usersQuery });
 
    useEffect(() => {
       if (!fetching && !error && data) {
          let { users } = data;
          users.sort((a: any, b: any) => a.id - b.id); // sort id 1 à max
-         if (mentor) users = users.filter((user: User) => user.mentor === true);
+         if (mentor) users = users.filter((user: UsersGrid) => user.mentor === true);
          setUsers(users);
          setDisplayUsers();
       }
@@ -56,8 +63,10 @@ export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = [undefined]
             <Box>Todo affichage utilisateur non trouvé</Box>
          ) : (
             <SimpleGrid columns={columns} spacing={6} mx={{ base: 10, lg: 5, xl: 10 }}>
-               {displayUsers?.slice(...slice).map((user: User) => (
-                  <UserCard user={user} key={user.id} />
+               {displayUsers?.slice(...slice).map((user: UsersGrid) => (
+                  <Box key={user.id} h="100%" onClick={() => navigate(`/profil/${user.id}`)} _hover={{ cursor: 'pointer' }}>
+                     <UserCard user={user} />
+                  </Box>
                ))}
             </SimpleGrid>
          )}

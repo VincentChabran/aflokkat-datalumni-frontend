@@ -1,5 +1,5 @@
 import { Box, Grid, GridItem } from '@chakra-ui/react';
-import { DisplayUserGrid } from '../components/user/DisplayUserGrid';
+import { DisplayUserGrid } from '../components/Annuaire/DisplayUserGrid';
 
 export function Accueil() {
    return (

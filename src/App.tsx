@@ -7,6 +7,7 @@ import { Annuaire } from './views/Annuaire';
 import { Login } from './views/Login';
 import { useUserStore } from './store/useUserStore';
 import { getLocalStorageToken } from './utils/jwtToken';
+import { Profil } from './views/Profil';
 
 function App() {
    const { setUser } = useUserStore();
@@ -37,6 +38,8 @@ function App() {
                   <NavBar />
                   <Routes>
                      <Route path="/annuaire" element={<Annuaire />} />
+
+                     <Route path="/profil/:userId" element={<Profil />} />
 
                      <Route path="*" element={<Accueil />} />
                   </Routes>

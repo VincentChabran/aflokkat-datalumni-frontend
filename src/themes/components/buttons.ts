@@ -1,5 +1,5 @@
 import { theme as base } from '@chakra-ui/react';
-import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
+import { mode, StyleFunctionProps, transparentize } from '@chakra-ui/theme-tools';
 
 export const Button = {
    baseStyle: (props: StyleFunctionProps) => ({
@@ -129,20 +129,31 @@ export const Button = {
             };
          }
 
-         if (c === 'blackAlpha' || 'whiteAlpha') {
-            return {
-               border: '1px solid',
-               borderColor: mode(`${c}.900`, `${c}.800`)(props),
-               color: mode(`${c}.900`, `${c}.800`)(props),
-               bg: mode(`transparent`, `${c}.100`)(props),
-               _hover: {
-                  bg: mode(`gray.100`, `${c}.200`)(props),
-               },
-               _active: {
-                  bg: mode(`gray.200`, `${c}.300`)(props),
-               },
-            };
-         }
+         // if (c === 'blackAlpha' || 'whiteAlpha') {
+         //    return {
+         //       border: '1px solid',
+         //       borderColor: mode(`${c}.900`, `${c}.800`)(props),
+         //       color: mode(`${c}.900`, `${c}.800`)(props),
+         //       bg: mode(`transparent`, `${c}.100`)(props),
+         //       _hover: {
+         //          bg: mode(`gray.100`, `${c}.200`)(props),
+         //       },
+         //       _active: {
+         //          bg: mode(`gray.200`, `${c}.300`)(props),
+         //       },
+         //    };
+         // }
+
+         return {
+            color: mode(`${c}.600`, `${c}.200`)(props),
+            bg: 'transparent',
+            _hover: {
+               bg: mode(`${c}.50`, `${c}.20`)(props),
+            },
+            _active: {
+               bg: mode(`${c}.100`, `${c}.20`)(props),
+            },
+         };
       },
 
       custom: (props: StyleFunctionProps) => {

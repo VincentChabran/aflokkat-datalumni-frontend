@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
-import { DisplayUserGrid } from '../components/user/DisplayUserGrid';
-import { UserSearchBar } from '../components/user/UserSearchBar';
+import { DisplayUserGrid } from '../components/Annuaire/DisplayUserGrid';
+import { UserSearchBar } from '../components/Annuaire/UserSearchBar';
 
 export function Annuaire() {
    return (

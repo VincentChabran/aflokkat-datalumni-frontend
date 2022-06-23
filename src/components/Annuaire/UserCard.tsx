@@ -1,16 +1,29 @@
 import { Avatar, Badge, Flex, Heading, Tag, Text, VStack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { bgColor } from '../../themes/constants/bgColor';
-import { User } from './DisplayUserGrid';
+import { UserDetails } from '../Profil/UserDetails';
+import { UsersGrid } from './DisplayUserGrid';
 
 export interface UserCardProps {
-   user: User;
+   user: UsersGrid | UserDetails;
+   borderCard?: boolean;
+   nomPrenomSize?: string | {};
+   rolesSize?: string | {};
+   formationsSize?: string | {};
+   experienceProSize?: string | {};
 }
 
-export function UserCard({ user }: UserCardProps) {
+export function UserCard({
+   user,
+   borderCard = true,
+   nomPrenomSize = 'md',
+   rolesSize = 'sm',
+   formationsSize = 'xs',
+   experienceProSize = 'md',
+}: UserCardProps) {
    const { id, nom, prenom, profilPictureName, roles, mentor, formations, experiencePro } = user;
    // Trie annee -> 2022,2021,2020
-   if (formations[0]) formations.sort((a, b) => a.anneeObtention - b.anneeObtention);
+   if (formations) formations.sort((a, b) => a.anneeObtention - b.anneeObtention);
 
    const navigate = useNavigate();
 
@@ -27,16 +40,17 @@ export function UserCard({ user }: UserCardProps) {
 
    return (
       <VStack
-         border="2px solid"
+         h="100%"
          py={7}
          px={3}
          spacing={4}
+         border={borderCard ? '2px solid' : ''}
          borderRadius="md"
-         bg={bgCard}
          borderColor={bdColor}
+         bg={bgCard}
          pos="relative"
-         onClick={() => navigate(`/profil/${id}`)}
-         _hover={{ cursor: 'pointer' }}
+         // onClick={() => navigate(`/profil/${id}`)}
+         // _hover={{ cursor: 'pointer' }}
       >
          {mentor && (
             <Badge variant="outline" pos="absolute" top="5" right="5" colorScheme="orange" borderRadius="md">
@@ -46,24 +60,26 @@ export function UserCard({ user }: UserCardProps) {
 
          <Avatar size="xl" src="./src/assets/img/bg0.jpg" />
 
-         <Heading size="md" textAlign="center">
+         <Heading size={nomPrenomSize} textAlign="center">
             {`${prenom} ${nom}`}
          </Heading>
 
          <Flex justify="center" wrap="wrap" gap={2}>
             {roles.map((el) => (
-               <Tag key={el} size="sm">
+               <Tag key={el} size={rolesSize}>
                   {el}
                </Tag>
             ))}
          </Flex>
 
-         {formations[0] && <Text fontSize="xs">{`${formations[0].nomFormation} (${formations[0].anneeObtention})`}</Text>}
+         {formations && formations.length >= 1 && (
+            <Text fontSize={formationsSize}>{`${formations[0].nomFormation} (${formations[0].anneeObtention})`}</Text>
+         )}
 
-         {experiencePro[0] && (
+         {experiencePro && experiencePro.length >= 1 && (
             <VStack spacing={0}>
-               <Text fontWeight="bold">{`${experiencePro[0].fonction}`}</Text>
-               <Text>{`${experiencePro[0].entreprise}`}</Text>
+               <Text fontWeight="bold" fontSize={experienceProSize}>{`${experiencePro[0].fonction}`}</Text>
+               <Text fontSize={experienceProSize}>{`${experiencePro[0].entreprise}`}</Text>
             </VStack>
          )}
       </VStack>

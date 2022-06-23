@@ -25,7 +25,6 @@ export function SearchByRoles() {
       <Select
          w="160px"
          size={{ base: 'xs', md: 'sm', lg: 'md' }}
-         borderRadius="full"
          onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectByRoles(e.target.value)}
          value={selectByRoles}
          _hover={{ cursor: 'pointer' }}

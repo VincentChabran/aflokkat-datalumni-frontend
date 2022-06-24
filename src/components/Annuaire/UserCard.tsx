@@ -1,11 +1,10 @@
 import { Avatar, Badge, Flex, Heading, Tag, Text, VStack } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import { bgColor } from '../../themes/constants/bgColor';
-import { UserDetails } from '../Profil/UserDetails';
+import { UserSpecifique } from '../../views/Profil';
 import { UsersGrid } from './DisplayUserGrid';
 
 export interface UserCardProps {
-   user: UsersGrid | UserDetails;
+   user: UsersGrid | UserSpecifique;
    borderCard?: boolean;
    nomPrenomSize?: string | {};
    rolesSize?: string | {};
@@ -25,16 +24,15 @@ export function UserCard({
    // Trie annee -> 2022,2021,2020
    if (formations) formations.sort((a, b) => a.anneeObtention - b.anneeObtention);
 
-   const navigate = useNavigate();
-
    const bgCard = bgColor();
-   const bdColor = roles.includes('admin')
+
+   const bdColor = roles.includes('Admin')
       ? 'orange'
-      : roles.includes('equipeadministrative')
+      : roles.includes('Equipe_administrative')
       ? 'purple.400'
-      : roles.includes('recruteur')
+      : roles.includes('Recruteur')
       ? 'cyan'
-      : roles.includes('enseignant')
+      : roles.includes('Enseignant')
       ? 'teal'
       : 'green.600';
 
@@ -49,8 +47,6 @@ export function UserCard({
          borderColor={bdColor}
          bg={bgCard}
          pos="relative"
-         // onClick={() => navigate(`/profil/${id}`)}
-         // _hover={{ cursor: 'pointer' }}
       >
          {mentor && (
             <Badge variant="outline" pos="absolute" top="5" right="5" colorScheme="orange" borderRadius="md">

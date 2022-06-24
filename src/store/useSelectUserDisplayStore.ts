@@ -1,13 +1,13 @@
 import create from 'zustand';
-import { User } from '../components/Annuaire/DisplayUserGrid';
+import { UsersGrid } from '../components/Annuaire/DisplayUserGrid';
 
 interface SelectUserDisplayState {
    // Tous les users après la requete vers le back pour le displayUserGrid
-   users: User[] | undefined;
-   setUsers: (users: User[]) => void;
+   users: UsersGrid[] | undefined;
+   setUsers: (users: UsersGrid[]) => void;
 
    // Pour l'affichage avec la sélection des champs de recherche Select
-   displayUsers: User[] | undefined;
+   displayUsers: UsersGrid[] | undefined;
    setDisplayUsers: () => void;
 
    // Pour la valeur du search by roles
@@ -42,8 +42,10 @@ export const useSelectUserDisplayStore = create<SelectUserDisplayState>((set) =>
          displayUsers: state.users?.filter(
             (user) =>
                (state.selectByRoles ? user.roles.includes(state.selectByRoles) : user) &&
-               (state.selectByDiplome ? user.formations.some((f) => f.typeDiplome === state.selectByDiplome) : user) &&
-               (state.selectByPromotion ? user.formations.some((f) => f.anneeObtention === state.selectByPromotion) : user) &&
+               (state.selectByDiplome ? user.formations?.some((f) => f.typeDiplome === state.selectByDiplome) : user) &&
+               (state.selectByPromotion
+                  ? user.formations?.some((f) => f.anneeObtention === state.selectByPromotion)
+                  : user) &&
                (state.selectByJobSearch ? user.rechercheEmploi : user) &&
                (state.selectByMentor ? user.mentor : user),
          ),

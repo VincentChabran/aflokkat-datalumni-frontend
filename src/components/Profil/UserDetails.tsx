@@ -1,50 +1,23 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
+import { Box, Button, Flex, SimpleGrid } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useUserStore } from '../../store/useUserStore';
+import { UserSpecifique } from '../../views/Profil';
 import { UserCard } from '../Annuaire/UserCard';
-
-export interface UserDetails {
-   id: number;
-   nom: string;
-   prenom: string;
-   email: string;
-   profilPictureName: string | null;
-   roles: string[];
-   mentor: boolean;
-   rechercheEmploi: boolean;
-   telephone: string | null;
-   dateDeNaissance: Date | null;
-   experiencePro:
-      | {
-           fonction: string;
-           entreprise: string;
-           dateDebut: Date;
-           dateFin: string;
-           description: string | null;
-        }[]
-      | null;
-   formations:
-      | {
-           nomFormation: string;
-           typeDiplome: string;
-           nomEtablissement: string;
-           obtention: string;
-           anneeObtention: number;
-           domaineActivite: string;
-           description: string | null;
-        }[]
-      | null;
-}
+import { UpdateUserButton } from './UserDetails/UpdateUserButton';
 
 export interface UserDetailsProps {
-   user: UserDetails;
+   dataUser: UserSpecifique;
 }
 
-export function UserDetails({ user }: UserDetailsProps) {
-   const { prenom, nom, mentor, roles, formations, experiencePro } = user;
-   console.log(user);
+export function UserDetails({ dataUser }: UserDetailsProps) {
+   const { id, roles } = useUserStore();
+
+   const [user, setUser] = useState(dataUser);
 
    return (
       <Box gap={10}>
-         <Flex wrap="wrap">
+         <SimpleGrid columns={[1, 1, 1, 2]}>
             <UserCard
                user={user}
                nomPrenomSize="xl"
@@ -54,41 +27,17 @@ export function UserDetails({ user }: UserDetailsProps) {
                borderCard={false}
             />
 
-            <Flex m="auto" justify="center" align="center">
-               <Button variant="outline" colorScheme="red">
-                  Modifier
-               </Button>
-            </Flex>
-         </Flex>
+            {/* Affiche la barre de settings que si c'est le bon user ou un admin */}
+            {(dataUser.id === id || roles.includes('Admin')) && (
+               <Flex m="auto" justify="center" align="center" gap={5}>
+                  <UpdateUserButton user={user} setUser={setUser} />
+
+                  <Button variant="outline" colorScheme="red" leftIcon={<DeleteIcon />}>
+                     Delete User
+                  </Button>
+               </Flex>
+            )}
+         </SimpleGrid>
       </Box>
    );
-}
-
-{
-   /* <Box>
-            <HStack>
-               <Heading size="xl">{`${prenom} ${nom}`}</Heading>
-
-               {mentor && <Badge variant="outline">Mentor</Badge>}
-            </HStack>
-
-            <Flex gap={3} wrap="wrap">
-               {roles.map((el) => (
-                  <Tag key={el}>{el}</Tag>
-               ))}
-            </Flex>
-         </Box>
-
-         <Avatar size="2xl" />
-
-         {formations && formations.length >= 1 && (
-            <Text fontSize="sm">{`${formations[0].nomFormation} (${formations[0].anneeObtention})`}</Text>
-         )}
-
-         {experiencePro && experiencePro.length >= 1 && (
-            <VStack spacing={0}>
-               <Text fontWeight="bold">{`${experiencePro[0].fonction}`}</Text>
-               <Text>{`${experiencePro[0].entreprise}`}</Text>
-            </VStack>
-         )} */
 }

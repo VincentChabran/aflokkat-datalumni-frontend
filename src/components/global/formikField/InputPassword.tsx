@@ -12,19 +12,18 @@ import { useField } from 'formik';
 import { useState } from 'react';
 import { InputFieldProps } from './InputField';
 
-const InputPassword = ({ label, placeholder, icon, variant, borderRadius, ...props }: InputFieldProps) => {
+const InputPassword = ({ label, placeholder, isRequired, icon, variant, borderRadius, ...props }: InputFieldProps) => {
    const [field, meta] = useField(props);
 
    const hasError = Boolean(meta.touched && meta.error);
 
    const [show, setShow] = useState(false);
-
    const handleClick = () => setShow(!show);
 
    return (
-      <FormControl isInvalid={hasError}>
-         <FormLabel htmlFor={field.name} pl={2} fontWeight="bold" fontSize="xs" textTransform="uppercase">
-            {label}
+      <FormControl isInvalid={hasError} isRequired={isRequired}>
+         <FormLabel htmlFor={field.name} mb="1" fontWeight="bold" fontSize="sm">
+            {label.charAt(0).toUpperCase() + label.slice(1)}
          </FormLabel>
 
          <InputGroup mb={5}>
@@ -32,11 +31,11 @@ const InputPassword = ({ label, placeholder, icon, variant, borderRadius, ...pro
 
             <Input
                id={field.name}
-               placeholder={placeholder}
                type={show ? 'text' : 'password'}
-               {...field}
+               placeholder={placeholder}
                variant={variant}
                borderRadius={borderRadius}
+               {...field}
             />
 
             <InputRightElement>

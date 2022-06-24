@@ -5,27 +5,44 @@ import { FieldHookConfig, useField } from 'formik';
 export type InputFieldProps = FieldHookConfig<string> & {
    label: string;
    placeholder?: string;
+   type?: string;
+   isRequired?: boolean;
    icon?: ReactJSXElement;
    variant?: string;
-   focusBorderColor?: string;
    borderRadius?: string;
 };
 
-const InputField = ({ label, placeholder, icon, variant, borderRadius, ...props }: InputFieldProps) => {
+const InputField = ({
+   label,
+   placeholder,
+   type = 'text',
+   isRequired,
+   icon,
+   variant,
+   borderRadius,
+   ...props
+}: InputFieldProps) => {
    const [field, meta] = useField(props);
 
    const hasError = Boolean(meta.touched && meta.error);
 
    return (
-      <FormControl isInvalid={hasError}>
-         <FormLabel htmlFor={field.name} pl={2} fontWeight="bold" fontSize="xs" textTransform="uppercase">
-            {label}
+      <FormControl isInvalid={hasError} isRequired={isRequired}>
+         <FormLabel htmlFor={field.name} mb="1" fontWeight="bold" fontSize="sm">
+            {label.charAt(0).toUpperCase() + label.slice(1)}
          </FormLabel>
 
          <InputGroup>
             {icon && <InputLeftElement pointerEvents="none" children={icon} />}
 
-            <Input id={field.name} placeholder={placeholder} {...field} variant={variant} borderRadius={borderRadius} />
+            <Input
+               type={type}
+               id={field.name}
+               placeholder={placeholder}
+               variant={variant}
+               borderRadius={borderRadius}
+               {...field}
+            />
          </InputGroup>
 
          <FormErrorMessage>{meta.error}</FormErrorMessage>

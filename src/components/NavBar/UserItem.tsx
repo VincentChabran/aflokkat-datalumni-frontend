@@ -19,7 +19,7 @@ import { useUserStore } from '../../store/useUserStore';
 import { deleteLocalStorageToken } from '../../utils/jwtToken';
 
 export function UserItem() {
-   const { prenom, nom, profilPictureName, setUser } = useUserStore();
+   const { id, prenom, nom, profilPictureName, setUser } = useUserStore();
 
    const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -56,7 +56,7 @@ export function UserItem() {
 
             <PopoverBody onClick={onClose}>
                <Flex flexDir="column" align="center">
-                  <NavItem href="/profil" icon={FaUserEdit} h="40px">
+                  <NavItem href={`/profil/${id}`} icon={FaUserEdit} h="40px">
                      Profil
                   </NavItem>
 

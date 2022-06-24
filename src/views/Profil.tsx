@@ -1,9 +1,41 @@
 import { Box, Spinner } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'urql';
 import { UserDetails } from '../components/Profil/UserDetails';
 import { bgColor } from '../themes/constants/bgColor';
+
+export interface UserSpecifique {
+   id: number;
+   nom: string;
+   prenom: string;
+   email: string;
+   profilPictureName: string | null;
+   roles: string[];
+   mentor: boolean;
+   rechercheEmploi: boolean;
+   telephone: string | null;
+   dateDeNaissance: string;
+   experiencePro:
+      | {
+           fonction: string;
+           entreprise: string;
+           dateDebut: Date;
+           dateFin: string;
+           description: string | null;
+        }[]
+      | null;
+   formations:
+      | {
+           nomFormation: string;
+           typeDiplome: string;
+           nomEtablissement: string;
+           obtention: string;
+           anneeObtention: number;
+           domaineActivite: string;
+           description: string | null;
+        }[]
+      | null;
+}
 
 export interface ProfilProps {}
 
@@ -15,7 +47,7 @@ export function Profil(props: ProfilProps) {
       variables: { userId: parseInt(userId || '0') },
    });
 
-   useEffect(() => {}, [fetching]);
+   const bgBox = bgColor();
 
    return (
       <>
@@ -23,8 +55,8 @@ export function Profil(props: ProfilProps) {
             <Spinner />
          ) : (
             <Box p={10}>
-               <Box p={14} bgColor={bgColor()} borderRadius="lg">
-                  <UserDetails user={data.user} />
+               <Box p={14} bgColor={bgBox} borderRadius="lg">
+                  <UserDetails dataUser={data.user} />
                </Box>
             </Box>
          )}
@@ -35,6 +67,7 @@ export function Profil(props: ProfilProps) {
 const specifiqueUserQuery = `
 query Query($userId: Int!) {
    user(id: $userId) {
+     id
      profilPictureName
      nom
      prenom

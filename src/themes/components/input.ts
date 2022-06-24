@@ -66,6 +66,19 @@ export const Input: ComponentStyleConfig = {
          return {
             field: {
                borderColor: 'gray',
+               border: '1px solid',
+               bg: 'inherit',
+               _hover: {
+                  borderColor: mode('gray.700', 'whiteAlpha.900')(props),
+               },
+               _disabled: {
+                  opacity: 0.4,
+                  cursor: 'not-allowed',
+               },
+               _invalid: {
+                  // borderColor: getColor(theme, ec),
+                  // boxShadow: `0 0 0 1px ${getColor(theme, ec)}`,
+               },
 
                // Juste pour enlever les couleurs bleu au focus
                _focus: {

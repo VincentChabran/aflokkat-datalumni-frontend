@@ -29,11 +29,9 @@ export function Connexion() {
          },
       };
       setSubmitting(true);
-
       const { data, error } = await execLoginUserMutation(variables);
 
       if (error) setTitle('Identifiants incorrect... Veuillez réessayer.');
-
       if (data) {
          const { accessToken, user } = data.login;
 
@@ -42,7 +40,6 @@ export function Connexion() {
             window.location.reload();
          }
       }
-
       setSubmitting(false);
    };
 
@@ -58,7 +55,7 @@ export function Connexion() {
                   <VStack align="stretch" w="100%">
                      <Form>
                         <VStack align="stretch" w="100%">
-                           <InputField label="email" name="email" placeholder="Email" borderRadius="full" />
+                           <InputField label="email" name="email" type="email" placeholder="Email" borderRadius="full" />
 
                            <InputPassword label="password" name="password" placeholder="Password" borderRadius="full" />
 

@@ -21,7 +21,7 @@ export const useUserStore = create<UserState>((set) => ({
    mentor: false,
    setUser: (user) =>
       set((state) => ({
-         id: user.id,
+         id: parseInt(user.id),
          email: user.email,
          nom: user.nom,
          prenom: user.prenom,

@@ -6,6 +6,7 @@ import { Text } from './text';
 import { Drawer } from './drawer';
 import { Select } from './select';
 import { Checkbox } from './checkbox';
+import { Tag } from './tag';
 
 export const components = {
    Button,
@@ -16,4 +17,5 @@ export const components = {
    Drawer,
    Select,
    Checkbox,
+   Tag,
 };

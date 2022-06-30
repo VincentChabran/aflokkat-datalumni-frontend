@@ -83,7 +83,7 @@ export const Input: ComponentStyleConfig = {
                // Juste pour enlever les couleurs bleu au focus
                _focus: {
                   borderColor: 'gray.400',
-                  boxShadow: 'gray',
+                  boxShadow: 'gray3',
                },
             },
          };

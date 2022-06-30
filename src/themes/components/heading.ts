@@ -25,11 +25,11 @@ export const Heading: ComponentStyleConfig = {
          lineHeight: [1.33, null, 1.2],
       },
       lg: {
-         fontSize: ['2xl', null, '3xl'],
+         fontSize: ['lg', 'xl', '2xl', null, '3xl'],
          lineHeight: [1.33, null, 1.2],
       },
       md: {
-         fontSize: ['xs', 'lg', 'md', 'lg'],
+         fontSize: ['sm', 'md', 'lg', 'xl'],
          lineHeight: 1.2,
       },
       sm: { fontSize: 'md', lineHeight: 1.2 },

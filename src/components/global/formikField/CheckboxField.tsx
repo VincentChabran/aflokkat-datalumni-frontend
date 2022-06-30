@@ -6,9 +6,10 @@ export type InputFieldProps = FieldHookConfig<string> & {
    label: string;
    icon?: ReactJSXElement;
    variant?: string;
+   size?: string | {};
 };
 
-const CheckboxField = ({ label, icon, variant, ...props }: InputFieldProps) => {
+const CheckboxField = ({ label, icon, variant, size, ...props }: InputFieldProps) => {
    const [field, meta] = useField(props);
 
    const hasError = Boolean(meta.touched && meta.error);
@@ -19,8 +20,16 @@ const CheckboxField = ({ label, icon, variant, ...props }: InputFieldProps) => {
             {label}
          </FormLabel>
 
-         <Field as={Checkbox} id={field.name} defaultValue={field.value} isChecked={meta.value} {...field} variant={variant}>
-            {field.name.charAt(0).toLocaleUpperCase() + field.name.slice(1)}
+         <Field
+            as={Checkbox}
+            id={field.name}
+            defaultValue={field.value}
+            isChecked={meta.value}
+            {...field}
+            variant={variant}
+            size={size}
+         >
+            {label.charAt(0).toLocaleUpperCase() + label.slice(1)}
          </Field>
 
          <FormErrorMessage>{meta.error}</FormErrorMessage>

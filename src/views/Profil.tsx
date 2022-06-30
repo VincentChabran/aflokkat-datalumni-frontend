@@ -1,7 +1,9 @@
 import { Box, Spinner } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'urql';
-import { UserDetails } from '../components/Profil/UserDetails';
+import { UserDetails } from '../components/Profil/UserDetails/UserDetails';
+import { UserExperiencePro } from '../components/Profil/UserExperiencePro/UserExperiencePro';
 import { bgColor } from '../themes/constants/bgColor';
 
 export interface UserSpecifique {
@@ -17,9 +19,10 @@ export interface UserSpecifique {
    dateDeNaissance: string;
    experiencePro:
       | {
+           id: number;
            fonction: string;
            entreprise: string;
-           dateDebut: Date;
+           dateDebut: string;
            dateFin: string;
            description: string | null;
         }[]
@@ -47,6 +50,14 @@ export function Profil(props: ProfilProps) {
       variables: { userId: parseInt(userId || '0') },
    });
 
+   const [user, setUser] = useState<UserSpecifique | undefined>(undefined);
+
+   useEffect(() => {
+      if (!fetching) {
+         setUser(data.user);
+      }
+   }, [fetching]);
+
    const bgBox = bgColor();
 
    return (
@@ -54,11 +65,15 @@ export function Profil(props: ProfilProps) {
          {fetching ? (
             <Spinner />
          ) : (
-            <Box p={10}>
-               <Box p={14} bgColor={bgBox} borderRadius="lg">
-                  <UserDetails dataUser={data.user} />
+            user && (
+               <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 20 }}>
+                  <Box p={{ base: 3, sm: 8 }} px={{ base: 3, lg: 14 }} bgColor={bgBox} borderRadius="lg">
+                     <UserDetails user={user} setUser={setUser} />
+
+                     <UserExperiencePro user={user} setUser={setUser} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
+                  </Box>
                </Box>
-            </Box>
+            )
          )}
       </>
    );
@@ -78,6 +93,7 @@ query Query($userId: Int!) {
      telephone
      dateDeNaissance
      experiencePro {
+       id
        fonction
        entreprise
        dateDebut

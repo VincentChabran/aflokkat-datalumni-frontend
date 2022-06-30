@@ -15,31 +15,30 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
 import { FaUserEdit } from 'react-icons/fa';
 import { useMutation } from 'urql';
-import { dateToInputValue } from '../../../utils/formatDateForInputValue';
+import { dateToInputValue } from '../../../tools/functions/formatDateForInputValue';
 import { UserSpecifique } from '../../../views/Profil';
 import CheckboxField from '../../global/formikField/CheckboxField';
 import InputField from '../../global/formikField/InputField';
+import * as yup from 'yup';
 
-interface Values {
-   email: string;
-   nom: string;
-   prenom: string;
-
-   dateDeNaissance: string;
-   mentor: boolean;
-   rechercheEmploi: boolean;
-}
+const schema = yup.object().shape({
+   email: yup.string().email('Format non valide pour un email...').required('Email requis...'),
+   nom: yup.string().required('Le nom est requis...'),
+   prenom: yup.string().required('Le prenom est requis...'),
+   dateDeNaissance: yup.date().typeError('Format non valide pour une date').min('1920-11-13', 'Date trop petite'),
+   mentor: yup.boolean().typeError('Mentor ne peut être que vrai ou faux'),
+   rechercheEmploi: yup.boolean().typeError('Recherche emploi ne peut être que vrai ou faux'),
+});
 
 export interface UpdateUserButtonProps {
    user: UserSpecifique;
-   setUser: Dispatch<SetStateAction<UserSpecifique>>;
+   setUser: Dispatch<SetStateAction<UserSpecifique | undefined>>;
 }
 
 export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
    const { isOpen, onOpen, onClose } = useDisclosure();
-
    const { id, email, nom, prenom, telephone, dateDeNaissance, mentor, rechercheEmploi } = user;
-
+   // TODO telephone input
    const initialValues = {
       email,
       nom,
@@ -49,7 +48,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
       rechercheEmploi,
    };
 
-   const [result, exeUpdateUserMutation] = useMutation(udpateUserMutation);
+   const [_, exeUpdateUserMutation] = useMutation(udpateUserMutation);
 
    const submit = async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
       console.log(values);
@@ -61,17 +60,24 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
             dateDeNaissance: values.dateDeNaissance === '' ? null : values.dateDeNaissance,
          },
       };
-
+      setSubmitting(true);
       const { data, error } = await exeUpdateUserMutation(variables);
-      console.log(data);
-      console.log(error);
+      if (error) console.log(error);
 
       setUser({ ...user, ...values });
+      onClose();
+      setSubmitting(false);
    };
 
    return (
       <>
-         <Button variant="outline" colorScheme="purple" leftIcon={<FaUserEdit />} onClick={onOpen}>
+         <Button
+            variant="outline"
+            colorScheme="purple"
+            leftIcon={<FaUserEdit />}
+            onClick={onOpen}
+            size={{ base: 'xs', xs: 'sm', lg: 'md' }}
+         >
             Modifier
          </Button>
 
@@ -80,10 +86,10 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
             <ModalContent>
                <ModalHeader>Modifier le profil</ModalHeader>
 
-               <ModalCloseButton />
+               <ModalCloseButton top="4" />
 
                <ModalBody>
-                  <Formik initialValues={initialValues} onSubmit={submit}>
+                  <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
                      {(formikProps) => (
                         <Form>
                            <VStack>
@@ -92,16 +98,20 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
                               <InputField name="prenom" label="prenom" isRequired />
                               <InputField name="dateDeNaissance" label="date de naissance" type="date" />
 
-                              <HStack spacing={10} pt="5">
-                                 <CheckboxField name="mentor" label="Mentor" />
-                                 <CheckboxField name="rechercheEmploi" label="Recherche d'emploi" />
+                              <HStack spacing={{ base: 3, xs: 10 }} pt="5">
+                                 <CheckboxField name="mentor" label="Mentor" size={{ base: 'sm', xs: 'md' }} />
+                                 <CheckboxField
+                                    name="rechercheEmploi"
+                                    label="Recherche d'emploi"
+                                    size={{ base: 'sm', xs: 'md' }}
+                                 />
                               </HStack>
 
                               <HStack pt="5">
-                                 <Button type="submit" colorScheme="green" onClick={onClose}>
+                                 <Button type="submit" colorScheme="green" size={{ base: 'sm', xs: 'md' }}>
                                     Envoyer
                                  </Button>
-                                 <Button colorScheme="red" mr={3} onClick={onClose}>
+                                 <Button colorScheme="red" mr={3} onClick={onClose} size={{ base: 'sm', xs: 'md' }}>
                                     Annuler
                                  </Button>
                               </HStack>
@@ -116,6 +126,16 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
          </Modal>
       </>
    );
+}
+
+interface Values {
+   email: string;
+   nom: string;
+   prenom: string;
+
+   dateDeNaissance: string;
+   mentor: boolean;
+   rechercheEmploi: boolean;
 }
 
 const udpateUserMutation = `

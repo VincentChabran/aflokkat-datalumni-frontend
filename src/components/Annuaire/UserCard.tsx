@@ -16,7 +16,7 @@ export function UserCard({
    user,
    borderCard = true,
    nomPrenomSize = 'md',
-   rolesSize = 'sm',
+   rolesSize = { base: 'xs', sm: 'sm' },
    formationsSize = 'xs',
    experienceProSize = 'md',
 }: UserCardProps) {
@@ -56,7 +56,7 @@ export function UserCard({
 
          <Avatar size="xl" src="./src/assets/img/bg0.jpg" />
 
-         <Heading size={nomPrenomSize} textAlign="center">
+         <Heading as={'h3'} size={nomPrenomSize} textAlign="center">
             {`${prenom} ${nom}`}
          </Heading>
 
@@ -69,7 +69,10 @@ export function UserCard({
          </Flex>
 
          {formations && formations.length >= 1 && (
-            <Text fontSize={formationsSize}>{`${formations[0].nomFormation} (${formations[0].anneeObtention})`}</Text>
+            <Text
+               fontSize={formationsSize}
+               textAlign="center"
+            >{`${formations[0].nomFormation} (${formations[0].anneeObtention})`}</Text>
          )}
 
          {experiencePro && experiencePro.length >= 1 && (

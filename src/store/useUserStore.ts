@@ -9,6 +9,7 @@ interface UserState {
    roles: string[];
    mentor: boolean;
    setUser: (user: any) => void;
+   resetUser: () => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -28,5 +29,15 @@ export const useUserStore = create<UserState>((set) => ({
          profilPictureName: user.profilPictureName,
          roles: user.roles,
          mentor: user.mentor,
+      })),
+   resetUser: () =>
+      set(() => ({
+         id: 0,
+         email: 'sasuke.uchiwa@initial.com',
+         nom: 'Uchiwa',
+         prenom: 'Initial',
+         profilPictureName: undefined,
+         roles: ['BossDuShonen'],
+         mentor: false,
       })),
 }));

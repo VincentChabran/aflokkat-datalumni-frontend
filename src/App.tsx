@@ -10,9 +10,9 @@ import { getLocalStorageToken } from './utils/jwtToken';
 import { Profil } from './views/Profil';
 
 function App() {
-   const { setUser } = useUserStore();
-
    const navigate = useNavigate();
+
+   const { setUser } = useUserStore();
 
    useEffect(() => {
       const lsToken = getLocalStorageToken();

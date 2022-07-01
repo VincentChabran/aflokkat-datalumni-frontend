@@ -7,6 +7,7 @@ import {
    InputGroup,
    InputLeftElement,
    InputRightElement,
+   Text,
 } from '@chakra-ui/react';
 import { useField } from 'formik';
 import { useState } from 'react';
@@ -21,9 +22,15 @@ const InputPassword = ({ label, placeholder, isRequired, icon, variant, borderRa
    const handleClick = () => setShow(!show);
 
    return (
-      <FormControl isInvalid={hasError} isRequired={isRequired}>
+      <FormControl isInvalid={hasError}>
+         {/* <FormControl isInvalid={hasError} isRequired={isRequired}> */}
          <FormLabel htmlFor={field.name} mb="1" fontWeight="bold" fontSize="sm">
             {label.charAt(0).toUpperCase() + label.slice(1)}
+            {isRequired && (
+               <Text as="span" pl="2" color="red.300" display="inline">
+                  *
+               </Text>
+            )}
          </FormLabel>
 
          <InputGroup mb={5}>

@@ -35,9 +35,9 @@ export const Select: ComponentStyleConfig = {
 
       md: {
          field: {
-            fontSize: 'sm',
-            px: 4,
-            h: 10,
+            fontSize: { base: 'xs', sm: 'sm' },
+            px: { base: 2, sm: 4 },
+            h: { base: 8, sm: 10 },
             borderRadius: 'md',
             paddingInlineEnd: '2rem',
          },

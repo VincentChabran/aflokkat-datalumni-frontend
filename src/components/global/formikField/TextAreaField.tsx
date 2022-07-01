@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, FormErrorMessage, Textarea } from '@chakra-ui/react';
+import { FormControl, FormLabel, FormErrorMessage, Textarea, Text } from '@chakra-ui/react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { Field, FieldHookConfig, useField } from 'formik';
 
@@ -17,9 +17,15 @@ const TextAreaField = ({ label, placeholder, isRequired, icon, variant, size, ..
    const hasError = Boolean(meta.touched && meta.error);
 
    return (
-      <FormControl isInvalid={hasError} isRequired={isRequired}>
+      <FormControl isInvalid={hasError}>
+         {/* <FormControl isInvalid={hasError} isRequired={isRequired}> */}
          <FormLabel htmlFor={field.name} m="0" pl={0} fontWeight="bold" fontSize="sm">
             {label.charAt(0).toUpperCase() + label.slice(1)}
+            {isRequired && (
+               <Text as="span" pl="2" color="red.300" display="inline">
+                  *
+               </Text>
+            )}
          </FormLabel>
 
          {/* <Field as={Textarea} id={field.name} {...field} variant={variant} size={size} placeholder={placeholder} /> */}

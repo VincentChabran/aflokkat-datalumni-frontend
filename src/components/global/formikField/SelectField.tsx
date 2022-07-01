@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, FormErrorMessage, Select } from '@chakra-ui/react';
+import { FormControl, FormLabel, FormErrorMessage, Select, Text } from '@chakra-ui/react';
 import { Field, FieldHookConfig, useField } from 'formik';
 
 export type InputFieldProps = FieldHookConfig<string> & {
@@ -8,6 +8,7 @@ export type InputFieldProps = FieldHookConfig<string> & {
       label: string;
    }[];
    isDisabled?: boolean;
+   isRequired?: boolean;
    borderRightRadius?: string;
    borderLeftRadius?: string;
    variant?: string;
@@ -18,6 +19,7 @@ const SelectField = ({
    label,
    options,
    isDisabled,
+   isRequired,
    borderRightRadius,
    borderLeftRadius,
    variant,
@@ -32,18 +34,24 @@ const SelectField = ({
       <FormControl isInvalid={hasError}>
          <FormLabel htmlFor={field.name} m="0" pl={0} fontWeight="bold" fontSize="sm">
             {label.charAt(0).toUpperCase() + label.slice(1)}
+            {isRequired && (
+               <Text as="span" pl="2" color="red.300" display="inline">
+                  *
+               </Text>
+            )}
          </FormLabel>
 
          <Field
             as={Select}
             id={field.name}
             isDisabled={isDisabled}
+            size={size}
             borderRightRadius={borderRightRadius}
             borderLeftRadius={borderLeftRadius}
             variant={variant}
-            size={size}
             _hover={{ cursor: 'pointer' }}
             {...field}
+            // fontSize={''}
          >
             {options.map(({ value, label }) => (
                <option key={value} value={value}>

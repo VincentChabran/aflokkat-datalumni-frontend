@@ -12,13 +12,13 @@ import { Profil } from './views/Profil';
 function App() {
    const navigate = useNavigate();
 
-   const { setUser } = useUserStore();
+   const { setUserStore } = useUserStore();
 
    useEffect(() => {
       const lsToken = getLocalStorageToken();
 
       if (lsToken) {
-         setUser(jwtDecode(lsToken));
+         setUserStore(jwtDecode(lsToken));
 
          if (window.location.pathname.includes('/login')) navigate('/accueil');
          else navigate(window.location.pathname);

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from 'urql';
 import { UserDetails } from '../components/Profil/UserDetails/UserDetails';
 import { UserExperiencePro } from '../components/Profil/UserExperiencePro/UserExperiencePro';
+import { UserFormations } from '../components/Profil/UserFormation/UserFormations';
 import { bgColor } from '../themes/constants/bgColor';
 
 export interface UserSpecifique {
@@ -29,6 +30,7 @@ export interface UserSpecifique {
       | null;
    formations:
       | {
+           id: number;
            nomFormation: string;
            typeDiplome: string;
            nomEtablissement: string;
@@ -58,6 +60,10 @@ export function Profil(props: ProfilProps) {
       }
    }, [fetching]);
 
+   useEffect(() => {
+      if (user?.id != parseInt(userId || '0')) reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
+   }, [userId]);
+
    const bgBox = bgColor();
 
    return (
@@ -70,7 +76,9 @@ export function Profil(props: ProfilProps) {
                   <Box p={{ base: 3, sm: 8 }} px={{ base: 3, lg: 14 }} bgColor={bgBox} borderRadius="lg">
                      <UserDetails user={user} setUser={setUser} />
 
-                     <UserExperiencePro user={user} setUser={setUser} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
+                     <UserExperiencePro user={user} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
+
+                     <UserFormations user={user} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
                   </Box>
                </Box>
             )
@@ -101,6 +109,7 @@ query Query($userId: Int!) {
        description
      }
      formations {
+       id
        nomFormation
        typeDiplome
        nomEtablissement

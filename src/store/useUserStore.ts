@@ -1,43 +1,43 @@
 import create from 'zustand';
 
 interface UserState {
-   id: number;
-   email: string;
-   nom: string;
-   prenom: string;
-   profilPictureName: string | undefined;
-   roles: string[];
-   mentor: boolean;
-   setUser: (user: any) => void;
-   resetUser: () => void;
+   idUserStore: number;
+   emailUserStore: string;
+   nomUserStore: string;
+   prenomUserStore: string;
+   profilPictureNameUserStore: string | undefined;
+   rolesUserStore: string[];
+   mentorUserStore: boolean;
+   setUserStore: (user: any) => void;
+   // resetUser: () => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
-   id: 0,
-   email: 'sasuke.uchiwa@initial.com',
-   nom: 'Uchiwa',
-   prenom: 'Initial',
-   profilPictureName: undefined,
-   roles: ['BossDuShonen'],
-   mentor: false,
-   setUser: (user) =>
+   idUserStore: 0,
+   emailUserStore: 'sasuke.uchiwa@initial.com',
+   nomUserStore: 'Uchiwa',
+   prenomUserStore: 'Initial',
+   profilPictureNameUserStore: undefined,
+   rolesUserStore: ['BossDuShonen'],
+   mentorUserStore: false,
+   setUserStore: (user) =>
       set((state) => ({
-         id: parseInt(user.id),
-         email: user.email,
-         nom: user.nom,
-         prenom: user.prenom,
-         profilPictureName: user.profilPictureName,
-         roles: user.roles,
-         mentor: user.mentor,
+         idUserStore: parseInt(user.id),
+         emailUserStore: user.email,
+         nomUserStore: user.nom,
+         prenomUserStore: user.prenom,
+         profilPictureNameUserStore: user.profilPictureName,
+         rolesUserStore: user.roles,
+         mentorUserStore: user.mentor,
       })),
-   resetUser: () =>
-      set(() => ({
-         id: 0,
-         email: 'sasuke.uchiwa@initial.com',
-         nom: 'Uchiwa',
-         prenom: 'Initial',
-         profilPictureName: undefined,
-         roles: ['BossDuShonen'],
-         mentor: false,
-      })),
+   // resetUser: () =>
+   //    set(() => ({
+   //       idUserStore: 0,
+   //       email: 'sasuke.uchiwa@initial.com',
+   //       nomUserStore: 'Uchiwa',
+   //       prenomUserStore: 'Initial',
+   //       profilPictureNameUserStore: undefined,
+   //       rolesUserStore: ['BossDuShonen'],
+   //       mentor: false,
+   //    })),
 }));

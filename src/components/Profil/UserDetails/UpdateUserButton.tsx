@@ -50,7 +50,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
 
    const [_, exeUpdateUserMutation] = useMutation(udpateUserMutation);
 
-   const submit = async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
+   const submit = async (values: Values, { setSubmitting }: FormikHelpers<Values>): Promise<void> => {
       console.log(values);
 
       const variables = {
@@ -128,16 +128,6 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
    );
 }
 
-interface Values {
-   email: string;
-   nom: string;
-   prenom: string;
-
-   dateDeNaissance: string;
-   mentor: boolean;
-   rechercheEmploi: boolean;
-}
-
 const udpateUserMutation = `
 mutation UpdateUser($updateUserInput: UpdateUserInput!) {
    updateUser(updateUserInput: $updateUserInput) {
@@ -148,3 +138,13 @@ mutation UpdateUser($updateUserInput: UpdateUserInput!) {
    }
  }
 `;
+
+interface Values {
+   email: string;
+   nom: string;
+   prenom: string;
+
+   dateDeNaissance: string;
+   mentor: boolean;
+   rechercheEmploi: boolean;
+}

@@ -1,4 +1,4 @@
-import { Input, FormControl, FormLabel, FormErrorMessage, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import { Input, FormControl, FormLabel, FormErrorMessage, InputGroup, InputLeftElement, Text } from '@chakra-ui/react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { FieldHookConfig, useField } from 'formik';
 
@@ -27,9 +27,15 @@ const InputField = ({
    const hasError = Boolean(meta.touched && meta.error);
 
    return (
-      <FormControl isInvalid={hasError} isRequired={isRequired}>
+      <FormControl isInvalid={hasError}>
+         {/* <FormControl isInvalid={hasError} isRequired={isRequired}> */}
          <FormLabel htmlFor={field.name} mb="1" fontWeight="bold" fontSize="sm">
             {label.charAt(0).toUpperCase() + label.slice(1)}
+            {isRequired && (
+               <Text as="span" pl="2" color="red.300" display="inline">
+                  *
+               </Text>
+            )}
          </FormLabel>
 
          <InputGroup>

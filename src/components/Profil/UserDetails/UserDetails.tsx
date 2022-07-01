@@ -12,7 +12,7 @@ export interface UserDetailsProps {
 }
 
 export function UserDetails({ user, setUser }: UserDetailsProps) {
-   const { id, roles } = useUserStore();
+   const { idUserStore, rolesUserStore } = useUserStore();
 
    return (
       <VStack>
@@ -32,7 +32,7 @@ export function UserDetails({ user, setUser }: UserDetailsProps) {
                />
 
                {/* Affiche la barre de settings que si c'est le bon user ou un admin */}
-               {(user.id === id || roles.includes('Admin')) && (
+               {(user.id === idUserStore || rolesUserStore.includes('Admin')) && (
                   <Flex m={{ base: '0', xs: 'auto' }} justify="center" align="center" gap={{ base: 1, lg: 3 }}>
                      <UpdateUserButton user={user} setUser={setUser} />
 

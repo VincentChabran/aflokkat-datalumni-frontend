@@ -3,13 +3,13 @@ import { ChangeEvent, useEffect } from 'react';
 import { useSelectUserDisplayStore } from '../../../store/useSelectUserDisplayStore';
 
 const diplomeOptions = [
-   { diplome: 'baccalaureat', display: 'Baccalauréat' },
-   { diplome: 'BTS_BTSA', display: 'BTS / BTSA' },
-   { diplome: 'Bachelor_licence_licensePro', display: 'Bachelor / Licence / License Professionnelle' },
-   { diplome: 'master1', display: 'Master 1' },
-   { diplome: 'master2', display: 'Master 2' },
-   { diplome: 'ingenieur', display: 'Ingenieur' },
-   { diplome: 'doctorat', display: 'Doctorat' },
+   { diplome: '05-Baccalauréat', display: 'Baccalauréat' },
+   { diplome: '08-BTS / BTSA', display: 'BTS / BTSA' },
+   { diplome: '10-Bachelor / Licence / License Professionnelle', display: 'Bachelor / Licence / License Professionnelle' },
+   { diplome: '11-Master1', display: 'Master 1' },
+   { diplome: '12-Master 2', display: 'Master 2' },
+   { diplome: "13-Diplôme d'ingénieur", display: 'Ingenieur' },
+   { diplome: '14-Doctorat', display: 'Doctorat' },
 ];
 
 export function SearchByDiplome() {

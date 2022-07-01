@@ -19,13 +19,13 @@ import { useUserStore } from '../../store/useUserStore';
 import { deleteLocalStorageToken } from '../../utils/jwtToken';
 
 export function UserItem() {
-   const { id, prenom, nom, profilPictureName, setUser } = useUserStore();
+   const { idUserStore, prenomUserStore, nomUserStore, profilPictureNameUserStore, setUserStore } = useUserStore();
 
    const { isOpen, onOpen, onClose } = useDisclosure();
 
    const deconnection = () => {
       deleteLocalStorageToken();
-      setUser({ id: 0, email: '', nom: '', prenom: '', profilPictureName: '', role: '', mentor: false });
+      setUserStore({ id: 0, email: '', nom: '', prenom: '', profilPictureName: '', role: '', mentor: false });
    };
 
    return (
@@ -33,14 +33,14 @@ export function UserItem() {
          <PopoverTrigger>
             <Button variant="custom" h="50px" minW="100px" mr="3px" overflow="hidden">
                {/* <Flex w="100%" justify={{ base: 'space-around', lg: 'space-evenly' }} align="center"> */}
-               <Avatar size="sm" src={profilPictureName} mr="2px" />
+               <Avatar size="sm" src={profilPictureNameUserStore} mr="2px" />
 
                <Text fontFamily="heading" display={{ base: 'none', xs: 'contents', lg: 'none', xl: 'contents' }}>
-                  {prenom} {nom}
+                  {prenomUserStore} {nomUserStore}
                </Text>
 
                <Text fontFamily="heading" display={{ base: 'contents', xs: 'none', lg: 'contents', xl: 'none' }}>
-                  {prenom}
+                  {prenomUserStore}
                   {/* {prenom.charAt(0)} {nom.charAt(0)} */}
                </Text>
                {/* </Flex> */}
@@ -56,7 +56,7 @@ export function UserItem() {
 
             <PopoverBody onClick={onClose}>
                <Flex flexDir="column" align="center">
-                  <NavItem href={`/profil/${id}`} icon={FaUserEdit} h="40px">
+                  <NavItem href={`/profil/${idUserStore}`} icon={FaUserEdit} h="40px">
                      Profil
                   </NavItem>
 

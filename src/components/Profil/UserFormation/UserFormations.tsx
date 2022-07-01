@@ -1,43 +1,41 @@
 import { Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
-import { Dispatch, SetStateAction } from 'react';
 import { OperationContext } from 'urql';
 import { useUserStore } from '../../../store/useUserStore';
 import { UserSpecifique } from '../../../views/Profil';
-import { CreateExperienceProButton } from './CreateExperienceProButton';
-import { DeleteExperienceProButton } from './DeleteExperienceProButton';
-import { UpdateExperienceProButton } from './UpdateExperienceProButton';
+import { CreateFormationButton } from './CreateFormationButton';
+import { DeleteFormationButton } from './DeleteFormationButton';
+import { UpdateFormationButton } from './UpdateFormationButton';
 
-export interface UserExperienceProProps {
+export interface UserFormationsProps {
    user: UserSpecifique;
    reExeSpecifiqueUserQuery: (opts?: Partial<OperationContext> | undefined) => void;
 }
 
-export function UserExperiencePro({ user, reExeSpecifiqueUserQuery }: UserExperienceProProps) {
+export function UserFormations({ user, reExeSpecifiqueUserQuery }: UserFormationsProps) {
    const { idUserStore, rolesUserStore } = useUserStore();
-
-   const { experiencePro } = user;
+   const { formations } = user;
 
    return (
-      <VStack mt="16">
+      <VStack mt="8">
          <Box w="100%">
             <Heading borderBottom="1px solid orange" letterSpacing="bold" size="lg" mb="1">
-               Expériences professionnelles
+               Formations
             </Heading>
 
             {(user.id === idUserStore || rolesUserStore.includes('Admin')) && (
-               <Box pl={{ base: '0', xs: '2' }} pt="4">
-                  <CreateExperienceProButton reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
+               <Box pl="2" pt="4">
+                  <CreateFormationButton reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
                </Box>
             )}
 
-            {experiencePro?.map((el) => (
+            {formations?.map((el) => (
                <HStack key={el.id} spacing={10}>
                   <Box py="4" pl="3" maxW="60%">
                      <Text fontSize={'lg'} fontWeight="bold">
-                        {el.fonction}
+                        {el.nomFormation}
                      </Text>
-                     <Text fontSize={'xs'}>{el.entreprise}</Text>
-                     <Text fontSize={'xs'}>{`${el.dateDebut} - ${el.dateFin}`}</Text>
+                     <Text fontSize={'xs'}>{`${el.typeDiplome.slice(3)} (${el.anneeObtention})`}</Text>
+                     <Text fontSize={'xs'}>{`${el.nomEtablissement} `}</Text>
                      {el.description && (
                         <Text pt="4" fontSize={{ base: 'xs', sm: 'sm' }}>
                            {el.description}
@@ -46,13 +44,10 @@ export function UserExperiencePro({ user, reExeSpecifiqueUserQuery }: UserExperi
                   </Box>
 
                   {(user.id === idUserStore || rolesUserStore.includes('Admin')) && (
-                     <HStack spacing={1}>
-                        <UpdateExperienceProButton experiencePro={el} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
+                     <HStack>
+                        <UpdateFormationButton formation={el} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
 
-                        <DeleteExperienceProButton
-                           experienceProId={el.id}
-                           reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery}
-                        />
+                        <DeleteFormationButton formationId={el.id} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
                      </HStack>
                   )}
                </HStack>

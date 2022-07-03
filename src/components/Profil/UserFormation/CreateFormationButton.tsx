@@ -13,8 +13,8 @@ import { FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
 import { OperationContext, useMutation } from 'urql';
 import { formatObtention } from '../../../tools/functions/formatObtentionForFormation';
-import { formatTypeDiplome } from '../../../tools/functions/formatTypeDiplomeForFormation';
-import { FormFormationCreateUpdate, ValuesFormation } from './FormFormationCreateUpdate';
+import { formatOptionsRender } from '../../../tools/functions/formatOptionsRender';
+import { FormFormationCreateUpdate, optionsDiplome, ValuesFormation } from './FormFormationCreateUpdate';
 
 export interface CreateFormationButtonProps {
    reExeSpecifiqueUserQuery: (opts?: Partial<OperationContext> | undefined) => void;
@@ -42,7 +42,7 @@ export function CreateFormationButton({ reExeSpecifiqueUserQuery }: CreateFormat
             userId: parseInt(userId || '0'),
             ...rest,
             anneeObtention: parseInt(anneeObtention),
-            typeDiplome: formatTypeDiplome(parseInt(typeDiplome)),
+            typeDiplome: formatOptionsRender(optionsDiplome, parseInt(typeDiplome)),
             obtention: formatObtention(parseInt(obtention)),
          },
       };
@@ -52,7 +52,13 @@ export function CreateFormationButton({ reExeSpecifiqueUserQuery }: CreateFormat
 
    return (
       <>
-         <Button size="sm" variant="outline" colorScheme="green" onClick={onOpen} leftIcon={<AddIcon />}>
+         <Button
+            size={{ base: 'xs', sm: 'sm' }}
+            variant="outline"
+            colorScheme="green"
+            onClick={onOpen}
+            leftIcon={<AddIcon />}
+         >
             Ajouter une formation
          </Button>
 

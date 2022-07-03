@@ -61,7 +61,7 @@ export function UpdateExperienceProButton({ experiencePro, reExeSpecifiqueUserQu
    return (
       <>
          <IconButton
-            size="sm"
+            size={{ base: 'xs', sm: 'sm' }}
             variant="outline"
             colorScheme="purple"
             icon={<BsFillPencilFill />}

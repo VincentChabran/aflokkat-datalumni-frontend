@@ -22,7 +22,7 @@ export function DeleteExperienceProButton({ experienceProId, reExeSpecifiqueUser
       <>
          <IconButton
             icon={<DeleteIcon />}
-            size="sm"
+            size={{ base: 'xs', sm: 'sm' }}
             variant="outline"
             colorScheme="red"
             aria-label="delete experience pro boutton"

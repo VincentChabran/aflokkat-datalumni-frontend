@@ -73,7 +73,7 @@ export function Profil(props: ProfilProps) {
          ) : (
             user && (
                <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 20 }}>
-                  <Box p={{ base: 3, sm: 8 }} px={{ base: 3, lg: 14 }} bgColor={bgBox} borderRadius="lg">
+                  <Box p={{ base: 3, sm: 8 }} px={{ base: 3, lg: 16 }} bgColor={bgBox} borderRadius="lg">
                      <UserDetails user={user} setUser={setUser} />
 
                      <UserExperiencePro user={user} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />

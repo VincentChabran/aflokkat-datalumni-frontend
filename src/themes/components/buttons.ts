@@ -49,13 +49,13 @@ export const Button = {
          h: 8,
          minW: 8,
          fontSize: 'sm',
-         px: 3,
+         px: 2,
       },
       xs: {
          h: 6,
          minW: 6,
          fontSize: 'xs',
-         px: 2,
+         px: 1,
       },
    },
 

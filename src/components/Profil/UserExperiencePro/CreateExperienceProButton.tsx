@@ -52,7 +52,7 @@ export function CreateExperienceProButton({ reExeSpecifiqueUserQuery }: CreateEx
    return (
       <>
          <Button
-            size={{ base: 'xs', xs: 'sm' }}
+            size={{ base: 'xs', sm: 'sm' }}
             variant="outline"
             colorScheme="green"
             onClick={onOpen}

@@ -12,8 +12,8 @@ import { FormikHelpers } from 'formik';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { OperationContext, useMutation } from 'urql';
 import { formatObtention } from '../../../tools/functions/formatObtentionForFormation';
-import { formatTypeDiplome } from '../../../tools/functions/formatTypeDiplomeForFormation';
-import { FormFormationCreateUpdate, ValuesFormation } from './FormFormationCreateUpdate';
+import { formatOptionsRender } from '../../../tools/functions/formatOptionsRender';
+import { FormFormationCreateUpdate, optionsDiplome, ValuesFormation } from './FormFormationCreateUpdate';
 
 export interface UpdateFormationButtonProps {
    formation: {
@@ -53,10 +53,12 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
             id: formation.id,
             ...rest,
             anneeObtention: parseInt(anneeObtention),
-            typeDiplome: formatTypeDiplome(parseInt(typeDiplome)),
+            typeDiplome: formatOptionsRender(optionsDiplome, parseInt(typeDiplome)),
             obtention: formatObtention(parseInt(obtention)),
          },
       };
+      console.log(variables);
+
       const { data, error } = await exeUpdataFormationMutation(variables);
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
    };
@@ -64,7 +66,7 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
    return (
       <>
          <IconButton
-            size="sm"
+            size={{ base: 'xs', sm: 'sm' }}
             variant="outline"
             colorScheme="purple"
             icon={<BsFillPencilFill />}

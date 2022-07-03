@@ -8,6 +8,8 @@ import { Login } from './views/Login';
 import { useUserStore } from './store/useUserStore';
 import { getLocalStorageToken } from './utils/jwtToken';
 import { Profil } from './views/Profil';
+import { APropos } from './views/APropos';
+import { OffresEmploi } from './views/OffresEmploi';
 
 function App() {
    const navigate = useNavigate();
@@ -38,6 +40,8 @@ function App() {
                   <NavBar />
                   <Routes>
                      <Route path="/annuaire" element={<Annuaire />} />
+                     <Route path="/offresemploi" element={<OffresEmploi />} />
+                     <Route path="/apropos" element={<APropos />} />
 
                      <Route path="/profil/:userId" element={<Profil />} />
 

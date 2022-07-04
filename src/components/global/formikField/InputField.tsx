@@ -27,7 +27,7 @@ const InputField = ({
    const hasError = Boolean(meta.touched && meta.error);
 
    return (
-      <FormControl isInvalid={hasError}>
+      <FormControl isInvalid={hasError} maxW="600px">
          {/* <FormControl isInvalid={hasError} isRequired={isRequired}> */}
          <FormLabel htmlFor={field.name} mb="1" fontWeight="bold" fontSize="sm">
             {label.charAt(0).toUpperCase() + label.slice(1)}

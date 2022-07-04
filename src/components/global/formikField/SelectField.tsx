@@ -31,7 +31,7 @@ const SelectField = ({
    const hasError = Boolean(meta.touched && meta.error);
 
    return (
-      <FormControl isInvalid={hasError}>
+      <FormControl isInvalid={hasError} maxW="600px">
          <FormLabel htmlFor={field.name} m="0" pl={0} fontWeight="bold" fontSize="sm">
             {label.charAt(0).toUpperCase() + label.slice(1)}
             {isRequired && (
@@ -51,7 +51,6 @@ const SelectField = ({
             variant={variant}
             _hover={{ cursor: 'pointer' }}
             {...field}
-            // fontSize={''}
          >
             {options.map(({ value, label }) => (
                <option key={value} value={value}>

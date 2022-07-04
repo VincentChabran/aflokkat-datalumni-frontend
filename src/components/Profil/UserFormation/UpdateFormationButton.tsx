@@ -57,7 +57,6 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
             obtention: formatObtention(parseInt(obtention)),
          },
       };
-      console.log(variables);
 
       const { data, error } = await exeUpdataFormationMutation(variables);
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });

@@ -17,7 +17,7 @@ const TextAreaField = ({ label, placeholder, isRequired, icon, variant, size, ..
    const hasError = Boolean(meta.touched && meta.error);
 
    return (
-      <FormControl isInvalid={hasError}>
+      <FormControl isInvalid={hasError} maxW="600px">
          {/* <FormControl isInvalid={hasError} isRequired={isRequired}> */}
          <FormLabel htmlFor={field.name} m="0" pl={0} fontWeight="bold" fontSize="sm">
             {label.charAt(0).toUpperCase() + label.slice(1)}

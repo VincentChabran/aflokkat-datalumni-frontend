@@ -20,7 +20,7 @@ import {
    useColorModeValue,
    VStack,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { formatDateDdMmYyyy } from '../../tools/functions/formatDateDdMmYyyy';
@@ -160,17 +160,22 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                      </Text>
                   </ModalBody>
 
-                  <ModalFooter>
+                  <ModalFooter justifyContent={'center'}>
                      <HStack>
-                        <Button onClick={onClose} variant="outline" leftIcon={<CloseIcon fontSize="xs" />}>
+                        {/* <Button onClick={onClose} variant="outline" leftIcon={<CloseIcon fontSize="xs" />}>
                            Close
-                        </Button>
+                        </Button> */}
 
-                        <Button leftIcon={<BsFillPencilFill />} colorScheme="purple" onClick={() => setDisplay('update')}>
+                        <Button
+                           leftIcon={<BsFillPencilFill />}
+                           colorScheme="purple"
+                           onClick={() => setDisplay('update')}
+                           size={{ base: 'xs', sm: 'sm' }}
+                        >
                            Modifier
                         </Button>
 
-                        <Button colorScheme="red" leftIcon={<DeleteIcon />}>
+                        <Button colorScheme="red" leftIcon={<DeleteIcon />} size={{ base: 'xs', sm: 'sm' }}>
                            Suprimer
                         </Button>
                      </HStack>

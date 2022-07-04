@@ -83,7 +83,7 @@ export function FormFormationCreateUpdate({ initialValues, submit, onClose }: Fo
 
                   <HStack pt="5">
                      <Button type="submit" colorScheme="green" size={{ base: 'sm', xs: 'md' }}>
-                        Envoyer
+                        Valider
                      </Button>
                      <Button colorScheme="red" mr={3} onClick={onClose} size={{ base: 'sm', xs: 'md' }}>
                         Annuler

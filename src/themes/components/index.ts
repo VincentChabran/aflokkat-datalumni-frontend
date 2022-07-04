@@ -7,6 +7,7 @@ import { Drawer } from './drawer';
 import { Select } from './select';
 import { Checkbox } from './checkbox';
 import { Tag } from './tag';
+import { List } from './list';
 
 export const components = {
    Button,
@@ -18,4 +19,5 @@ export const components = {
    Select,
    Checkbox,
    Tag,
+   List,
 };

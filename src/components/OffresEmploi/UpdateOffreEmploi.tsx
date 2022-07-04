@@ -1,10 +1,16 @@
-import { ModalBody, ModalCloseButton, ModalFooter, ModalHeader } from '@chakra-ui/react';
+import { ModalBody, ModalCloseButton, ModalHeader } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useMutation } from 'urql';
 import { dateToInputValue } from '../../tools/functions/formatDateForInputValue';
+import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
 import { OffreGrid } from './DisplayOffreGrid';
-import { FormOffreEmploiCreateUpdate } from './FormOffreEmploiCreateUpdate';
+import {
+   FormOffreEmploiCreateUpdate,
+   optionsExperienceSouhaitee,
+   optionsTypeContrat,
+   ValuesOffreEmploi,
+} from './FormOffreEmploiCreateUpdate';
 
 export interface UpdateOffreEmploiProps {
    offre: OffreGrid;
@@ -22,17 +28,16 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       experienceSouhaitee,
       remuneration,
       emailContact,
-      pathLogo,
       dateDebut,
       dateLimiteCandidature,
       pathLienCandidature,
+      pathLogo,
       userCreateurId,
       userCreateur,
       description,
    } = offre;
-   console.log(id);
 
-   const initialValues = {
+   const initialValues: ValuesOffreEmploi = {
       nomDuPoste,
       nomEntreprise,
       ville,
@@ -46,17 +51,23 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       description,
    };
 
+   useEffect(() => () => setDisplay('infos'), []);
+
    const [_, exeUpdateOffreEmploiMutation] = useMutation(updateOffreEmploiMutation);
-
-   const sumbit = async (values: any, actions: FormikHelpers<any>) => {
+   const sumbit = async (values: ValuesOffreEmploi, actions: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
       const { typeContrat, experienceSouhaitee, ...rest } = values;
-
       const variables = {
          updateOffreEmploiInput: {
             id,
             ...rest,
+            typeContrat: formatOptionsRender(optionsTypeContrat, parseInt(typeContrat)),
+            experienceSouhaitee: formatOptionsRender(optionsExperienceSouhaitee, parseInt(experienceSouhaitee)),
          },
       };
+      actions.setSubmitting(true);
+      const { data, error } = await exeUpdateOffreEmploiMutation(variables);
+      actions.setSubmitting(false);
+      setDisplay('infos');
    };
 
    return (
@@ -67,13 +78,6 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
          <ModalBody>
             <FormOffreEmploiCreateUpdate initialValues={initialValues} submit={sumbit} setDisplay={setDisplay} />
          </ModalBody>
-
-         {/* <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={() => setDisplay('infos')}>
-               Close
-            </Button>
-            <Button variant="ghost">Secondary Action</Button>
-         </ModalFooter> */}
       </>
    );
 }

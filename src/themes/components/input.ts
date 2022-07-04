@@ -14,7 +14,6 @@ export const Input: ComponentStyleConfig = {
       field: {
          width: '100%',
          minWidth: 0,
-         maxW: '600px', // base = existe pas
          outline: 0,
          position: 'relative',
          appearance: 'none',

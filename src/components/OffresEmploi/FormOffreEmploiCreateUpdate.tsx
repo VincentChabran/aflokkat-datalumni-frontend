@@ -1,12 +1,12 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import * as yup from 'yup';
 import InputField from '../global/formikField/InputField';
 import SelectField from '../global/formikField/SelectField';
 import TextAreaField from '../global/formikField/TextAreaField';
 
-const optionsTypeContrat = [
+export const optionsTypeContrat = [
    { value: '01', label: 'Stage' },
    { value: '02', label: 'Alternance' },
    { value: '03', label: 'Freelance' },
@@ -21,18 +21,40 @@ const optionsTypeContrat = [
    { value: '12', label: 'Non Renseigné' },
 ];
 
-const optionsExperienceSouhaitee = [
+export const optionsExperienceSouhaitee = [
    { value: '01', label: '0-2 ans' },
    { value: '02', label: '2-4 ans' },
    { value: '03', label: '4 ans +' },
    { value: '04', label: 'Débutant accepté' },
 ];
 
-const schema = yup.object().shape({});
+const schema = yup.object().shape({
+   nomDuPoste: yup.string().required('Champ requis'),
+   nomEntreprise: yup.string().required('Champ requis'),
+   ville: yup.string().required('Champ requis'),
+   domaineActivite: yup.string().required('Champ requis'),
+   typeContrat: yup
+      .number()
+      .min(1, 'La valeur minimum est de 1')
+      .max(12, 'La valeur maximum est de 12')
+      .required('Champs requis')
+      .typeError('La valeur dois étre entre 01 et 12'),
+   experienceSouhaitee: yup
+      .number()
+      .min(1, 'La valeur minimum est de 1')
+      .max(4, 'La valeur maximum est de 4')
+      .required('Champs requis')
+      .typeError('La valeur dois étre entre 01 et 04'),
+   remuneration: yup.string().required('Champ requis'),
+   emailContact: yup.string().email('Format non valide pour un email...').required('Email requis...'),
+   dateDebut: yup.date().typeError('Format non valide pour une date').min('2000-01-25', 'Date trop petite'),
+   dateLimiteCandidature: yup.date().typeError('Format non valide pour une date').min('2000-01-25', 'Date trop petite'),
+   description: yup.string(),
+});
 
 export interface FormOffreEmploiCreateUpdateProps {
-   initialValues: any;
-   submit: (values: any, actions: FormikHelpers<any>) => Promise<void>;
+   initialValues: ValuesOffreEmploi;
+   submit: (values: ValuesOffreEmploi, actions: FormikHelpers<ValuesOffreEmploi>) => Promise<void>;
    setDisplay: Dispatch<SetStateAction<string>>;
 }
 
@@ -41,7 +63,7 @@ export function FormOffreEmploiCreateUpdate({ initialValues, submit, setDisplay 
       <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
          {(formikProps) => (
             <Form>
-               <VStack align="start">
+               <VStack justify="center" w="100%">
                   <InputField name="nomDuPoste" label="Nom du poste" placeholder="Nom du poste" isRequired />
                   <InputField name="nomEntreprise" label="Nom de l'entreprise" placeholder="Nom de l'entreprise" isRequired />
                   <InputField name="ville" label="nom de la ville" placeholder="Nom de la ville" isRequired />
@@ -66,16 +88,13 @@ export function FormOffreEmploiCreateUpdate({ initialValues, submit, setDisplay 
                      isRequired
                   />
 
-                  {/* <SelectField name="obtention" label="obtention" options={optionsObtention} isRequired />
-                  <SelectField name="anneeObtention" label="année d'obtention" options={optionsAnneeObtention} isRequired /> */}
-
                   <TextAreaField label="description" name="description" placeholder="Description" />
 
-                  <HStack pt="5">
-                     <Button type="submit" colorScheme="green" size={{ base: 'sm', xs: 'md' }}>
-                        Envoyer
+                  <HStack pt="5" justify="center" w="100%">
+                     <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }}>
+                        Valider
                      </Button>
-                     <Button colorScheme="red" mr={3} onClick={() => setDisplay('infos')} size={{ base: 'sm', xs: 'md' }}>
+                     <Button colorScheme="red" mr={3} onClick={() => setDisplay('infos')} size={{ base: 'sm', sm: 'md' }}>
                         Annuler
                      </Button>
                   </HStack>
@@ -84,4 +103,18 @@ export function FormOffreEmploiCreateUpdate({ initialValues, submit, setDisplay 
          )}
       </Formik>
    );
+}
+
+export interface ValuesOffreEmploi {
+   nomDuPoste: string;
+   nomEntreprise: string;
+   ville: string;
+   domaineActivite: string;
+   typeContrat: string;
+   experienceSouhaitee: string;
+   remuneration: string;
+   emailContact: string;
+   dateDebut: string;
+   dateLimiteCandidature: string;
+   description: string;
 }

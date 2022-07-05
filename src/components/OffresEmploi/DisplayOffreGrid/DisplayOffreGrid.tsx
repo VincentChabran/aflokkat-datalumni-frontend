@@ -1,5 +1,4 @@
 import { Box, SimpleGrid, Spinner } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'urql';
 import { OffreCard } from './OffreCard';
 
@@ -27,26 +26,31 @@ export interface OffreGrid {
       prenom: string;
    };
 }
-export interface DisplayOffreGridProps {}
 
-export function DisplayOffreGrid(props: DisplayOffreGridProps) {
-   // const { setUsers, displayUsers, setDisplayUsers } = useSelectUserDisplayStore();
+export interface DisplayOffreGridProps {
+   search: string;
+}
 
-   const navigate = useNavigate();
-
+export function DisplayOffreGrid({ search }: DisplayOffreGridProps) {
    const [{ data, fetching, error }] = useQuery({ query: offreEmploisQuery });
 
    return (
       <>
          {fetching ? (
             <Spinner />
+         ) : // Si la length du tab renvoyer par le filtre plus petite que 0 on affichie la aucun res sinon on affiche la grille
+         data.offreEmploiAll.filter((el: OffreGrid) => el.domaineActivite.toLocaleLowerCase().includes(search)).length <=
+           0 ? (
+            <Box>TODO Aucun résultat</Box>
          ) : (
             <SimpleGrid columns={[1, 1, 2, 2, 3]} spacing={4} mx={{ base: 4, lg: 5, xl: 10 }}>
-               {data.offreEmploiAll.map((offre: OffreGrid) => (
-                  <Box key={offre.id}>
-                     <OffreCard offre={offre} />
-                  </Box>
-               ))}
+               {data.offreEmploiAll
+                  .filter((el: OffreGrid) => el.domaineActivite.toLocaleLowerCase().includes(search))
+                  .map((offre: OffreGrid) => (
+                     <Box key={offre.id}>
+                        <OffreCard offre={offre} />
+                     </Box>
+                  ))}
             </SimpleGrid>
          )}
       </>

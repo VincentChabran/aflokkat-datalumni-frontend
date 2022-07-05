@@ -2,15 +2,15 @@ import { ModalBody, ModalCloseButton, ModalHeader } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useMutation } from 'urql';
-import { dateToInputValue } from '../../tools/functions/formatDateForInputValue';
-import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
-import { OffreGrid } from './DisplayOffreGrid';
+import { dateToInputValue } from '../../../../tools/functions/formatDateForInputValue';
+import { formatOptionsRender } from '../../../../tools/functions/formatOptionsRender';
+import { OffreGrid } from '../DisplayOffreGrid';
 import {
    FormOffreEmploiCreateUpdate,
    optionsExperienceSouhaitee,
    optionsTypeContrat,
    ValuesOffreEmploi,
-} from './FormOffreEmploiCreateUpdate';
+} from '../../FormOffreEmploiCreateUpdate';
 
 export interface UpdateOffreEmploiProps {
    offre: OffreGrid;
@@ -32,8 +32,6 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       dateLimiteCandidature,
       pathLienCandidature,
       pathLogo,
-      userCreateurId,
-      userCreateur,
       description,
    } = offre;
 

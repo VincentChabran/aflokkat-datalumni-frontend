@@ -1,0 +1,69 @@
+import { WarningTwoIcon } from '@chakra-ui/icons';
+import { Button, Input, ModalBody, ModalCloseButton, ModalFooter, ModalHeader, Text } from '@chakra-ui/react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useMutation } from 'urql';
+
+export interface DeleteOffreEmploiProps {
+   isOpen: boolean;
+   offreId: number;
+   onClose: () => void;
+   setDisplay: Dispatch<SetStateAction<string>>;
+}
+
+export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: DeleteOffreEmploiProps) {
+   const [confirm, setConfirm] = useState('');
+
+   useEffect(() => {
+      setConfirm('');
+   }, [isOpen]);
+
+   useEffect(() => () => setDisplay('infos'), []);
+
+   const [_, exeDeleteOffreEmploiMutation] = useMutation(deleteOffreEmploiMutation);
+   const handleValidate = async (): Promise<void> => {
+      const { data, error } = await exeDeleteOffreEmploiMutation({ removeOffreEmploiId: offreId });
+   };
+
+   return (
+      <>
+         <ModalHeader textAlign="center" textDecor="underline">
+            <WarningTwoIcon color="orange" mb="1.5" />
+            Attention
+         </ModalHeader>
+         <ModalCloseButton top="4" />
+         <ModalBody textAlign="center">
+            Cette action est définitive. <br />
+            S'il vous plait veuillez ecrire{' '}
+            <Text as="span" fontWeight="semibold" fontSize="lg" letterSpacing="inherit">
+               confirmer
+            </Text>
+            <Input mt="3" size="sm" borderRadius="lg" onChange={(e) => setConfirm(e.target.value)} maxW="500px" />
+         </ModalBody>
+         <ModalFooter justifyContent="center" gap="2">
+            <Button
+               isDisabled={confirm === 'confirmer' ? false : true}
+               colorScheme="green"
+               size={{ base: 'xs', sm: 'sm' }}
+               onClick={() => {
+                  onClose();
+                  handleValidate();
+               }}
+            >
+               Valider
+            </Button>
+
+            <Button colorScheme="red" mr={3} size={{ base: 'xs', sm: 'sm' }} onClick={() => setDisplay('infos')}>
+               Annuler
+            </Button>
+         </ModalFooter>
+      </>
+   );
+}
+
+const deleteOffreEmploiMutation = `
+mutation RemoveOffreEmploi($removeOffreEmploiId: Int!) {
+   removeOffreEmploi(id: $removeOffreEmploiId) {
+     id
+   }
+ }
+`;

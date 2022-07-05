@@ -1,23 +1,21 @@
-import { Box } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import { DisplayOffreGrid } from '../components/OffresEmploi/DisplayOffreGrid';
+import { CreateOffreButton } from '../components/OffresEmploi/CreateOffreButton';
+import { DisplayOffreGrid } from '../components/OffresEmploi/DisplayOffreGrid/DisplayOffreGrid';
+import { OffreSearchBar } from '../components/OffresEmploi/OffreSearchBar';
 
 export interface OffresEmploiProps {}
 
 export function OffresEmploi(props: OffresEmploiProps) {
-   const [display, setDisplay] = useState('offres');
+   const [search, setSearch] = useState('');
 
    return (
-      <>
-         {display === 'offres' && (
-            <>
-               <Box h="16">TODO bar ADD</Box>
+      <VStack align="normal" py="4" px={{ base: '1', sm: '2', md: '4' }} spacing={10}>
+         <CreateOffreButton />
 
-               <Box h="16">TODO bar de selection</Box>
+         <OffreSearchBar search={search} setSearch={setSearch} />
 
-               <DisplayOffreGrid />
-            </>
-         )}
-      </>
+         <DisplayOffreGrid search={search} />
+      </VStack>
    );
 }

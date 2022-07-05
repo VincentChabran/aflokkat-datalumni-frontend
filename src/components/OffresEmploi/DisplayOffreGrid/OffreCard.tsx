@@ -1,8 +1,8 @@
 import { Box, Flex, Grid, Heading, Image, Text, useDisclosure, VStack } from '@chakra-ui/react';
-import { bgColor } from '../../themes/constants/bgColor';
-import { formatDateDdMmYyyy } from '../../tools/functions/formatDateDdMmYyyy';
+import { bgColor } from '../../../themes/constants/bgColor';
+import { formatDateDdMmYyyy } from '../../../tools/functions/formatDateDdMmYyyy';
 import { OffreGrid } from './DisplayOffreGrid';
-import { OffreDetail } from './OffreDetail';
+import { OffreDetail } from './OffreDetail/OffreDetail';
 
 export interface OffreCardProps {
    offre: OffreGrid;
@@ -21,7 +21,7 @@ export function OffreCard({ offre }: OffreCardProps) {
             px={{ base: 1, sm: 3 }}
             gap={2}
             border={'2px solid'}
-            borderColor="green.300"
+            borderColor="blue.200"
             borderRadius="sm"
             bg={bgColor()}
             align="start"

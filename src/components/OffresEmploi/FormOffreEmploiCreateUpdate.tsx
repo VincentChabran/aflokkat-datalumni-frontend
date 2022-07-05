@@ -1,6 +1,6 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import * as yup from 'yup';
 import InputField from '../global/formikField/InputField';
 import SelectField from '../global/formikField/SelectField';
@@ -47,18 +47,32 @@ const schema = yup.object().shape({
       .typeError('La valeur dois étre entre 01 et 04'),
    remuneration: yup.string().required('Champ requis'),
    emailContact: yup.string().email('Format non valide pour un email...').required('Email requis...'),
-   dateDebut: yup.date().typeError('Format non valide pour une date').min('2000-01-25', 'Date trop petite'),
-   dateLimiteCandidature: yup.date().typeError('Format non valide pour une date').min('2000-01-25', 'Date trop petite'),
-   description: yup.string(),
+   dateDebut: yup
+      .date()
+      .typeError('Format non valide pour une date')
+      .min('2000-01-25', 'Date trop petite')
+      .required('Champ requis'),
+   dateLimiteCandidature: yup
+      .date()
+      .typeError('Format non valide pour une date')
+      .min('2000-01-25', 'Date trop petite')
+      .required('Champ requis'),
+   description: yup.string().required('Champ requis'),
 });
 
 export interface FormOffreEmploiCreateUpdateProps {
    initialValues: ValuesOffreEmploi;
    submit: (values: ValuesOffreEmploi, actions: FormikHelpers<ValuesOffreEmploi>) => Promise<void>;
-   setDisplay: Dispatch<SetStateAction<string>>;
+   setDisplay?: Dispatch<SetStateAction<string>>;
+   onClose?: () => void;
 }
 
-export function FormOffreEmploiCreateUpdate({ initialValues, submit, setDisplay }: FormOffreEmploiCreateUpdateProps) {
+export function FormOffreEmploiCreateUpdate({
+   initialValues,
+   submit,
+   setDisplay,
+   onClose,
+}: FormOffreEmploiCreateUpdateProps) {
    return (
       <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
          {(formikProps) => (
@@ -88,13 +102,21 @@ export function FormOffreEmploiCreateUpdate({ initialValues, submit, setDisplay 
                      isRequired
                   />
 
-                  <TextAreaField label="description" name="description" placeholder="Description" />
+                  <TextAreaField label="description" name="description" placeholder="Description" isRequired />
 
                   <HStack pt="5" justify="center" w="100%">
                      <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }}>
                         Valider
                      </Button>
-                     <Button colorScheme="red" mr={3} onClick={() => setDisplay('infos')} size={{ base: 'sm', sm: 'md' }}>
+                     <Button
+                        colorScheme="red"
+                        mr={3}
+                        onClick={() => {
+                           if (setDisplay) setDisplay('infos');
+                           else if (onClose) onClose();
+                        }}
+                        size={{ base: 'sm', sm: 'md' }}
+                     >
                         Annuler
                      </Button>
                   </HStack>

@@ -1,11 +1,9 @@
-import { CloseIcon, DeleteIcon } from '@chakra-ui/icons';
+import { DeleteIcon } from '@chakra-ui/icons';
 import {
-   Box,
    Button,
    Heading,
    HStack,
    Image,
-   List,
    ListItem,
    Modal,
    ModalBody,
@@ -20,11 +18,12 @@ import {
    useColorModeValue,
    VStack,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import { formatDateDdMmYyyy } from '../../tools/functions/formatDateDdMmYyyy';
-import { OffreGrid } from './DisplayOffreGrid';
+import { formatDateDdMmYyyy } from '../../../../tools/functions/formatDateDdMmYyyy';
+import { OffreGrid } from '../DisplayOffreGrid';
+import { DeleteOffreEmploi } from './DeleteOffreEmploi';
 import { UpdateOffreEmploi } from './UpdateOffreEmploi';
 
 export interface OffreDetailProps {
@@ -88,7 +87,7 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                   </ModalHeader>
                   <ModalCloseButton top="4" />
 
-                  <ModalBody fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} color="orange.400" p={{ base: '2', sm: '4' }}>
+                  <ModalBody fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} color="orange.400" p={{ base: '2', sm: '3' }}>
                      <SimpleGrid
                         columns={{ base: 1, sm: 2 }}
                         maxW="650px"
@@ -104,7 +103,6 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                                  <ListItem key={el.label}>
                                     {el.label + ' '}
                                     <Text as="span" sx={cssSpan()}>
-                                       {/* {el.value === 'Débutant accepté' && <br />} */}
                                        {el.value + '.'}
                                     </Text>
                                  </ListItem>
@@ -162,10 +160,6 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
 
                   <ModalFooter justifyContent={'center'}>
                      <HStack>
-                        {/* <Button onClick={onClose} variant="outline" leftIcon={<CloseIcon fontSize="xs" />}>
-                           Close
-                        </Button> */}
-
                         <Button
                            leftIcon={<BsFillPencilFill />}
                            colorScheme="purple"
@@ -175,7 +169,12 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                            Modifier
                         </Button>
 
-                        <Button colorScheme="red" leftIcon={<DeleteIcon />} size={{ base: 'xs', sm: 'sm' }}>
+                        <Button
+                           colorScheme="red"
+                           leftIcon={<DeleteIcon />}
+                           onClick={() => setDisplay('delete')}
+                           size={{ base: 'xs', sm: 'sm' }}
+                        >
                            Suprimer
                         </Button>
                      </HStack>
@@ -184,6 +183,10 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
             )}
 
             {display === 'update' && <UpdateOffreEmploi offre={offre} setDisplay={setDisplay} />}
+
+            {display === 'delete' && (
+               <DeleteOffreEmploi isOpen={isOpen} setDisplay={setDisplay} offreId={offre.id} onClose={onClose} />
+            )}
          </ModalContent>
       </Modal>
    );

@@ -39,12 +39,12 @@ export function DisplayOffreGrid({ search }: DisplayOffreGridProps) {
          {fetching ? (
             <Spinner />
          ) : // Si la length du tab renvoyer par le filtre plus petite que 0 on affichie la aucun res sinon on affiche la grille
-         data.offreEmploiAll.filter((el: OffreGrid) => el.domaineActivite.toLocaleLowerCase().includes(search)).length <=
+         data?.offreEmploiAll?.filter((el: OffreGrid) => el.domaineActivite.toLocaleLowerCase().includes(search)).length <=
            0 ? (
             <Box>TODO Aucun résultat</Box>
          ) : (
             <SimpleGrid columns={[1, 1, 2, 2, 3]} spacing={4} mx={{ base: 4, lg: 5, xl: 10 }}>
-               {data.offreEmploiAll
+               {data?.offreEmploiAll
                   .filter((el: OffreGrid) => el.domaineActivite.toLocaleLowerCase().includes(search))
                   .map((offre: OffreGrid) => (
                      <Box key={offre.id}>

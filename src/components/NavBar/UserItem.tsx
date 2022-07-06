@@ -17,6 +17,7 @@ import { ColorModeSwitcher } from '../global/ColorModoSwitcher';
 import NavItem from './NavItem';
 import { useUserStore } from '../../store/useUserStore';
 import { deleteLocalStorageToken } from '../../utils/jwtToken';
+import { pathDomaineName, pathProfilImg } from '../../utils/pathBackEnd';
 
 export function UserItem() {
    const { idUserStore, prenomUserStore, nomUserStore, profilPictureNameUserStore, setUserStore } = useUserStore();
@@ -33,7 +34,11 @@ export function UserItem() {
          <PopoverTrigger>
             <Button variant="custom" h="50px" minW="100px" mr="3px" overflow="hidden">
                {/* <Flex w="100%" justify={{ base: 'space-around', lg: 'space-evenly' }} align="center"> */}
-               <Avatar size="sm" src={profilPictureNameUserStore} mr="2px" />
+               <Avatar
+                  size="sm"
+                  src={profilPictureNameUserStore ? `${pathDomaineName}/${pathProfilImg}/${profilPictureNameUserStore}` : ''}
+                  mr="2px"
+               />
 
                <Text fontFamily="heading" display={{ base: 'none', xs: 'contents', lg: 'none', xl: 'contents' }}>
                   {prenomUserStore} {nomUserStore}

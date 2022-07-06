@@ -1,5 +1,6 @@
 import { Avatar, Badge, Flex, Heading, Tag, Text, VStack } from '@chakra-ui/react';
 import { bgColor } from '../../themes/constants/bgColor';
+import { pathDomaineName, pathProfilImg } from '../../utils/pathBackEnd';
 import { UserSpecifique } from '../../views/Profil';
 import { UsersGrid } from './DisplayUserGrid';
 
@@ -54,7 +55,7 @@ export function UserCard({
             </Badge>
          )}
 
-         <Avatar size="xl" src="./src/assets/img/bg0.jpg" />
+         <Avatar size="xl" src={profilPictureName ? `${pathDomaineName}/${pathProfilImg}/${profilPictureName}` : ''} />
 
          <Heading as={'h3'} size={nomPrenomSize} textAlign="center">
             {`${prenom} ${nom}`}

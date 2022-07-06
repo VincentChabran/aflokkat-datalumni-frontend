@@ -1,12 +1,13 @@
 import { createClient, defaultExchanges, subscriptionExchange } from 'urql';
 import { getLocalStorageToken } from './jwtToken';
+import { pathDomaineName } from './pathBackEnd';
 
 // const wsClient = createWSClient({
 //    url: "ws://localhost:3000/graphql",
 // });
 
 export const urqlConfig = createClient({
-   url: 'http://localhost:4000/graphql',
+   url: `${pathDomaineName}/graphql`,
    fetchOptions: {
       credentials: 'omit',
       headers: {

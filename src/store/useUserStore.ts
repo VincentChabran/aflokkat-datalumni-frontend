@@ -9,7 +9,7 @@ interface UserState {
    rolesUserStore: string[];
    mentorUserStore: boolean;
    setUserStore: (user: any) => void;
-   // resetUser: () => void;
+   setProfilPictureNameUserStore: (imgName: string) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -30,14 +30,5 @@ export const useUserStore = create<UserState>((set) => ({
          rolesUserStore: user.roles,
          mentorUserStore: user.mentor,
       })),
-   // resetUser: () =>
-   //    set(() => ({
-   //       idUserStore: 0,
-   //       email: 'sasuke.uchiwa@initial.com',
-   //       nomUserStore: 'Uchiwa',
-   //       prenomUserStore: 'Initial',
-   //       profilPictureNameUserStore: undefined,
-   //       rolesUserStore: ['BossDuShonen'],
-   //       mentor: false,
-   //    })),
+   setProfilPictureNameUserStore: (imgName) => set((state) => ({ profilPictureNameUserStore: imgName })),
 }));

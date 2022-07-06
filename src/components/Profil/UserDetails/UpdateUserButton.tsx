@@ -11,6 +11,7 @@ import {
    useDisclosure,
    VStack,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
 import { FaUserEdit } from 'react-icons/fa';
@@ -20,6 +21,13 @@ import { UserSpecifique } from '../../../views/Profil';
 import CheckboxField from '../../global/formikField/CheckboxField';
 import InputField from '../../global/formikField/InputField';
 import * as yup from 'yup';
+import { getLocalStorageToken } from '../../../utils/jwtToken';
+import InputFileField from '../../global/formikField/InputFileField';
+import { pathDomaineName } from '../../../utils/pathBackEnd';
+import { useUserStore } from '../../../store/useUserStore';
+
+const FILE_SIZE = 1000000;
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 const schema = yup.object().shape({
    email: yup.string().email('Format non valide pour un email...').required('Email requis...'),
@@ -28,6 +36,10 @@ const schema = yup.object().shape({
    dateDeNaissance: yup.date().typeError('Format non valide pour une date').min('1920-11-13', 'Date trop petite'),
    mentor: yup.boolean().typeError('Mentor ne peut être que vrai ou faux'),
    rechercheEmploi: yup.boolean().typeError('Recherche emploi ne peut être que vrai ou faux'),
+   file: yup
+      .mixed()
+      .test('fileSize', 'File too large', (value) => (value ? value.size <= FILE_SIZE : true))
+      .test('fileFormat', 'Unsupported Format', (value) => (value ? SUPPORTED_FORMATS.includes(value.type) : true)),
 });
 
 export interface UpdateUserButtonProps {
@@ -37,7 +49,11 @@ export interface UpdateUserButtonProps {
 
 export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
    const { isOpen, onOpen, onClose } = useDisclosure();
+
    const { id, email, nom, prenom, telephone, dateDeNaissance, mentor, rechercheEmploi } = user;
+
+   const { setProfilPictureNameUserStore } = useUserStore();
+
    // TODO telephone input
    const initialValues = {
       email,
@@ -46,23 +62,59 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
       dateDeNaissance: dateDeNaissance ? dateToInputValue(dateDeNaissance) : '',
       mentor,
       rechercheEmploi,
+      file: null,
    };
 
-   const [_, exeUpdateUserMutation] = useMutation(udpateUserMutation);
+   const uploadProfilImg = async (file: any): Promise<string | undefined> => {
+      if (file) {
+         const formData = new FormData();
+         const operations = {
+            query: 'mutation Mutation($file: Upload!, $user: UpdateUserInput!) {\r\n  uploadProfilePicture(file: $file, user: $user)\r\n}',
+            variables: { file: null, user: { id } },
+         };
+         const map = {
+            0: ['variables.file'],
+         };
+         formData.append('operations', JSON.stringify(operations));
+         formData.append('map', JSON.stringify(map));
+         formData.append('0', file);
 
+         try {
+            const response = await axios({
+               method: 'post',
+               url: `${pathDomaineName}/graphql`,
+               data: formData,
+               headers: {
+                  'Content-Type': 'multipart/form-data',
+                  Authorization: `Bearer ${getLocalStorageToken()}`,
+               },
+            });
+            return response.data.data.uploadProfilePicture;
+         } catch (error) {
+            console.log(error);
+         }
+      }
+   };
+
+   const [__, exeUpdateUserMutation] = useMutation(udpateUserMutation);
    const submit = async (values: Values, { setSubmitting }: FormikHelpers<Values>): Promise<void> => {
+      const { file, ...rest } = values;
       const variables = {
          updateUserInput: {
             id,
-            ...values,
+            ...rest,
             dateDeNaissance: values.dateDeNaissance === '' ? null : values.dateDeNaissance,
          },
       };
+
       setSubmitting(true);
       const { data, error } = await exeUpdateUserMutation(variables);
       if (error) console.log(error);
+      const profilPictureName = await uploadProfilImg(file);
 
-      setUser({ ...user, ...values });
+      setUser({ ...user, ...values, profilPictureName: profilPictureName ?? user.profilPictureName });
+      setProfilPictureNameUserStore(profilPictureName ?? '');
+
       onClose();
       setSubmitting(false);
    };
@@ -88,7 +140,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
 
                <ModalBody>
                   <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
-                     {(formikProps) => (
+                     {({ setFieldValue }) => (
                         <Form>
                            <VStack>
                               <InputField name="email" label="email" type="email" isRequired />
@@ -96,7 +148,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
                               <InputField name="prenom" label="prenom" isRequired />
                               <InputField name="dateDeNaissance" label="date de naissance" type="date" />
 
-                              <HStack spacing={{ base: 3, xs: 10 }} pt="5">
+                              <HStack spacing={{ base: 3, xs: 10 }} py="5">
                                  <CheckboxField name="mentor" label="Mentor" size={{ base: 'sm', xs: 'md' }} />
                                  <CheckboxField
                                     name="rechercheEmploi"
@@ -104,6 +156,8 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
                                     size={{ base: 'sm', xs: 'md' }}
                                  />
                               </HStack>
+
+                              <InputFileField label="profil image" name="file" setFieldValue={setFieldValue} />
 
                               <HStack pt="5">
                                  <Button type="submit" colorScheme="green" size={{ base: 'sm', xs: 'md' }}>
@@ -145,4 +199,5 @@ interface Values {
    dateDeNaissance: string;
    mentor: boolean;
    rechercheEmploi: boolean;
+   file: null;
 }

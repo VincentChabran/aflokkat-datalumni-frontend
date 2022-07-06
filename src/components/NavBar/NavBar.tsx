@@ -7,6 +7,7 @@ import NavItem from './NavItem';
 import { NavBurger } from './NavBurger';
 import { UserItem } from './UserItem';
 import { bgColor } from '../../themes/constants/bgColor';
+import { pathDomaineName } from '../../utils/pathBackEnd';
 
 export const navPaths = [
    { href: '/accueil', icon: FaHome, name: 'Accueil' },
@@ -23,8 +24,7 @@ export function NavBar() {
    return (
       <>
          <Flex maxH="150px" justify="center" overflow="hidden">
-            {/* <Image src="../src/assets/img/header.jpg" alt="Banner" objectFit="cover" /> */}
-            <Image src="http://localhost:4000/header.jpg" alt="Banner" objectFit="cover" />
+            <Image src={`${pathDomaineName}/header.jpg`} alt="Banner" objectFit="cover" />
          </Flex>
 
          <Flex

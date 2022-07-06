@@ -56,8 +56,11 @@ export function Profil(props: ProfilProps) {
 
    useEffect(() => {
       if (!fetching) {
-         setUser(data.user);
+         setUser(data?.user);
       }
+
+      console.log(data);
+      console.log(error);
    }, [fetching]);
 
    useEffect(() => {

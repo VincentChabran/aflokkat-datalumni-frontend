@@ -53,6 +53,8 @@ export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = [undefined]
          setUsers(users);
          setDisplayUsers();
       }
+      console.log(data);
+      console.log(error);
    }, [fetching]);
 
    return (

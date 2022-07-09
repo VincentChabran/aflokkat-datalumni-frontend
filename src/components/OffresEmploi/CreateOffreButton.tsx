@@ -44,7 +44,7 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
 
    const [_, exeCreateOffreEmploiMutation] = useMutation(createOffreEmploiMutation);
 
-   const sumbit = async (values: ValuesOffreEmploi, actions: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
+   const sumbit = async (values: ValuesOffreEmploi, { setSubmitting }: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
       const { typeContrat, experienceSouhaitee, ...rest } = values;
       const variables = {
          createOffreEmploiInput: {
@@ -54,8 +54,9 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
             userCreateurId: idUserStore,
          },
       };
+      setSubmitting(true);
       const { data, error } = await exeCreateOffreEmploiMutation(variables);
-
+      setSubmitting(false);
       onClose();
    };
 

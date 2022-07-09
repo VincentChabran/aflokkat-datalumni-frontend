@@ -1,5 +1,6 @@
-import { DeleteIcon } from '@chakra-ui/icons';
+import { DeleteIcon, EmailIcon } from '@chakra-ui/icons';
 import {
+   Box,
    Button,
    Heading,
    HStack,
@@ -21,9 +22,11 @@ import {
 import { useState } from 'react';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { useUserStore } from '../../../../store/useUserStore';
 import { formatDateDdMmYyyy } from '../../../../tools/functions/formatDateDdMmYyyy';
 import { OffreGrid } from '../DisplayOffreGrid';
 import { DeleteOffreEmploi } from './DeleteOffreEmploi';
+import { PostulerOffreEmploi } from './PostulerOffreEmploi';
 import { UpdateOffreEmploi } from './UpdateOffreEmploi';
 
 export interface OffreDetailProps {
@@ -62,7 +65,12 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
 
    const [display, setDisplay] = useState('infos');
 
+   const { idUserStore, rolesUserStore } = useUserStore();
+
    const navigate = useNavigate();
+
+   const bgImpair = useColorModeValue('gray.100', 'blackAlpha.300');
+   const bgPair = useColorModeValue('gray.300', 'blackAlpha.400');
 
    return (
       <Modal isOpen={isOpen} onClose={onClose} size="3xl">
@@ -92,10 +100,10 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                         columns={{ base: 1, sm: 2 }}
                         maxW="650px"
                         m="auto"
-                        py="4"
+                        py="8"
                         pl={{ base: '2', sm: '3' }}
-                        bg={useColorModeValue('gray.100', 'blackAlpha.300')}
-                        borderRadius="sm"
+                        bg={bgImpair}
+                        borderTopRadius="md"
                      >
                         <VStack align="start">
                            <UnorderedList>
@@ -153,33 +161,98 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                         </VStack>
                      </SimpleGrid>
 
-                     <Text pt="6" m="auto" textAlign="center" maxW="400" color="initial">
-                        {description}
-                     </Text>
+                     <VStack maxW="650px" m="auto" spacing={0}>
+                        <Box bg={bgPair} py="14" px="4" w="100%">
+                           <Heading size="md" color={useColorModeValue('orange.500', 'orange.300')}>
+                              Détail entreprise
+                           </Heading>
+                           <Text
+                              pt="6"
+                              m="auto"
+                              maxW="650"
+                              fontSize="sm"
+                              color={useColorModeValue('orange.400', 'orange.300')}
+                           >
+                              {description}
+                           </Text>
+                        </Box>
+
+                        <Box bg={bgImpair} py="14" px="4" w="100%">
+                           <Heading size="md" color="orange.300">
+                              Description du poste
+                           </Heading>
+                           <Text
+                              pt="6"
+                              m="auto"
+                              maxW="650"
+                              fontSize="sm"
+                              color={useColorModeValue('orange.500', 'orange.200')}
+                           >
+                              {description}
+                           </Text>
+                        </Box>
+
+                        <Box bg={bgPair} py="14" px="4" w="100%" borderBottomRadius="md">
+                           <Heading size="md" color={useColorModeValue('orange.500', 'orange.400')}>
+                              Profil du candidat
+                           </Heading>
+                           <Text
+                              pt="6"
+                              m="auto"
+                              maxW="650"
+                              fontSize="sm"
+                              color={useColorModeValue('orange.400', 'orange.300')}
+                           >
+                              {description}
+                           </Text>
+                        </Box>
+                     </VStack>
                   </ModalBody>
 
                   <ModalFooter justifyContent={'center'}>
                      <HStack>
                         <Button
-                           leftIcon={<BsFillPencilFill />}
-                           colorScheme="purple"
-                           onClick={() => setDisplay('update')}
                            size={{ base: 'xs', sm: 'sm' }}
+                           colorScheme="green"
+                           leftIcon={<EmailIcon />}
+                           onClick={() => setDisplay('postuler')}
                         >
-                           Modifier
+                           Postuler
                         </Button>
 
-                        <Button
-                           colorScheme="red"
-                           leftIcon={<DeleteIcon />}
-                           onClick={() => setDisplay('delete')}
-                           size={{ base: 'xs', sm: 'sm' }}
-                        >
-                           Suprimer
-                        </Button>
+                        {(userCreateurId === idUserStore || rolesUserStore.includes('Admin')) && (
+                           <>
+                              <Button
+                                 leftIcon={<BsFillPencilFill />}
+                                 colorScheme="purple"
+                                 onClick={() => setDisplay('update')}
+                                 size={{ base: 'xs', sm: 'sm' }}
+                              >
+                                 Modifier
+                              </Button>
+
+                              <Button
+                                 colorScheme="red"
+                                 leftIcon={<DeleteIcon />}
+                                 onClick={() => setDisplay('delete')}
+                                 size={{ base: 'xs', sm: 'sm' }}
+                              >
+                                 Suprimer
+                              </Button>
+                           </>
+                        )}
                      </HStack>
                   </ModalFooter>
                </>
+            )}
+
+            {display === 'postuler' && (
+               <PostulerOffreEmploi
+                  setDisplay={setDisplay}
+                  onClose={onClose}
+                  nomDuPoste={nomDuPoste}
+                  emailContact={emailContact}
+               />
             )}
 
             {display === 'update' && <UpdateOffreEmploi offre={offre} setDisplay={setDisplay} />}

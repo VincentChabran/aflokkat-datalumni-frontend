@@ -52,7 +52,7 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
    useEffect(() => () => setDisplay('infos'), []);
 
    const [_, exeUpdateOffreEmploiMutation] = useMutation(updateOffreEmploiMutation);
-   const sumbit = async (values: ValuesOffreEmploi, actions: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
+   const sumbit = async (values: ValuesOffreEmploi, { setSubmitting }: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
       const { typeContrat, experienceSouhaitee, ...rest } = values;
       const variables = {
          updateOffreEmploiInput: {
@@ -62,9 +62,9 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
             experienceSouhaitee: formatOptionsRender(optionsExperienceSouhaitee, parseInt(experienceSouhaitee)),
          },
       };
-      actions.setSubmitting(true);
+      setSubmitting(true);
       const { data, error } = await exeUpdateOffreEmploiMutation(variables);
-      actions.setSubmitting(false);
+      setSubmitting(false);
       setDisplay('infos');
    };
 

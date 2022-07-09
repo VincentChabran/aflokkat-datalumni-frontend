@@ -35,7 +35,7 @@ export function CreateExperienceProButton({ reExeSpecifiqueUserQuery }: CreateEx
    };
 
    const [_, exeCreateExperienceProMutation] = useMutation(createExperienceProMutation);
-   const submit = async (values: ValuesExpPro, actions: FormikHelpers<ValuesExpPro>): Promise<void> => {
+   const submit = async (values: ValuesExpPro, { setSubmitting }: FormikHelpers<ValuesExpPro>): Promise<void> => {
       const { aujourdhui, dateDebutMois, dateDebutAnnee, dateFinMois, dateFinAnnee, ...rest } = values;
       const variables = {
          createExperienceProInput: {
@@ -45,8 +45,11 @@ export function CreateExperienceProButton({ reExeSpecifiqueUserQuery }: CreateEx
             dateFin: formatDateFinExperiencePro(dateFinMois, dateFinAnnee, aujourdhui),
          },
       };
+
+      setSubmitting(true);
       const { data, error } = await exeCreateExperienceProMutation(variables);
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
+      setSubmitting(false);
    };
 
    return (

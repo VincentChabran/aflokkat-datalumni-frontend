@@ -1,5 +1,6 @@
-import { Box, SimpleGrid, Spinner } from '@chakra-ui/react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
 import { useQuery } from 'urql';
+import { SkeletonOffreEmploi } from '../../Skeleton/SkeletonOffreEmploi';
 import { OffreCard } from './OffreCard';
 
 export interface OffreGrid {
@@ -28,16 +29,17 @@ export interface OffreGrid {
 }
 
 export interface DisplayOffreGridProps {
-   search: string;
+   search?: string;
+   accueil?: boolean;
 }
 
-export function DisplayOffreGrid({ search }: DisplayOffreGridProps) {
+export function DisplayOffreGrid({ search = '', accueil = false }: DisplayOffreGridProps) {
    const [{ data, fetching, error }] = useQuery({ query: offreEmploisQuery });
 
    return (
       <>
          {fetching ? (
-            <Spinner />
+            <SkeletonOffreEmploi />
          ) : // Si la length du tab renvoyer par le filtre plus petite que 0 on affichie la aucun res sinon on affiche la grille
          data?.offreEmploiAll?.filter((el: OffreGrid) => el.domaineActivite.toLocaleLowerCase().includes(search)).length <=
            0 ? (
@@ -46,6 +48,12 @@ export function DisplayOffreGrid({ search }: DisplayOffreGridProps) {
             <SimpleGrid columns={[1, 1, 2, 2, 3]} spacing={4} mx={{ base: 4, lg: 5, xl: 10 }}>
                {data?.offreEmploiAll
                   .filter((el: OffreGrid) => el.domaineActivite.toLocaleLowerCase().includes(search))
+                  .sort((a: any, b: any) => {
+                     return !accueil
+                        ? new Date(a.dateLimiteCandidature).getTime() - new Date(b.dateLimiteCandidature).getTime()
+                        : new Date(a.dateCreation).getTime() - new Date(b.dateCreation).getTime();
+                  })
+                  .slice(!accueil ? null : 3)
                   .map((offre: OffreGrid) => (
                      <Box key={offre.id}>
                         <OffreCard offre={offre} />

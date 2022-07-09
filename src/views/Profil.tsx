@@ -5,6 +5,7 @@ import { useQuery } from 'urql';
 import { UserDetails } from '../components/Profil/UserDetails/UserDetails';
 import { UserExperiencePro } from '../components/Profil/UserExperiencePro/UserExperiencePro';
 import { UserFormations } from '../components/Profil/UserFormation/UserFormations';
+import { SkeletonProfil } from '../components/Skeleton/SkeletonProfil';
 import { bgColor } from '../themes/constants/bgColor';
 
 export interface UserSpecifique {
@@ -58,9 +59,6 @@ export function Profil(props: ProfilProps) {
       if (!fetching) {
          setUser(data?.user);
       }
-
-      console.log(data);
-      console.log(error);
    }, [fetching]);
 
    useEffect(() => {
@@ -69,22 +67,30 @@ export function Profil(props: ProfilProps) {
 
    const bgBox = bgColor();
 
+   // const [load, setLoad] = useState(true);
+   // useEffect(() => {
+   //    const timer = setTimeout(() => {
+   //       setLoad(false);
+   //       clearTimeout(timer);
+   //    }, 1000);
+   // }, []);
+
    return (
       <>
          {fetching ? (
-            <Spinner />
+            <SkeletonProfil />
+         ) : !user ? (
+            <Box>Nothing</Box>
          ) : (
-            user && (
-               <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 20 }}>
-                  <Box p={{ base: 3, sm: 8 }} px={{ base: 3, lg: 16 }} bgColor={bgBox} borderRadius="lg">
-                     <UserDetails user={user} setUser={setUser} />
+            <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 20 }}>
+               <Box p={{ base: 3, sm: 8 }} px={{ base: 3, lg: 16 }} bgColor={bgBox} borderRadius="lg">
+                  <UserDetails user={user} setUser={setUser} />
 
-                     <UserExperiencePro user={user} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
+                  <UserExperiencePro user={user} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
 
-                     <UserFormations user={user} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
-                  </Box>
+                  <UserFormations user={user} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />
                </Box>
-            )
+            </Box>
          )}
       </>
    );

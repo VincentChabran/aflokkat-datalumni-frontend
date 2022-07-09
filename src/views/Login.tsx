@@ -12,7 +12,7 @@ export function Login() {
          <Box maxW="360px" w="100%" h="500px" borderRadius="md" bg={bg} border="2px solid ">
             <Flex w="100%" h="100%" flexDir="column" justify="space-evenly" align="center">
                <Flex w="100%" justify="center">
-                  <Image src="./src/assets/img/aflopng.png" />
+                  <Image src="./src/assets/img/aflo2.png" />
                </Flex>
 
                <Flex justify="center" w="80%">

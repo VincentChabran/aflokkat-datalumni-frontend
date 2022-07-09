@@ -75,7 +75,7 @@ export function FormOffreEmploiCreateUpdate({
 }: FormOffreEmploiCreateUpdateProps) {
    return (
       <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
-         {(formikProps) => (
+         {({ isSubmitting }) => (
             <Form>
                <VStack justify="center" w="100%">
                   <InputField name="nomDuPoste" label="Nom du poste" placeholder="Nom du poste" isRequired />
@@ -105,9 +105,10 @@ export function FormOffreEmploiCreateUpdate({
                   <TextAreaField label="description" name="description" placeholder="Description" isRequired />
 
                   <HStack pt="5" justify="center" w="100%">
-                     <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }}>
+                     <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }} isLoading={isSubmitting}>
                         Valider
                      </Button>
+
                      <Button
                         colorScheme="red"
                         mr={3}

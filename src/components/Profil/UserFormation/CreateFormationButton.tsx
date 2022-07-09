@@ -35,7 +35,7 @@ export function CreateFormationButton({ reExeSpecifiqueUserQuery }: CreateFormat
    };
 
    const [_, exeCreateFormationMutation] = useMutation(createFormationMutation);
-   const submit = async (values: ValuesFormation, actions: FormikHelpers<ValuesFormation>): Promise<void> => {
+   const submit = async (values: ValuesFormation, { setSubmitting }: FormikHelpers<ValuesFormation>): Promise<void> => {
       const { typeDiplome, obtention, anneeObtention, ...rest } = values;
       const variables = {
          createFormationInput: {
@@ -46,8 +46,11 @@ export function CreateFormationButton({ reExeSpecifiqueUserQuery }: CreateFormat
             obtention: formatObtention(parseInt(obtention)),
          },
       };
+
+      setSubmitting(true);
       const { data, error } = await exeCreateFormationMutation(variables);
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
+      setSubmitting(false);
    };
 
    return (

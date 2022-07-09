@@ -45,7 +45,7 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
    };
 
    const [_, exeUpdataFormationMutation] = useMutation(updateFormationMutation);
-   const submit = async (values: ValuesFormation, actions: FormikHelpers<ValuesFormation>): Promise<void> => {
+   const submit = async (values: ValuesFormation, { setSubmitting }: FormikHelpers<ValuesFormation>): Promise<void> => {
       const { typeDiplome, obtention, anneeObtention, ...rest } = values;
 
       const variables = {
@@ -58,8 +58,10 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
          },
       };
 
+      setSubmitting(true);
       const { data, error } = await exeUpdataFormationMutation(variables);
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
+      setSubmitting(false);
    };
 
    return (

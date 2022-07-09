@@ -3,11 +3,11 @@ import { Select } from '@chakra-ui/react';
 import { useSelectUserDisplayStore } from '../../../store/useSelectUserDisplayStore';
 
 const rolesOptions = [
-   { role: 'admin', display: 'Admin' },
-   { role: 'equipeadministrative', display: 'Équipe-Administrative' },
-   { role: 'recruteur', display: 'Recruteur' },
-   { role: 'enseignant', display: 'Enseignant' },
-   { role: 'etudiant', display: 'Étudiant' },
+   { role: 'Admin', display: 'Admin' },
+   { role: 'Equipe_administrative', display: 'Équipe-Administrative' },
+   { role: 'Recruteur', display: 'Recruteur' },
+   { role: 'Enseignant', display: 'Enseignant' },
+   { role: 'Etudiant', display: 'Étudiant' },
 ];
 
 export function SearchByRoles() {

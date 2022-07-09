@@ -12,7 +12,7 @@ import { pathDomaineName } from '../../utils/pathBackEnd';
 export const navPaths = [
    { href: '/accueil', icon: FaHome, name: 'Accueil' },
    { href: '/annuaire', icon: FaAddressBook, name: 'Annuaire' },
-   { href: '/mentorat', icon: GoMortarBoard, name: 'Mentorat' },
+   // { href: '/mentorat', icon: GoMortarBoard, name: 'Mentorat' },
    { href: '/offresemploi', icon: FaHandshake, name: 'Emplois/Stages' },
    { href: '/apropos', icon: QuestionIcon, name: 'À propos' },
    { href: '/actualites', icon: BiCalendar, name: 'Actualités' },

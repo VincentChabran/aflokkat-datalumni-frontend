@@ -62,7 +62,7 @@ export interface FormFormationCreateUpdateProps {
 export function FormFormationCreateUpdate({ initialValues, submit, onClose }: FormFormationCreateUpdateProps) {
    return (
       <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
-         {(formikProps) => (
+         {({ isSubmitting }) => (
             <Form>
                <VStack align="start">
                   <InputField name="nomFormation" label="nom de la formation" placeholder="Nom de la formation" isRequired />
@@ -82,7 +82,7 @@ export function FormFormationCreateUpdate({ initialValues, submit, onClose }: Fo
                   <TextAreaField label="description" name="description" placeholder="Description" />
 
                   <HStack pt="5">
-                     <Button type="submit" colorScheme="green" size={{ base: 'sm', xs: 'md' }}>
+                     <Button type="submit" colorScheme="green" size={{ base: 'sm', xs: 'md' }} isLoading={isSubmitting}>
                         Valider
                      </Button>
                      <Button colorScheme="red" mr={3} onClick={onClose} size={{ base: 'sm', xs: 'md' }}>

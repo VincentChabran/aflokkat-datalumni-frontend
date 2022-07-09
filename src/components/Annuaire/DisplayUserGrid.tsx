@@ -1,8 +1,9 @@
 import { Box, SimpleGrid, Spinner } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'urql';
 import { useSelectUserDisplayStore } from '../../store/useSelectUserDisplayStore';
+import { SkeletonUserCard } from '../Skeleton/SkeletonUserCard';
 import { UserCard } from './UserCard';
 
 export interface UsersGrid {
@@ -34,11 +35,11 @@ export interface UsersGrid {
 
 export interface DisplayUserGridProps {
    columns?: number[];
-   slice?: number[] | undefined[];
+   slice?: number | undefined;
    mentor?: boolean;
 }
 
-export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = [undefined], mentor = false }: DisplayUserGridProps) {
+export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = undefined, mentor = false }: DisplayUserGridProps) {
    const { setUsers, displayUsers, setDisplayUsers } = useSelectUserDisplayStore();
 
    const navigate = useNavigate();
@@ -53,19 +54,25 @@ export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = [undefined]
          setUsers(users);
          setDisplayUsers();
       }
-      console.log(data);
-      console.log(error);
    }, [fetching]);
+
+   // const [load, setLoad] = useState(true);
+   // useEffect(() => {
+   //    const timer = setTimeout(() => {
+   //       setLoad(false);
+   //       clearTimeout(timer);
+   //    }, 1000);
+   // }, []);
 
    return (
       <>
          {fetching ? (
-            <Spinner />
+            <SkeletonUserCard columns={columns} max={slice ? -slice : 8} />
          ) : !fetching && (displayUsers ? displayUsers.length <= 0 : !displayUsers) ? (
             <Box>Todo affichage utilisateur non trouvé</Box>
          ) : (
             <SimpleGrid columns={columns} spacing={6} mx={{ base: 10, lg: 5, xl: 10 }}>
-               {displayUsers?.slice(...slice).map((user: UsersGrid) => (
+               {displayUsers?.slice(slice).map((user: UsersGrid) => (
                   <Box key={user.id} h="100%" onClick={() => navigate(`/profil/${user.id}`)} _hover={{ cursor: 'pointer' }}>
                      <UserCard user={user} />
                   </Box>

@@ -52,7 +52,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
 
    const { id, email, nom, prenom, telephone, dateDeNaissance, mentor, rechercheEmploi } = user;
 
-   const { setProfilPictureNameUserStore } = useUserStore();
+   const { idUserStore, setProfilPictureNameUserStore } = useUserStore();
 
    // TODO telephone input
    const initialValues = {
@@ -113,7 +113,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
       const profilPictureName = await uploadProfilImg(file);
 
       setUser({ ...user, ...values, profilPictureName: profilPictureName ?? user.profilPictureName });
-      setProfilPictureNameUserStore(profilPictureName ?? '');
+      if (id === idUserStore) setProfilPictureNameUserStore(profilPictureName ?? user.profilPictureName);
 
       onClose();
       setSubmitting(false);
@@ -140,7 +140,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
 
                <ModalBody>
                   <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
-                     {({ setFieldValue }) => (
+                     {({ setFieldValue, isSubmitting }) => (
                         <Form>
                            <VStack>
                               <InputField name="email" label="email" type="email" isRequired />
@@ -160,7 +160,12 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
                               <InputFileField label="profil image" name="file" setFieldValue={setFieldValue} />
 
                               <HStack pt="5">
-                                 <Button type="submit" colorScheme="green" size={{ base: 'sm', xs: 'md' }}>
+                                 <Button
+                                    type="submit"
+                                    colorScheme="green"
+                                    size={{ base: 'sm', xs: 'md' }}
+                                    isLoading={isSubmitting}
+                                 >
                                     Envoyer
                                  </Button>
                                  <Button colorScheme="red" mr={3} onClick={onClose} size={{ base: 'sm', xs: 'md' }}>

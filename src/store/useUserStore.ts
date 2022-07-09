@@ -5,11 +5,11 @@ interface UserState {
    emailUserStore: string;
    nomUserStore: string;
    prenomUserStore: string;
-   profilPictureNameUserStore: string | undefined;
+   profilPictureNameUserStore: string | null;
    rolesUserStore: string[];
    mentorUserStore: boolean;
    setUserStore: (user: any) => void;
-   setProfilPictureNameUserStore: (imgName: string) => void;
+   setProfilPictureNameUserStore: (imgName: string | null) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -17,7 +17,7 @@ export const useUserStore = create<UserState>((set) => ({
    emailUserStore: 'sasuke.uchiwa@initial.com',
    nomUserStore: 'Uchiwa',
    prenomUserStore: 'Initial',
-   profilPictureNameUserStore: undefined,
+   profilPictureNameUserStore: null,
    rolesUserStore: ['BossDuShonen'],
    mentorUserStore: false,
    setUserStore: (user) =>

@@ -66,7 +66,7 @@ export interface FormExperienceProCreateUpdateProps {
 export function FormExperienceProCreateUpdate({ initialValues, submit, onClose }: FormExperienceProCreateUpdateProps) {
    return (
       <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
-         {({ values }) => (
+         {({ values, isSubmitting }) => (
             <Form>
                <VStack align="start">
                   <InputField name="fonction" label="fonction" placeholder="Fonction" isRequired />
@@ -115,7 +115,7 @@ export function FormExperienceProCreateUpdate({ initialValues, submit, onClose }
                   <TextAreaField label="description" name="description" placeholder="Description" />
 
                   <HStack pt="5">
-                     <Button type="submit" colorScheme="green" size={{ base: 'sm', xs: 'md' }}>
+                     <Button type="submit" colorScheme="green" size={{ base: 'sm', xs: 'md' }} isLoading={isSubmitting}>
                         Valider
                      </Button>
                      <Button colorScheme="red" mr={3} onClick={onClose} size={{ base: 'sm', xs: 'md' }}>

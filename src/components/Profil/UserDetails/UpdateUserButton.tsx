@@ -9,6 +9,7 @@ import {
    ModalHeader,
    ModalOverlay,
    useDisclosure,
+   useToast,
    VStack,
 } from '@chakra-ui/react';
 import axios from 'axios';
@@ -49,6 +50,7 @@ export interface UpdateUserButtonProps {
 
 export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
    const { isOpen, onOpen, onClose } = useDisclosure();
+   const toast = useToast();
 
    const { id, email, nom, prenom, telephone, dateDeNaissance, mentor, rechercheEmploi } = user;
 
@@ -109,14 +111,24 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
 
       setSubmitting(true);
       const { data, error } = await exeUpdateUserMutation(variables);
-      if (error) console.log(error);
       const profilPictureName = await uploadProfilImg(file);
 
       setUser({ ...user, ...values, profilPictureName: profilPictureName ?? user.profilPictureName });
       if (id === idUserStore) setProfilPictureNameUserStore(profilPictureName ?? user.profilPictureName);
+      setSubmitting(false);
+
+      if (data && !error) {
+         toast({
+            title: 'Profil modifiée',
+            position: 'top',
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+         });
+      }
+      if (error) console.log(error);
 
       onClose();
-      setSubmitting(false);
    };
 
    return (

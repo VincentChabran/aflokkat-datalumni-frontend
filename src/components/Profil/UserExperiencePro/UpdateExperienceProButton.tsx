@@ -7,6 +7,7 @@ import {
    ModalHeader,
    ModalOverlay,
    useDisclosure,
+   useToast,
 } from '@chakra-ui/react';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { formatDateFinExperiencePro } from '../../../tools/functions/formatDateFinExperiencePro';
@@ -28,6 +29,7 @@ export interface UpdateExperienceProButtonProps {
 
 export function UpdateExperienceProButton({ experiencePro, reExeSpecifiqueUserQuery }: UpdateExperienceProButtonProps) {
    const { isOpen, onOpen, onClose } = useDisclosure();
+   const toast = useToast();
 
    const { fonction, entreprise, dateDebut, dateFin, description } = experiencePro;
 
@@ -59,6 +61,16 @@ export function UpdateExperienceProButton({ experiencePro, reExeSpecifiqueUserQu
       const { data, error } = await exeUpdateExperienceProMutation(variables);
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
       setSubmitting(false);
+
+      if (data && !error) {
+         toast({
+            title: 'Expérience modifiée',
+            position: 'top',
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+         });
+      }
    };
 
    return (

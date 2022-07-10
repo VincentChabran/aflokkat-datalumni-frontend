@@ -7,6 +7,7 @@ import {
    ModalHeader,
    ModalOverlay,
    useDisclosure,
+   useToast,
 } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
 import { BsFillPencilFill } from 'react-icons/bs';
@@ -31,6 +32,7 @@ export interface UpdateFormationButtonProps {
 
 export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: UpdateFormationButtonProps) {
    const { isOpen, onOpen, onClose } = useDisclosure();
+   const toast = useToast();
 
    const { nomFormation, nomEtablissement, typeDiplome, obtention, anneeObtention, domaineActivite, description } = formation;
 
@@ -62,6 +64,16 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
       const { data, error } = await exeUpdataFormationMutation(variables);
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
       setSubmitting(false);
+
+      if (data && !error) {
+         toast({
+            title: 'Formation modifiée',
+            position: 'top',
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+         });
+      }
    };
 
    return (

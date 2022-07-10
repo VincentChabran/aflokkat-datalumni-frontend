@@ -8,6 +8,7 @@ import {
    ModalHeader,
    ModalOverlay,
    useDisclosure,
+   useToast,
    VStack,
 } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
@@ -25,6 +26,7 @@ export interface CreateOffreButtonProps {}
 
 export function CreateOffreButton(props: CreateOffreButtonProps) {
    const { isOpen, onOpen, onClose } = useDisclosure();
+   const toast = useToast();
 
    const { idUserStore } = useUserStore();
 
@@ -57,6 +59,13 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
       setSubmitting(true);
       const { data, error } = await exeCreateOffreEmploiMutation(variables);
       setSubmitting(false);
+      toast({
+         title: 'Offre crée',
+         position: 'top',
+         status: 'success',
+         duration: 2000,
+         isClosable: true,
+      });
       onClose();
    };
 

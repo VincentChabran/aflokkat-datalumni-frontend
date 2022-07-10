@@ -1,4 +1,4 @@
-import { ModalBody, ModalCloseButton, ModalHeader } from '@chakra-ui/react';
+import { ModalBody, ModalCloseButton, ModalHeader, useToast } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useMutation } from 'urql';
@@ -35,6 +35,8 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       description,
    } = offre;
 
+   const toast = useToast();
+
    const initialValues: ValuesOffreEmploi = {
       nomDuPoste,
       nomEntreprise,
@@ -65,6 +67,27 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       setSubmitting(true);
       const { data, error } = await exeUpdateOffreEmploiMutation(variables);
       setSubmitting(false);
+
+      if (data && !error) {
+         toast({
+            title: 'Offre modifiée',
+            position: 'top',
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+         });
+      } else if (error && !data) {
+         console.log(error);
+
+         toast({
+            title: 'Erreur modif',
+            position: 'top',
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+         });
+      }
+
       setDisplay('infos');
    };
 

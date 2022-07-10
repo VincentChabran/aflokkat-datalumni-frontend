@@ -9,11 +9,18 @@ import InputField from '../../../global/formikField/InputField';
 import InputFileField from '../../../global/formikField/InputFileField';
 import TextAreaField from '../../../global/formikField/TextAreaField';
 
+const SUPPORTED_FORMATS = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'];
+
 const schema = yup.object().shape({
    nom: yup.string().required('Champ requis'),
    prenom: yup.string().required('Champ requis'),
    email: yup.string().email('Format non valide pour un email...').required('Champ requis'),
    message: yup.string(),
+   file: yup
+      .mixed()
+      .test('fileSize', 'File too large', (value) => (value ? value.size <= 7000000 : true))
+      .test('fileFormat', 'Unsupported Format', (value) => (value ? SUPPORTED_FORMATS.includes(value.type) : true))
+      .required('Cv requis'),
 });
 
 export interface PostulerOffreEmploiProps {
@@ -35,18 +42,6 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
    };
 
    const submit = async (values: ValuesMail, { setSubmitting }: FormikHelpers<any>) => {
-      const variables = {
-         createMailInput: {
-            nomDuPoste,
-            destinataire: emailContact,
-            nom: values.nom,
-            prenom: values.prenom,
-            email: values.email,
-            message: values.message,
-         },
-         file: values.file,
-      };
-
       setSubmitting(true);
 
       if (values.file) {
@@ -72,7 +67,7 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
          formData.append('0', values.file);
 
          try {
-            const response = await axios({
+            await axios({
                method: 'post',
                url: `${pathDomaineName}/graphql`,
                data: formData,
@@ -80,21 +75,27 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
                   'Content-Type': 'multipart/form-data',
                   Authorization: `Bearer ${getLocalStorageToken()}`,
                },
-               // return response.data.data.uploadProfilePicture;
+            });
+
+            toast({
+               title: 'Mail envoyée',
+               status: 'success',
+               duration: 3000,
+               position: 'top',
+               isClosable: true,
             });
          } catch (error) {
             console.log(error);
+            toast({
+               title: 'Mail error',
+               status: 'error',
+               duration: 3000,
+               position: 'top',
+               isClosable: true,
+            });
          }
       }
-
       setSubmitting(false);
-      toast({
-         title: 'Account created.',
-         description: "We've created your account for you.",
-         status: 'success',
-         duration: 9000,
-         isClosable: true,
-      });
       setDisplay('infos');
    };
 
@@ -114,7 +115,7 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
 
                         <TextAreaField name="message" label="message" placeholder="Message" />
 
-                        <InputFileField label="profil image" name="file" setFieldValue={setFieldValue} />
+                        <InputFileField label="Cv" name="file" setFieldValue={setFieldValue} />
 
                         <HStack pt="5" justify="center" w="100%">
                            <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }} isLoading={isSubmitting}>

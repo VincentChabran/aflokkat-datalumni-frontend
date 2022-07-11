@@ -76,7 +76,6 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
                   Authorization: `Bearer ${getLocalStorageToken()}`,
                },
             });
-
             toast({
                title: 'Mail envoyée',
                status: 'success',
@@ -115,7 +114,7 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
 
                         <TextAreaField name="message" label="message" placeholder="Message" />
 
-                        <InputFileField label="Cv" name="file" setFieldValue={setFieldValue} />
+                        <InputFileField label="Cv" name="file" setFieldValue={setFieldValue} isRequired />
 
                         <HStack pt="5" justify="center" w="100%">
                            <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }} isLoading={isSubmitting}>

@@ -14,6 +14,7 @@ import { formatDateFinExperiencePro } from '../../../tools/functions/formatDateF
 import { OperationContext, useMutation } from 'urql';
 import { FormExperienceProCreateUpdate, ValuesExpPro } from './FormExperienceProCreateUpdate';
 import { FormikHelpers } from 'formik';
+import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
 
 export interface UpdateExperienceProButtonProps {
    experiencePro: {
@@ -46,11 +47,13 @@ export function UpdateExperienceProButton({ experiencePro, reExeSpecifiqueUserQu
 
    const [_, exeUpdateExperienceProMutation] = useMutation(updateExperienceProMutation);
    const submit = async (values: ValuesExpPro, { setSubmitting }: FormikHelpers<ValuesExpPro>) => {
-      const { aujourdhui, dateDebutMois, dateDebutAnnee, dateFinMois, dateFinAnnee, ...rest } = values;
+      const { aujourdhui, dateDebutMois, dateDebutAnnee, dateFinMois, dateFinAnnee, entreprise, fonction, ...rest } = values;
 
       const variables = {
          updateExperienceProInput: {
             id: experiencePro.id,
+            entreprise: entreprise.charAt(0).toUpperCase() + entreprise.slice(1),
+            fonction: fonction.charAt(0).toUpperCase() + fonction.slice(1),
             ...rest,
             dateDebut: dateDebutMois + '/' + dateDebutAnnee,
             dateFin: formatDateFinExperiencePro(dateFinMois, dateFinAnnee, aujourdhui),
@@ -62,15 +65,7 @@ export function UpdateExperienceProButton({ experiencePro, reExeSpecifiqueUserQu
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
       setSubmitting(false);
 
-      if (data && !error) {
-         toast({
-            title: 'Expérience modifiée',
-            position: 'top',
-            status: 'success',
-            duration: 2000,
-            isClosable: true,
-         });
-      }
+      toastSuccessError(toast, 'Expérience modifiée', 'Erreur modification', data, error);
    };
 
    return (

@@ -18,7 +18,7 @@ export interface UserSpecifique {
    mentor: boolean;
    rechercheEmploi: boolean;
    telephone: string | null;
-   dateDeNaissance: string;
+   dateDeNaissance: string | null;
    experiencePro:
       | {
            id: number;

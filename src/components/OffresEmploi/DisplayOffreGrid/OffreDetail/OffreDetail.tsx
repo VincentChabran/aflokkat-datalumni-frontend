@@ -52,8 +52,16 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
       pathLienCandidature,
       userCreateurId,
       userCreateur,
-      description,
+      descriptionEntreprise,
+      descriptionPoste,
+      descriptionProfilCandidat,
    } = offre;
+
+   const description = [
+      { title: 'Détail entreprise', value: descriptionEntreprise },
+      { title: 'Détail poste', value: descriptionPoste },
+      { title: 'Profil du candidat', value: descriptionProfilCandidat },
+   ];
 
    const displayLeftSide = [
       { value: domaineActivite, label: 'Secteur:' },
@@ -162,50 +170,40 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                      </SimpleGrid>
 
                      <VStack maxW="650px" m="auto" spacing={0}>
-                        <Box bg={bgPair} py="14" px="4" w="100%">
-                           <Heading size="md" color={useColorModeValue('orange.500', 'orange.300')}>
-                              Détail entreprise
-                           </Heading>
-                           <Text
-                              pt="6"
-                              m="auto"
-                              maxW="650"
-                              fontSize="sm"
-                              color={useColorModeValue('orange.400', 'orange.300')}
-                           >
-                              {description}
-                           </Text>
-                        </Box>
+                        {description.map((el, i) => (
+                           <Box key={el.title} bg={i % 2 == 0 ? bgPair : bgImpair} py="14" px="4" w="100%">
+                              <Heading size="md" color={useColorModeValue('orange.500', 'orange.300')}>
+                                 {el.title}
+                              </Heading>
+                              <pre>
+                                 <Text
+                                    pt="6"
+                                    m="auto"
+                                    maxW="650"
+                                    fontSize="sm"
+                                    color={useColorModeValue('orange.400', 'orange.300')}
+                                 >
+                                    {el.value}
+                                 </Text>
+                              </pre>
+                           </Box>
+                        ))}
 
-                        <Box bg={bgImpair} py="14" px="4" w="100%">
+                        {/* <Box bg={bgImpair} py="14" px="4" w="100%">
                            <Heading size="md" color="orange.300">
                               Description du poste
                            </Heading>
-                           <Text
-                              pt="6"
-                              m="auto"
-                              maxW="650"
-                              fontSize="sm"
-                              color={useColorModeValue('orange.500', 'orange.200')}
-                           >
-                              {description}
-                           </Text>
-                        </Box>
-
-                        <Box bg={bgPair} py="14" px="4" w="100%" borderBottomRadius="md">
-                           <Heading size="md" color={useColorModeValue('orange.500', 'orange.400')}>
-                              Profil du candidat
-                           </Heading>
-                           <Text
-                              pt="6"
-                              m="auto"
-                              maxW="650"
-                              fontSize="sm"
-                              color={useColorModeValue('orange.400', 'orange.300')}
-                           >
-                              {description}
-                           </Text>
-                        </Box>
+                           <pre>
+                              <Text
+                                 pt="6"
+                                 m="auto"
+                                 maxW="650"
+                                 fontSize="sm"
+                                 color={useColorModeValue('orange.500', 'orange.200')}
+                              >
+                              </Text>
+                           </pre>
+                        </Box> */}
                      </VStack>
                   </ModalBody>
 

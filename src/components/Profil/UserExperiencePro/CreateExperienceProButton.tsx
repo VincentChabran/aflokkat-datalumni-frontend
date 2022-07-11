@@ -8,11 +8,13 @@ import {
    ModalHeader,
    ModalOverlay,
    useDisclosure,
+   useToast,
 } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
 import { OperationContext, useMutation } from 'urql';
 import { formatDateFinExperiencePro } from '../../../tools/functions/formatDateFinExperiencePro';
+import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
 import { FormExperienceProCreateUpdate, ValuesExpPro } from './FormExperienceProCreateUpdate';
 
 export interface CreateExperienceProButtonProps {
@@ -22,6 +24,7 @@ export interface CreateExperienceProButtonProps {
 export function CreateExperienceProButton({ reExeSpecifiqueUserQuery }: CreateExperienceProButtonProps) {
    const { userId } = useParams();
    const { isOpen, onOpen, onClose } = useDisclosure();
+   const toast = useToast();
 
    const initialValues: ValuesExpPro = {
       fonction: '',
@@ -50,6 +53,8 @@ export function CreateExperienceProButton({ reExeSpecifiqueUserQuery }: CreateEx
       const { data, error } = await exeCreateExperienceProMutation(variables);
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
       setSubmitting(false);
+
+      toastSuccessError(toast, 'Expérience crée', 'Erreur création', data, error);
    };
 
    return (

@@ -8,12 +8,14 @@ import {
    ModalHeader,
    ModalOverlay,
    useDisclosure,
+   useToast,
 } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
 import { useParams } from 'react-router-dom';
 import { OperationContext, useMutation } from 'urql';
 import { formatObtention } from '../../../tools/functions/formatObtentionForFormation';
 import { formatOptionsRender } from '../../../tools/functions/formatOptionsRender';
+import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
 import { FormFormationCreateUpdate, optionsDiplome, ValuesFormation } from './FormFormationCreateUpdate';
 
 export interface CreateFormationButtonProps {
@@ -23,6 +25,7 @@ export interface CreateFormationButtonProps {
 export function CreateFormationButton({ reExeSpecifiqueUserQuery }: CreateFormationButtonProps) {
    const { userId } = useParams();
    const { isOpen, onOpen, onClose } = useDisclosure();
+   const toast = useToast();
 
    const initialValues: ValuesFormation = {
       nomFormation: '',
@@ -51,6 +54,8 @@ export function CreateFormationButton({ reExeSpecifiqueUserQuery }: CreateFormat
       const { data, error } = await exeCreateFormationMutation(variables);
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
       setSubmitting(false);
+
+      toastSuccessError(toast, 'Formation crée', 'Erreur création', data, error);
    };
 
    return (

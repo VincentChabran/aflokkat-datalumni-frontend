@@ -15,6 +15,7 @@ import { FormikHelpers } from 'formik';
 import { useMutation } from 'urql';
 import { useUserStore } from '../../store/useUserStore';
 import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
+import { toastSuccessError } from '../../tools/functions/toastSuccessError';
 import {
    FormOffreEmploiCreateUpdate,
    optionsExperienceSouhaitee,
@@ -41,7 +42,9 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
       emailContact: '',
       dateDebut: '',
       dateLimiteCandidature: '',
-      description: '',
+      descriptionEntreprise: '',
+      descriptionPoste: '',
+      descriptionProfilCandidat: '',
    };
 
    const [_, exeCreateOffreEmploiMutation] = useMutation(createOffreEmploiMutation);
@@ -56,16 +59,12 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
             userCreateurId: idUserStore,
          },
       };
+
       setSubmitting(true);
       const { data, error } = await exeCreateOffreEmploiMutation(variables);
       setSubmitting(false);
-      toast({
-         title: 'Offre crée',
-         position: 'top',
-         status: 'success',
-         duration: 2000,
-         isClosable: true,
-      });
+
+      toastSuccessError(toast, 'Offre crée', 'Erreur création', data, error);
       onClose();
    };
 
@@ -104,7 +103,9 @@ mutation Mutation($createOffreEmploiInput: CreateOffreEmploiInput!) {
      ville
      typeContrat
      domaineActivite
-     description
+     descriptionEntreprise
+     descriptionPoste
+     descriptionProfilCandidat
      active
      experienceSouhaitee
      remuneration

@@ -14,6 +14,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { OperationContext, useMutation } from 'urql';
 import { formatObtention } from '../../../tools/functions/formatObtentionForFormation';
 import { formatOptionsRender } from '../../../tools/functions/formatOptionsRender';
+import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
 import { FormFormationCreateUpdate, optionsDiplome, ValuesFormation } from './FormFormationCreateUpdate';
 
 export interface UpdateFormationButtonProps {
@@ -48,11 +49,13 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
 
    const [_, exeUpdataFormationMutation] = useMutation(updateFormationMutation);
    const submit = async (values: ValuesFormation, { setSubmitting }: FormikHelpers<ValuesFormation>): Promise<void> => {
-      const { typeDiplome, obtention, anneeObtention, ...rest } = values;
+      const { typeDiplome, obtention, anneeObtention, nomFormation, nomEtablissement, ...rest } = values;
 
       const variables = {
          updateFormationInput: {
             id: formation.id,
+            nomFormation: nomFormation.charAt(0).toUpperCase() + nomFormation.slice(1),
+            nomEtablissement: nomEtablissement.charAt(0).toUpperCase() + nomEtablissement.slice(1),
             ...rest,
             anneeObtention: parseInt(anneeObtention),
             typeDiplome: formatOptionsRender(optionsDiplome, parseInt(typeDiplome)),
@@ -65,15 +68,7 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
       setSubmitting(false);
 
-      if (data && !error) {
-         toast({
-            title: 'Formation modifiée',
-            position: 'top',
-            status: 'success',
-            duration: 2000,
-            isClosable: true,
-         });
-      }
+      toastSuccessError(toast, 'Formation modifiée', 'Erreur modification', data, error);
    };
 
    return (

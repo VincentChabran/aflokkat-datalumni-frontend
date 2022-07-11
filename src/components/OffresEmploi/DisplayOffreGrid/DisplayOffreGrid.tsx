@@ -11,7 +11,9 @@ export interface OffreGrid {
    ville: string;
    typeContrat: string;
    domaineActivite: string;
-   description: string;
+   descriptionEntreprise: string;
+   descriptionPoste: string;
+   descriptionProfilCandidat: string;
    active: boolean;
    experienceSouhaitee: string;
    remuneration: string;
@@ -75,7 +77,9 @@ query Query {
      typeContrat
      dateCreation
      domaineActivite
-     description
+     descriptionEntreprise
+     descriptionPoste
+     descriptionProfilCandidat
      active
      experienceSouhaitee
      remuneration

@@ -11,6 +11,7 @@ import {
    optionsTypeContrat,
    ValuesOffreEmploi,
 } from '../../FormOffreEmploiCreateUpdate';
+import { toastSuccessError } from '../../../../tools/functions/toastSuccessError';
 
 export interface UpdateOffreEmploiProps {
    offre: OffreGrid;
@@ -32,7 +33,9 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       dateLimiteCandidature,
       pathLienCandidature,
       pathLogo,
-      description,
+      descriptionEntreprise,
+      descriptionPoste,
+      descriptionProfilCandidat,
    } = offre;
 
    const toast = useToast();
@@ -48,46 +51,36 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       emailContact,
       dateDebut: dateToInputValue(dateDebut.toString()),
       dateLimiteCandidature: dateToInputValue(dateLimiteCandidature.toString()),
-      description,
+      descriptionEntreprise,
+      descriptionPoste,
+      descriptionProfilCandidat,
    };
 
    useEffect(() => () => setDisplay('infos'), []);
 
    const [_, exeUpdateOffreEmploiMutation] = useMutation(updateOffreEmploiMutation);
    const sumbit = async (values: ValuesOffreEmploi, { setSubmitting }: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
-      const { typeContrat, experienceSouhaitee, ...rest } = values;
+      const { typeContrat, experienceSouhaitee, nomDuPoste, nomEntreprise, ville, domaineActivite, emailContact, ...rest } =
+         values;
       const variables = {
          updateOffreEmploiInput: {
             id,
+            nomDuPoste: nomDuPoste.charAt(0).toUpperCase() + nomDuPoste.slice(1),
+            nomEntreprise: nomEntreprise.charAt(0).toUpperCase() + nomEntreprise.slice(1),
+            ville: ville.charAt(0).toUpperCase() + ville.slice(1),
+            domaineActivite: domaineActivite.charAt(0).toUpperCase() + domaineActivite.slice(1),
+            emailContact: emailContact.toLocaleLowerCase(),
             ...rest,
             typeContrat: formatOptionsRender(optionsTypeContrat, parseInt(typeContrat)),
             experienceSouhaitee: formatOptionsRender(optionsExperienceSouhaitee, parseInt(experienceSouhaitee)),
          },
       };
+
       setSubmitting(true);
       const { data, error } = await exeUpdateOffreEmploiMutation(variables);
       setSubmitting(false);
 
-      if (data && !error) {
-         toast({
-            title: 'Offre modifiée',
-            position: 'top',
-            status: 'success',
-            duration: 2000,
-            isClosable: true,
-         });
-      } else if (error && !data) {
-         console.log(error);
-
-         toast({
-            title: 'Erreur modif',
-            position: 'top',
-            status: 'error',
-            duration: 2000,
-            isClosable: true,
-         });
-      }
-
+      toastSuccessError(toast, 'Offre modifiée', 'Erreur modification', data, error);
       setDisplay('infos');
    };
 

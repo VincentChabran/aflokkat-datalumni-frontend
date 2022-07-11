@@ -27,7 +27,10 @@ const optionsAnnee = [{ value: `${optionAnneeMin}`, label: `${optionAnneeMin}` }
 for (let i = optionAnneeMin + 1; i <= optionAnneeMax; i++) optionsAnnee.unshift({ value: `${i}`, label: `${i}` });
 
 const schema = yup.object().shape({
-   fonction: yup.string().required('Champ requis'),
+   fonction: yup
+      .string()
+      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'La fonction ne peut pas contenir de caractères spéciaux')
+      .required('Champ requis'),
    entreprise: yup.string().required('Champ requis'),
    aujourdhui: yup.boolean().required('Champ requis'),
    dateDebutMois: yup

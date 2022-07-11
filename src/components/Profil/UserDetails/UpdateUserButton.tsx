@@ -26,14 +26,21 @@ import { getLocalStorageToken } from '../../../utils/jwtToken';
 import InputFileField from '../../global/formikField/InputFileField';
 import { pathDomaineName } from '../../../utils/pathBackEnd';
 import { useUserStore } from '../../../store/useUserStore';
+import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
 
 const FILE_SIZE = 1000000;
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 const schema = yup.object().shape({
    email: yup.string().email('Format non valide pour un email...').required('Email requis...'),
-   nom: yup.string().required('Le nom est requis...'),
-   prenom: yup.string().required('Le prenom est requis...'),
+   nom: yup
+      .string()
+      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Le nom ne peut pas contenir de caractères spéciaux')
+      .required('Le nom est requis...'),
+   prenom: yup
+      .string()
+      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Le prenom ne peut pas contenir de caractères spéciaux')
+      .required('Le prenom est requis...'),
    dateDeNaissance: yup.date().typeError('Format non valide pour une date').min('1920-11-13', 'Date trop petite'),
    mentor: yup.boolean().typeError('Mentor ne peut être que vrai ou faux'),
    rechercheEmploi: yup.boolean().typeError('Recherche emploi ne peut être que vrai ou faux'),
@@ -100,10 +107,13 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
 
    const [__, exeUpdateUserMutation] = useMutation(udpateUserMutation);
    const submit = async (values: Values, { setSubmitting }: FormikHelpers<Values>): Promise<void> => {
-      const { file, ...rest } = values;
+      const { file, nom, prenom, ...rest } = values;
       const variables = {
          updateUserInput: {
             id,
+            // email: email.toLowerCase(),
+            nom: nom.charAt(0).toUpperCase() + nom.slice(1),
+            prenom: prenom.charAt(0).toUpperCase() + prenom.slice(1),
             ...rest,
             dateDeNaissance: values.dateDeNaissance === '' ? null : values.dateDeNaissance,
          },
@@ -112,22 +122,14 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
       setSubmitting(true);
       const { data, error } = await exeUpdateUserMutation(variables);
       const profilPictureName = await uploadProfilImg(file);
-
-      setUser({ ...user, ...values, profilPictureName: profilPictureName ?? user.profilPictureName });
-      if (id === idUserStore) setProfilPictureNameUserStore(profilPictureName ?? user.profilPictureName);
       setSubmitting(false);
 
       if (data && !error) {
-         toast({
-            title: 'Profil modifiée',
-            position: 'top',
-            status: 'success',
-            duration: 2000,
-            isClosable: true,
-         });
+         setUser({ ...user, ...variables.updateUserInput, profilPictureName: profilPictureName ?? user.profilPictureName });
+         if (id === idUserStore) setProfilPictureNameUserStore(profilPictureName ?? user.profilPictureName);
       }
-      if (error) console.log(error);
 
+      toastSuccessError(toast, 'Profil modifiée', 'Erreur modification', data, error);
       onClose();
    };
 

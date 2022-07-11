@@ -57,7 +57,9 @@ const schema = yup.object().shape({
       .typeError('Format non valide pour une date')
       .min('2000-01-25', 'Date trop petite')
       .required('Champ requis'),
-   description: yup.string().required('Champ requis'),
+   descriptionEntreprise: yup.string().required('Champ requis'),
+   descriptionPoste: yup.string().required('Champ requis'),
+   descriptionProfilCandidat: yup.string().required('Champ requis'),
 });
 
 export interface FormOffreEmploiCreateUpdateProps {
@@ -102,7 +104,24 @@ export function FormOffreEmploiCreateUpdate({
                      isRequired
                   />
 
-                  <TextAreaField label="description" name="description" placeholder="Description" isRequired />
+                  <TextAreaField
+                     label="Description entreprise"
+                     name="descriptionEntreprise"
+                     placeholder="Description entreprise"
+                     isRequired
+                  />
+                  <TextAreaField
+                     label="Description poste"
+                     name="descriptionPoste"
+                     placeholder="Description poste"
+                     isRequired
+                  />
+                  <TextAreaField
+                     label="Description profil candidat"
+                     name="descriptionProfilCandidat"
+                     placeholder="Description profil candidat"
+                     isRequired
+                  />
 
                   <HStack pt="5" justify="center" w="100%">
                      <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }} isLoading={isSubmitting}>
@@ -139,5 +158,7 @@ export interface ValuesOffreEmploi {
    emailContact: string;
    dateDebut: string;
    dateLimiteCandidature: string;
-   description: string;
+   descriptionEntreprise: string;
+   descriptionPoste: string;
+   descriptionProfilCandidat: string;
 }

@@ -67,7 +67,7 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
       { value: domaineActivite, label: 'Secteur:' },
       { value: typeContrat.slice(3), label: 'Type de contrat:' },
       { value: experienceSouhaitee.slice(3), label: 'Expérience souhaitée:' },
-      { value: remuneration, label: 'Rémunération:' },
+      { value: remuneration, label: 'Rémunération(brut annuel):' },
       { value: emailContact, label: 'Contact:' },
    ];
 
@@ -103,10 +103,10 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                   </ModalHeader>
                   <ModalCloseButton top="4" />
 
-                  <ModalBody fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} color="orange.400" p={{ base: '2', sm: '3' }}>
+                  <ModalBody fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} color="orange.400" p={{ base: '2', sm: '2' }}>
                      <SimpleGrid
                         columns={{ base: 1, sm: 2 }}
-                        maxW="650px"
+                        maxW="680px"
                         m="auto"
                         py="8"
                         pl={{ base: '2', sm: '3' }}
@@ -169,23 +169,21 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                         </VStack>
                      </SimpleGrid>
 
-                     <VStack maxW="650px" m="auto" spacing={0}>
+                     <VStack maxW="680px" m="auto" spacing={0}>
                         {description.map((el, i) => (
                            <Box key={el.title} bg={i % 2 == 0 ? bgPair : bgImpair} py="14" px="4" w="100%">
                               <Heading size="md" color={useColorModeValue('orange.500', 'orange.300')}>
                                  {el.title}
                               </Heading>
-                              <pre>
-                                 <Text
-                                    pt="6"
-                                    m="auto"
-                                    maxW="650"
-                                    fontSize="sm"
-                                    color={useColorModeValue('orange.400', 'orange.300')}
-                                 >
-                                    {el.value}
-                                 </Text>
-                              </pre>
+                              <Text
+                                 pt="6"
+                                 m="auto"
+                                 maxW="650px"
+                                 fontSize="sm"
+                                 color={useColorModeValue('orange.400', 'orange.300')}
+                              >
+                                 {el.value}
+                              </Text>
                            </Box>
                         ))}
 

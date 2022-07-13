@@ -93,7 +93,11 @@ export function FormOffreEmploiCreateUpdate({
                      isRequired
                   />
 
-                  <InputField name="remuneration" label="Rémunération" placeholder="Rémunération" />
+                  <InputField
+                     name="remuneration"
+                     label="Rémunération (brut annuel)"
+                     placeholder="Rémunération (brut annuel)"
+                  />
                   <InputField name="emailContact" label="Email contact" placeholder="Email contact" type="email" isRequired />
                   <InputField name="dateDebut" label="Date début" placeholder="Date début" type="date" isRequired />
                   <InputField

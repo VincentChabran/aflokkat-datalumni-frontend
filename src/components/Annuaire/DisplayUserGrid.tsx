@@ -1,5 +1,5 @@
-import { Box, SimpleGrid, Spinner } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'urql';
 import { useSelectUserDisplayStore } from '../../store/useSelectUserDisplayStore';
@@ -23,7 +23,6 @@ export interface UsersGrid {
            typeDiplome: string;
         }[]
       | null;
-
    experiencePro:
       | {
            id: number;
@@ -34,17 +33,25 @@ export interface UsersGrid {
 }
 
 export interface DisplayUserGridProps {
+   isCreated?: boolean;
+   setIsCreated?: React.Dispatch<React.SetStateAction<boolean>>;
    columns?: number[];
    slice?: number | undefined;
    mentor?: boolean;
 }
 
-export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = undefined, mentor = false }: DisplayUserGridProps) {
+export function DisplayUserGrid({
+   isCreated,
+   setIsCreated,
+   columns = [1, 1, 2, 3, 4],
+   slice = undefined,
+   mentor = false,
+}: DisplayUserGridProps) {
    const { setUsers, displayUsers, setDisplayUsers } = useSelectUserDisplayStore();
 
    const navigate = useNavigate();
 
-   const [{ data, fetching, error }] = useQuery({ query: usersQuery });
+   const [{ data, fetching, error }, reExeUsersQuery] = useQuery({ query: usersQuery });
 
    useEffect(() => {
       if (!fetching && !error && data) {
@@ -56,13 +63,12 @@ export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = undefined, 
       }
    }, [fetching]);
 
-   // const [load, setLoad] = useState(true);
-   // useEffect(() => {
-   //    const timer = setTimeout(() => {
-   //       setLoad(false);
-   //       clearTimeout(timer);
-   //    }, 1000);
-   // }, []);
+   useEffect(() => {
+      if (isCreated && setIsCreated) {
+         reExeUsersQuery({ requestPolicy: 'network-only' });
+         setIsCreated(false);
+      }
+   }, [isCreated]);
 
    return (
       <>
@@ -71,7 +77,7 @@ export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = undefined, 
          ) : !fetching && (displayUsers ? displayUsers.length <= 0 : !displayUsers) ? (
             <Box>Todo affichage utilisateur non trouvé</Box>
          ) : (
-            <SimpleGrid columns={columns} spacing={6} mx={{ base: 10, lg: 5, xl: 10 }}>
+            <SimpleGrid columns={columns} spacing={6} mx={{ base: 2, lg: 5, xl: 10 }}>
                {displayUsers?.slice(slice).map((user: UsersGrid) => (
                   <Box key={user.id} h="100%" onClick={() => navigate(`/profil/${user.id}`)} _hover={{ cursor: 'pointer' }}>
                      <UserCard user={user} />

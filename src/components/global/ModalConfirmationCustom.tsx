@@ -21,6 +21,7 @@ export interface ModalConfirmationCustomProps {
 
 export function ModalConfirmationCustom({ isOpen, onClose, handleValidate }: ModalConfirmationCustomProps) {
    const [confirm, setConfirm] = useState('');
+   const [isLoad, setIsLoad] = useState(false);
 
    useEffect(() => {
       setConfirm('');
@@ -49,9 +50,12 @@ export function ModalConfirmationCustom({ isOpen, onClose, handleValidate }: Mod
                <Button
                   isDisabled={confirm === 'confirmer' ? false : true}
                   colorScheme="green"
+                  isLoading={isLoad}
                   onClick={() => {
-                     onClose();
+                     setIsLoad(true);
                      handleValidate();
+                     setIsLoad(false);
+                     onClose();
                   }}
                >
                   Valider

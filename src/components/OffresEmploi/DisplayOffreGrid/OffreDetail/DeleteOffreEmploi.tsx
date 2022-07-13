@@ -12,6 +12,7 @@ export interface DeleteOffreEmploiProps {
 
 export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: DeleteOffreEmploiProps) {
    const [confirm, setConfirm] = useState('');
+   const [isLoad, setIsLoad] = useState(false);
 
    useEffect(() => {
       setConfirm('');
@@ -21,7 +22,10 @@ export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: Dele
 
    const [_, exeDeleteOffreEmploiMutation] = useMutation(deleteOffreEmploiMutation);
    const handleValidate = async (): Promise<void> => {
+      setIsLoad(true);
       const { data, error } = await exeDeleteOffreEmploiMutation({ removeOffreEmploiId: offreId });
+      setIsLoad(false);
+      onClose();
    };
 
    return (
@@ -44,10 +48,8 @@ export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: Dele
                isDisabled={confirm === 'confirmer' ? false : true}
                colorScheme="green"
                size={{ base: 'xs', sm: 'sm' }}
-               onClick={() => {
-                  onClose();
-                  handleValidate();
-               }}
+               onClick={() => handleValidate()}
+               isLoading={isLoad}
             >
                Valider
             </Button>

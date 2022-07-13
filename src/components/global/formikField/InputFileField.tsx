@@ -3,12 +3,13 @@ import { FieldHookConfig, useField } from 'formik';
 
 export type InputFieldProps = FieldHookConfig<string> & {
    label: string;
+   value: string;
    setFieldValue: any;
    placeholder?: string;
    isRequired?: boolean;
 };
 
-const InputFileField = ({ label, placeholder, setFieldValue, isRequired, ...props }: InputFieldProps) => {
+const InputFileField = ({ label, value, placeholder, setFieldValue, isRequired, ...props }: InputFieldProps) => {
    const [field, meta] = useField(props);
 
    const hasError = Boolean(meta.touched && meta.error);
@@ -33,7 +34,7 @@ const InputFileField = ({ label, placeholder, setFieldValue, isRequired, ...prop
                p="0"
                pt="2"
                onChange={(event) => {
-                  if (event.currentTarget.files) setFieldValue('file', event.currentTarget.files[0]);
+                  if (event.currentTarget.files) setFieldValue(value, event.currentTarget.files[0]);
                }}
             />
          </InputGroup>

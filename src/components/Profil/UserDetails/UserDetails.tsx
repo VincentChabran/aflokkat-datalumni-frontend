@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { useUserStore } from '../../../store/useUserStore';
 import { UserSpecifique } from '../../../views/Profil';
 import { UserCard } from '../../Annuaire/UserCard';
+import { ContactMentorMail } from './ContactMentorMail';
 import { DeleteUserButton } from './DeleteUserButton';
 import { UpdateUserButton } from './UpdateUserButton';
 
@@ -31,14 +32,22 @@ export function UserDetails({ user, setUser }: UserDetailsProps) {
                   borderCard={false}
                />
 
-               {/* Affiche la barre de settings que si c'est le bon user ou un admin */}
-               {(user.id === idUserStore || rolesUserStore.includes('Admin')) && (
-                  <Flex m={{ base: '0', xs: 'auto' }} justify="center" align="center" gap={{ base: 1, lg: 3 }}>
-                     <UpdateUserButton user={user} setUser={setUser} />
+               <Flex flexDir="column" justify="center" align="center" gap="3">
+                  {user.mentor && (
+                     <Box>
+                        <ContactMentorMail />
+                     </Box>
+                  )}
 
-                     <DeleteUserButton userId={user.id} />
-                  </Flex>
-               )}
+                  {/* Affiche la barre de settings que si c'est le bon user ou un admin */}
+                  {(user.id === idUserStore || rolesUserStore.includes('Admin')) && (
+                     <Flex justify="center" align="center" gap={{ base: 1, lg: 3 }}>
+                        <UpdateUserButton user={user} setUser={setUser} />
+
+                        <DeleteUserButton userId={user.id} />
+                     </Flex>
+                  )}
+               </Flex>
             </SimpleGrid>
          </Box>
       </VStack>

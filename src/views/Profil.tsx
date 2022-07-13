@@ -1,4 +1,4 @@
-import { Box, Spinner } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'urql';
@@ -66,14 +66,6 @@ export function Profil(props: ProfilProps) {
    }, [userId]);
 
    const bgBox = bgColor();
-
-   // const [load, setLoad] = useState(true);
-   // useEffect(() => {
-   //    const timer = setTimeout(() => {
-   //       setLoad(false);
-   //       clearTimeout(timer);
-   //    }, 1000);
-   // }, []);
 
    return (
       <>

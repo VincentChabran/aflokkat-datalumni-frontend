@@ -39,15 +39,16 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
       email: '',
       message: '',
       file: null,
+      file2: null,
    };
 
    const submit = async (values: ValuesMail, { setSubmitting }: FormikHelpers<any>) => {
       setSubmitting(true);
 
-      if (values.file) {
+      if (values.file && values.file2) {
          const formData = new FormData();
          const operations = {
-            query: 'mutation Mutation($createMailInput: CreateMailInput!, $file: Upload!) {\r\n  sendEmail(createMailInput: $createMailInput, file: $file)\r\n}',
+            query: 'mutation Mutation($createMailInput: CreateMailInput!, $file: Upload!, $file2: Upload!) {\r\n  sendEmailPostulerOffre(createMailInput: $createMailInput, file: $file, file2: $file2)\r\n}',
             variables: {
                createMailInput: {
                   nomDuPoste,
@@ -58,16 +59,18 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
                   message: values.message,
                },
                file: null,
+               file2: null,
             },
          };
-         const map = { 0: ['variables.file'] };
+         const map = { 0: ['variables.file'], 1: ['variables.file2'] };
 
          formData.append('operations', JSON.stringify(operations));
          formData.append('map', JSON.stringify(map));
          formData.append('0', values.file);
+         formData.append('1', values.file2);
 
          try {
-            await axios({
+            const res = await axios({
                method: 'post',
                url: `${pathDomaineName}/graphql`,
                data: formData,
@@ -83,6 +86,7 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
                position: 'top',
                isClosable: true,
             });
+            console.log(res);
          } catch (error) {
             console.log(error);
             toast({
@@ -114,7 +118,14 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
 
                         <TextAreaField name="message" label="message" placeholder="Message" />
 
-                        <InputFileField label="Cv" name="file" setFieldValue={setFieldValue} isRequired />
+                        <InputFileField label="Cv" name="file" value="file" setFieldValue={setFieldValue} isRequired />
+                        <InputFileField
+                           label="Lettre de motivation"
+                           name="file2"
+                           value="file2"
+                           setFieldValue={setFieldValue}
+                           isRequired
+                        />
 
                         <HStack pt="5" justify="center" w="100%">
                            <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }} isLoading={isSubmitting}>
@@ -148,4 +159,5 @@ interface ValuesMail {
    email: string;
    message: string;
    file: null;
+   file2: null;
 }

@@ -6,7 +6,7 @@ export function Accueil() {
    return (
       <Box py="10" px="2">
          <Heading textAlign="center" borderBottom="1px solid orange" mb="8">
-            Ils ont récemment rejoint
+            Ils ont récemment rejoint mon réseau
          </Heading>
 
          <DisplayUserGrid slice={-4} />

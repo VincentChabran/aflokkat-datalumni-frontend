@@ -171,7 +171,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
                                  />
                               </HStack>
 
-                              <InputFileField label="profil image" name="file" setFieldValue={setFieldValue} />
+                              <InputFileField label="profil image" name="file" value="file" setFieldValue={setFieldValue} />
 
                               <HStack pt="5">
                                  <Button

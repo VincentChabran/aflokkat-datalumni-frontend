@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, SimpleGrid, VStack } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
+import { useParams } from 'react-router-dom';
 import { useUserStore } from '../../../store/useUserStore';
 import { UserSpecifique } from '../../../views/Profil';
 import { UserCard } from '../../Annuaire/UserCard';
@@ -13,6 +14,9 @@ export interface UserDetailsProps {
 }
 
 export function UserDetails({ user, setUser }: UserDetailsProps) {
+   const { userId } = useParams();
+   console.log(userId);
+
    const { idUserStore, rolesUserStore } = useUserStore();
 
    return (
@@ -33,9 +37,9 @@ export function UserDetails({ user, setUser }: UserDetailsProps) {
                />
 
                <Flex flexDir="column" justify="center" align="center" gap="3">
-                  {user.mentor && (
+                  {user.mentor && parseInt(userId ?? '') !== idUserStore && (
                      <Box>
-                        <ContactMentorMail />
+                        <ContactMentorMail to={user.email} />
                      </Box>
                   )}
 

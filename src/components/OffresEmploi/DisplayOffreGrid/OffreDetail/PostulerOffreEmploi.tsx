@@ -12,8 +12,14 @@ import TextAreaField from '../../../global/formikField/TextAreaField';
 const SUPPORTED_FORMATS = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'];
 
 const schema = yup.object().shape({
-   nom: yup.string().required('Champ requis'),
-   prenom: yup.string().required('Champ requis'),
+   nom: yup
+      .string()
+      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Le nom ne peut pas contenir de caractères spéciaux')
+      .required('Le nom est requis...'),
+   prenom: yup
+      .string()
+      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Le prenom ne peut pas contenir de caractères spéciaux')
+      .required('Le prenom est requis...'),
    email: yup.string().email('Format non valide pour un email...').required('Champ requis'),
    message: yup.string(),
    file: yup
@@ -21,6 +27,11 @@ const schema = yup.object().shape({
       .test('fileSize', 'File too large', (value) => (value ? value.size <= 7000000 : true))
       .test('fileFormat', 'Unsupported Format', (value) => (value ? SUPPORTED_FORMATS.includes(value.type) : true))
       .required('Cv requis'),
+   file2: yup
+      .mixed()
+      .test('fileSize', 'File too large', (value) => (value ? value.size <= 7000000 : true))
+      .test('fileFormat', 'Unsupported Format', (value) => (value ? SUPPORTED_FORMATS.includes(value.type) : true))
+      .required('Lettre de motivation requise'),
 });
 
 export interface PostulerOffreEmploiProps {

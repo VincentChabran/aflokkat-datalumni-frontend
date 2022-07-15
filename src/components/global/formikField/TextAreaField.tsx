@@ -6,18 +6,19 @@ export type InputFieldProps = FieldHookConfig<string> & {
    label: string;
    placeholder?: string;
    isRequired?: boolean;
+   hidden?: boolean;
    icon?: ReactJSXElement;
    variant?: string;
    size?: string | {};
 };
 
-const TextAreaField = ({ label, placeholder, isRequired, icon, variant, size, ...props }: InputFieldProps) => {
+const TextAreaField = ({ label, placeholder, isRequired, hidden, icon, variant, size, ...props }: InputFieldProps) => {
    const [field, meta] = useField(props);
 
    const hasError = Boolean(meta.touched && meta.error);
 
    return (
-      <FormControl isInvalid={hasError} maxW="600px">
+      <FormControl isInvalid={hasError} maxW="600px" hidden={hidden}>
          {/* <FormControl isInvalid={hasError} isRequired={isRequired}> */}
          <FormLabel htmlFor={field.name} m="0" pl={0} fontWeight="bold" fontSize="sm">
             {label.charAt(0).toUpperCase() + label.slice(1)}

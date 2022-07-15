@@ -2,6 +2,7 @@ import { Button, HStack, VStack } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
 import * as yup from 'yup';
+import { optionsSecteurActiviter } from '../../utils/tabOptionsSecteurActiviter';
 import InputField from '../global/formikField/InputField';
 import SelectField from '../global/formikField/SelectField';
 import TextAreaField from '../global/formikField/TextAreaField';
@@ -32,7 +33,12 @@ const schema = yup.object().shape({
    nomDuPoste: yup.string().required('Champ requis'),
    nomEntreprise: yup.string().required('Champ requis'),
    ville: yup.string().required('Champ requis'),
-   domaineActivite: yup.string().required('Champ requis'),
+   domaineActivite: yup
+      .number()
+      .min(1, 'La valeur minimum est de 1')
+      .max(optionsSecteurActiviter.length, `La valeur maximum est de ${optionsSecteurActiviter.length}`)
+      .required('Champs requis')
+      .typeError(`La valeur dois étre entre 01 et ${optionsSecteurActiviter.length}`),
    typeContrat: yup
       .number()
       .min(1, 'La valeur minimum est de 1')
@@ -83,8 +89,14 @@ export function FormOffreEmploiCreateUpdate({
                   <InputField name="nomDuPoste" label="Nom du poste" placeholder="Nom du poste" isRequired />
                   <InputField name="nomEntreprise" label="Nom de l'entreprise" placeholder="Nom de l'entreprise" isRequired />
                   <InputField name="ville" label="nom de la ville" placeholder="Nom de la ville" isRequired />
-                  <InputField name="domaineActivite" label="Secteur d'activité" placeholder="Secteur d'activité" isRequired />
 
+                  {/* <InputField name="domaineActivite" label="Secteur d'activité" placeholder="Secteur d'activité" isRequired /> */}
+                  <SelectField
+                     name="domaineActivite"
+                     label="Secteur d'activité"
+                     options={optionsSecteurActiviter}
+                     isRequired
+                  />
                   <SelectField name="typeContrat" label="Type de contrat" options={optionsTypeContrat} isRequired />
                   <SelectField
                      name="experienceSouhaitee"

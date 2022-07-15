@@ -59,9 +59,9 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
       if (values.file && values.file2) {
          const formData = new FormData();
          const operations = {
-            query: 'mutation Mutation($createMailInput: CreateMailInput!, $file: Upload!, $file2: Upload!) {\r\n  sendEmailPostulerOffre(createMailInput: $createMailInput, file: $file, file2: $file2)\r\n}',
+            query: 'mutation Mutation($createMailPostulerOffreInput: CreateMailPostulerOffreInput!, $file: Upload!, $file2: Upload!) {\r\n  sendEmailPostulerOffre(createMailPostulerOffreInput: $createMailPostulerOffreInput, file: $file, file2: $file2)\r\n}',
             variables: {
-               createMailInput: {
+               createMailPostulerOffreInput: {
                   nomDuPoste,
                   destinataire: emailContact,
                   nom: values.nom,
@@ -97,7 +97,6 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
                position: 'top',
                isClosable: true,
             });
-            console.log(res);
          } catch (error) {
             console.log(error);
             toast({

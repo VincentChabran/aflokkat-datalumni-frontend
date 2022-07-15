@@ -32,7 +32,7 @@ const SelectField = ({
 
    return (
       <FormControl isInvalid={hasError} maxW="600px">
-         <FormLabel htmlFor={field.name} m="0" pl={0} fontWeight="bold" fontSize="sm">
+         <FormLabel htmlFor={field.name} mb="1" pl={0} fontWeight="bold" fontSize="sm">
             {label.charAt(0).toUpperCase() + label.slice(1)}
             {isRequired && (
                <Text as="span" pl="2" color="red.300" display="inline">

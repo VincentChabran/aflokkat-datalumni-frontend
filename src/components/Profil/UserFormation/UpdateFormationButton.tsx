@@ -12,10 +12,15 @@ import {
 import { FormikHelpers } from 'formik';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { OperationContext, useMutation } from 'urql';
-import { formatObtention } from '../../../tools/functions/formatObtentionForFormation';
 import { formatOptionsRender } from '../../../tools/functions/formatOptionsRender';
 import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
-import { FormFormationCreateUpdate, optionsDiplome, ValuesFormation } from './FormFormationCreateUpdate';
+import { optionsSecteurActiviter } from '../../../utils/tabOptionsSecteurActiviter';
+import {
+   FormFormationCreateUpdate,
+   optionsDiplome,
+   optionsObtentionOuNon,
+   ValuesFormation,
+} from './FormFormationCreateUpdate';
 
 export interface UpdateFormationButtonProps {
    formation: {
@@ -43,13 +48,13 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
       typeDiplome: typeDiplome.slice(0, 2),
       obtention: obtention.slice(0, 2),
       anneeObtention: anneeObtention.toString(),
-      domaineActivite,
+      domaineActivite: domaineActivite.slice(0, 2),
       description: description ?? '',
    };
 
    const [_, exeUpdataFormationMutation] = useMutation(updateFormationMutation);
    const submit = async (values: ValuesFormation, { setSubmitting }: FormikHelpers<ValuesFormation>): Promise<void> => {
-      const { typeDiplome, obtention, anneeObtention, nomFormation, nomEtablissement, ...rest } = values;
+      const { typeDiplome, obtention, anneeObtention, nomFormation, nomEtablissement, domaineActivite, ...rest } = values;
 
       const variables = {
          updateFormationInput: {
@@ -59,7 +64,8 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
             ...rest,
             anneeObtention: parseInt(anneeObtention),
             typeDiplome: formatOptionsRender(optionsDiplome, parseInt(typeDiplome)),
-            obtention: formatObtention(parseInt(obtention)),
+            obtention: formatOptionsRender(optionsObtentionOuNon, parseInt(obtention)),
+            domaineActivite: formatOptionsRender(optionsSecteurActiviter, parseInt(domaineActivite)),
          },
       };
 

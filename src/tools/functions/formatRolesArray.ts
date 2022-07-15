@@ -1,3 +1,4 @@
+// Pour l'attribution des roles au moment de la création du user
 export const formatRolesArray = (
    Admin: boolean,
    Equipe_administrative: boolean,

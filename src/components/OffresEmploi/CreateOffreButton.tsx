@@ -16,6 +16,7 @@ import { useMutation } from 'urql';
 import { useUserStore } from '../../store/useUserStore';
 import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
 import { toastSuccessError } from '../../tools/functions/toastSuccessError';
+import { optionsSecteurActiviter } from '../../utils/tabOptionsSecteurActiviter';
 import {
    FormOffreEmploiCreateUpdate,
    optionsExperienceSouhaitee,
@@ -35,7 +36,7 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
       nomDuPoste: '',
       nomEntreprise: '',
       ville: '',
-      domaineActivite: '',
+      domaineActivite: '01',
       typeContrat: '01',
       experienceSouhaitee: '04',
       remuneration: 'Non renseigné',
@@ -50,12 +51,14 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
    const [_, exeCreateOffreEmploiMutation] = useMutation(createOffreEmploiMutation);
 
    const submit = async (values: ValuesOffreEmploi, { setSubmitting }: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
-      const { typeContrat, experienceSouhaitee, ...rest } = values;
+      const { typeContrat, experienceSouhaitee, domaineActivite, ...rest } = values;
+
       const variables = {
          createOffreEmploiInput: {
             ...rest,
             typeContrat: formatOptionsRender(optionsTypeContrat, parseInt(typeContrat)),
             experienceSouhaitee: formatOptionsRender(optionsExperienceSouhaitee, parseInt(experienceSouhaitee)),
+            domaineActivite: formatOptionsRender(optionsSecteurActiviter, parseInt(domaineActivite)),
             userCreateurId: idUserStore,
          },
       };

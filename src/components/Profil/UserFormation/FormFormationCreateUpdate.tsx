@@ -1,10 +1,12 @@
 import { Button, HStack, VStack } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
+import { optionsSecteurActiviter } from '../../../utils/tabOptionsSecteurActiviter';
 import InputField from '../../global/formikField/InputField';
 import SelectField from '../../global/formikField/SelectField';
 import TextAreaField from '../../global/formikField/TextAreaField';
 
+// type de Diplome
 export const optionsDiplome = [
    { value: '01', label: 'CAP' },
    { value: '02', label: 'Brevet Technique des Métiers(BTM)' },
@@ -22,12 +24,14 @@ export const optionsDiplome = [
    { value: '14', label: 'Doctorat' },
 ];
 
-export const optionsObtention = [
-   { value: '00', label: "Je suis en cours d'obtention" },
+// Obtention ou non
+export const optionsObtentionOuNon = [
    { value: '01', label: "J'ai obtenu mon diplôme" },
    { value: '02', label: "Je n'ai pas obtenu le diplôme" },
+   { value: '03', label: "Je suis en cours d'obtention" },
 ];
 
+// Option pour l'année obtention formation
 const anneeMin = 1960;
 const anneeMax = 2026;
 export const optionsAnneeObtention = [{ value: `${anneeMin}`, label: `${anneeMax}` }];
@@ -42,14 +46,19 @@ const schema = yup.object().shape({
       .max(optionsDiplome.length, `La valeur maximum est de ${optionsDiplome.length}`)
       .required('Champs requis')
       .typeError(`La valeur dois étre entre 01 et ${optionsDiplome.length}`),
-   obtention: yup.number().min(0).max(2).required('Champ requis').typeError('La valeur dois étre entre 00 et 02'),
+   obtention: yup.number().min(1).max(3).required('Champ requis').typeError('La valeur dois étre entre 01 et 03'),
    anneeObtention: yup
       .number()
       .min(anneeMin, `La valeur min est ${anneeMin}`)
       .max(anneeMax, `La valeur min est ${anneeMax}`)
       .required('Champ requis')
       .typeError(`La valeur dois étre entre ${anneeMin} et ${anneeMax}`),
-   domaineActivite: yup.string().required('Champ requis'),
+   domaineActivite: yup
+      .number()
+      .min(1, 'La valeur minimum est de 1')
+      .max(optionsSecteurActiviter.length, `La valeur maximum est de ${optionsSecteurActiviter.length}`)
+      .required('Champs requis')
+      .typeError(`La valeur dois étre entre 01 et ${optionsSecteurActiviter.length}`),
    description: yup.string(),
 });
 
@@ -74,10 +83,15 @@ export function FormFormationCreateUpdate({ initialValues, submit, onClose }: Fo
                   />
 
                   <SelectField name="typeDiplome" label="type de diplôme" options={optionsDiplome} isRequired />
-                  <SelectField name="obtention" label="obtention" options={optionsObtention} isRequired />
+                  <SelectField name="obtention" label="obtention" options={optionsObtentionOuNon} isRequired />
                   <SelectField name="anneeObtention" label="année d'obtention" options={optionsAnneeObtention} isRequired />
 
-                  <InputField name="domaineActivite" label="domaine d'activité" isRequired />
+                  <SelectField
+                     name="domaineActivite"
+                     label="domaine d'activité"
+                     options={optionsSecteurActiviter}
+                     isRequired
+                  />
 
                   <TextAreaField label="description" name="description" placeholder="Description" />
 

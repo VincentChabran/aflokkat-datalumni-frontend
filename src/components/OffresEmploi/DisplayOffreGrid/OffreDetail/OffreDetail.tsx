@@ -64,7 +64,7 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
    ];
 
    const displayLeftSide = [
-      { value: domaineActivite, label: 'Secteur:' },
+      { value: domaineActivite.slice(3), label: 'Secteur:' },
       { value: typeContrat.slice(3), label: 'Type de contrat:' },
       { value: experienceSouhaitee.slice(3), label: 'Expérience souhaitée:' },
       { value: remuneration, label: 'Rémunération(brut annuel):' },

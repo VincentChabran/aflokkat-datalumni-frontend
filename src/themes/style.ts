@@ -21,6 +21,7 @@ export const styles = {
          backgroundColor: '#1A202C',
          borderRadius: '24px',
       },
+      ...editor,
       // "*::placeholder": {
       //    color: mode("gray.400", "whiteAlpha.400")(props),
       // },
@@ -29,4 +30,41 @@ export const styles = {
       //    wordWrap: "break-word",
       // },
    }),
+};
+
+const editor = {
+   h1: {
+      fontSize: '32px',
+      fontWeight: 'bold',
+   },
+   h2: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+   },
+   h3: {
+      fontSize: '19px',
+      fontWeight: 'bold',
+   },
+   h4: {
+      fontSize: '16px',
+      fontWeight: 'bold',
+   },
+   h5: {
+      fontSize: '13',
+      fontWeight: 'bold',
+   },
+   h6: {
+      fontSize: '10',
+      fontWeight: 'bold',
+   },
+   blockquote: {
+      fontStyle: 'normal',
+      marginLeft: '32px',
+      fontFamily: 'Segoe Print, Times New Roman, Verdana',
+      paddingLeft: '48px',
+      minHeight: '30px',
+   },
+   ul: {
+      paddingLeft: '10',
+   },
 };

@@ -12,6 +12,7 @@ import {
    ValuesOffreEmploi,
 } from '../../FormOffreEmploiCreateUpdate';
 import { toastSuccessError } from '../../../../tools/functions/toastSuccessError';
+import { optionsSecteurActiviter } from '../../../../utils/tabOptionsSecteurActiviter';
 
 export interface UpdateOffreEmploiProps {
    offre: OffreGrid;
@@ -44,7 +45,7 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       nomDuPoste,
       nomEntreprise,
       ville,
-      domaineActivite,
+      domaineActivite: domaineActivite.slice(0, 2),
       typeContrat: typeContrat.slice(0, 2),
       experienceSouhaitee: experienceSouhaitee.slice(0, 2),
       remuneration,
@@ -68,9 +69,9 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
             nomDuPoste: nomDuPoste.charAt(0).toUpperCase() + nomDuPoste.slice(1),
             nomEntreprise: nomEntreprise.charAt(0).toUpperCase() + nomEntreprise.slice(1),
             ville: ville.charAt(0).toUpperCase() + ville.slice(1),
-            domaineActivite: domaineActivite.charAt(0).toUpperCase() + domaineActivite.slice(1),
             emailContact: emailContact.toLocaleLowerCase(),
             ...rest,
+            domaineActivite: formatOptionsRender(optionsSecteurActiviter, parseInt(domaineActivite)),
             typeContrat: formatOptionsRender(optionsTypeContrat, parseInt(typeContrat)),
             experienceSouhaitee: formatOptionsRender(optionsExperienceSouhaitee, parseInt(experienceSouhaitee)),
          },

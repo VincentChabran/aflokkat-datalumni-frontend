@@ -10,6 +10,8 @@ import { getLocalStorageToken } from './utils/jwtToken';
 import { Profil } from './views/Profil';
 import { APropos } from './views/APropos';
 import { OffresEmploi } from './views/OffresEmploi';
+import { Actualites } from './views/Actualites';
+import { CreateActualites } from './components/Actualites/CreateActualites';
 
 function App() {
    const navigate = useNavigate();
@@ -42,6 +44,9 @@ function App() {
                      <Route path="/annuaire" element={<Annuaire />} />
                      <Route path="/offresemploi" element={<OffresEmploi />} />
                      <Route path="/apropos" element={<APropos />} />
+
+                     <Route path="/actualites" element={<Actualites />} />
+                     <Route path="/actualites/crer" element={<CreateActualites />} />
 
                      <Route path="/profil/:userId" element={<Profil />} />
 

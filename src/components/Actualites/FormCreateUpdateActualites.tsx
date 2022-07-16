@@ -39,7 +39,7 @@ export function FormCreateUpdateActualites({ initialValues, submit, setContentSt
                      <SelectField name="categorie" label="Catègorie" options={optionsCategorie} isRequired />
                   </SimpleGrid>
 
-                  <InputFileField name="file" label="Image" value="file" setFieldValue={setFieldValue} />
+                  <InputFileField name="file" label="Image" value="file" setFieldValue={setFieldValue} isRequired />
 
                   <TextAreaField label="content" name="content" placeholder="content" isRequired hidden />
                   <Editor

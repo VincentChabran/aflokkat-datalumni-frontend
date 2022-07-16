@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bgColor } from '../../themes/constants/bgColor';
 import { FormCreateUpdateActualites, optionsCategorie, ValuesActualies } from './FormCreateUpdateActualites';
-import { useMutation } from 'urql';
 import { getLocalStorageToken } from '../../utils/jwtToken';
 import axios from 'axios';
 import { pathDomaineName } from '../../utils/pathBackEnd';
 import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
 import { useUserStore } from '../../store/useUserStore';
+import { useActualitesCreateStore } from '../../store/useActualitesCreateStore';
 
 export interface CreateActualitesProps {}
 
@@ -19,6 +19,7 @@ export function CreateActualites(props: CreateActualitesProps) {
    const toast = useToast();
 
    const { idUserStore } = useUserStore();
+   const { setIsCreated } = useActualitesCreateStore();
 
    const [contentState, setContentState] = useState('');
    useEffect(() => () => setContentState(''), []);
@@ -64,16 +65,18 @@ export function CreateActualites(props: CreateActualitesProps) {
                },
             });
             toast({
-               title: 'Mail envoyée',
+               title: 'Actualité crée',
                status: 'success',
                duration: 3000,
                position: 'top',
                isClosable: true,
             });
+
+            setIsCreated(true);
          } catch (error) {
             console.log(error);
             toast({
-               title: 'Mail error',
+               title: 'Erreur création',
                status: 'error',
                duration: 3000,
                position: 'top',

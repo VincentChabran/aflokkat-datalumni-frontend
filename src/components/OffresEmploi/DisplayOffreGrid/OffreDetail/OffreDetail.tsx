@@ -97,7 +97,9 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                      />
 
                      <VStack>
-                        <Heading pt="2">{nomDuPoste}</Heading>
+                        <Heading p="0" pt="2">
+                           {nomDuPoste}
+                        </Heading>
                         <Text fontSize="lg">{`${nomEntreprise} - ${ville}`}</Text>
                      </VStack>
                   </ModalHeader>
@@ -114,7 +116,7 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                         borderTopRadius="md"
                      >
                         <VStack align="start">
-                           <UnorderedList>
+                           <UnorderedList pl="0">
                               {displayLeftSide.map((el) => (
                                  <ListItem key={el.label}>
                                     {el.label + ' '}
@@ -127,7 +129,7 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                         </VStack>
 
                         <VStack align="start">
-                           <UnorderedList>
+                           <UnorderedList pl="1">
                               <ListItem>
                                  Date de début{' '}
                                  <Text as="span" sx={cssSpan()}>
@@ -172,7 +174,7 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                      <VStack maxW="680px" m="auto" spacing={0}>
                         {description.map((el, i) => (
                            <Box key={el.title} bg={i % 2 == 0 ? bgPair : bgImpair} py="14" px="4" w="100%">
-                              <Heading size="md" color={useColorModeValue('orange.500', 'orange.300')}>
+                              <Heading size="md" color={useColorModeValue('orange.500', 'orange.300')} p="0">
                                  {el.title}
                               </Heading>
                               <Text

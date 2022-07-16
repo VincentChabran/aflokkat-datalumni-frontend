@@ -1,6 +1,5 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Box, Button, VStack } from '@chakra-ui/react';
-import parse from 'html-react-parser';
 import { useNavigate } from 'react-router-dom';
 import { DisplayActualitesGrid } from '../components/Actualites/DisplayActualitesGrid';
 
@@ -16,10 +15,10 @@ export function Actualites(props: IActualitesProps) {
                size={{ base: 'xs', sm: 'sm' }}
                variant="outline"
                colorScheme="green"
-               onClick={() => navigate('/actualites/crer')}
+               onClick={() => navigate('/actualites/create')}
                leftIcon={<AddIcon />}
             >
-               Crer un article
+               Ajouter un article
             </Button>
          </VStack>
 

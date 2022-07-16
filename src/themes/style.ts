@@ -36,14 +36,17 @@ const editor = {
    h1: {
       fontSize: '32px',
       fontWeight: 'bold',
+      py: '6',
    },
    h2: {
       fontSize: '24px',
       fontWeight: 'bold',
+      py: '6',
    },
    h3: {
       fontSize: '19px',
       fontWeight: 'bold',
+      py: '6',
    },
    h4: {
       fontSize: '16px',
@@ -59,12 +62,15 @@ const editor = {
    },
    blockquote: {
       fontStyle: 'normal',
-      marginLeft: '32px',
+      marginLeft: '10px',
       fontFamily: 'Segoe Print, Times New Roman, Verdana',
-      paddingLeft: '48px',
+      paddingLeft: '20px',
       minHeight: '30px',
    },
    ul: {
-      paddingLeft: '10',
+      paddingLeft: '8',
+   },
+   ol: {
+      paddingLeft: '8',
    },
 };

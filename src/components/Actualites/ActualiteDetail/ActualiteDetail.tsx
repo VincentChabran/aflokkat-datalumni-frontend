@@ -1,0 +1,113 @@
+import { Badge, Box, Button, Heading, HStack, Image, Spacer, Spinner, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery } from 'urql';
+import parse from 'html-react-parser';
+import { bgColor } from '../../../themes/constants/bgColor';
+import { pathBlogImg, pathDomaineName } from '../../../utils/pathBackEnd';
+import { ActualiteGrid } from '../DisplayActualitesGrid';
+import { UpdateActuButton } from './UpdateActuButton';
+import { DeleteActuButton } from './DeleteActuButton';
+import { formatDateDdMmYyyy } from '../../../tools/functions/formatDateDdMmYyyy';
+import { BsFillPencilFill } from 'react-icons/bs';
+
+export interface ActualiteDetailProps {}
+
+export function ActualiteDetail(props: ActualiteDetailProps) {
+   const { blogId } = useParams();
+   const navigate = useNavigate();
+
+   const [display, setDisplay] = useState('detail');
+   const [blog, setBlog] = useState<ActualiteGrid>();
+
+   const [{ data, fetching, error }] = useQuery({ query: blogQuery, variables: { blogId: parseInt(blogId ?? '') } });
+
+   useEffect(() => {
+      console.log(data);
+      if (!fetching && data) setBlog(data.blog);
+   }, [fetching]);
+
+   const bgBox = bgColor();
+
+   return (
+      <>
+         {fetching ? (
+            <Spinner />
+         ) : !blog ? (
+            <Box>TODO R</Box>
+         ) : (
+            <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 16 }}>
+               {display === 'detail' && (
+                  <>
+                     <Box bgColor={bgBox} borderRadius="lg" pb="4">
+                        <Image
+                           src={`${pathDomaineName}/${pathBlogImg}/${blog?.pathImg}`}
+                           alt="Image article"
+                           // m="auto"
+                           maxH="500px"
+                           w="100%"
+                           objectFit="cover"
+                           borderTopRadius="lg"
+                        />
+
+                        <Box p={{ base: 3, sm: 8 }}>
+                           <Heading>{blog?.title}</Heading>
+
+                           <Box>{parse(blog?.content)}</Box>
+
+                           <HStack mt="12">
+                              <Badge variant="outline" colorScheme="orange" borderRadius="md">
+                                 {blog.categorie.slice(3)}
+                              </Badge>
+                              <Spacer />
+
+                              <Text>Écrit par</Text>
+                              <Text
+                                 fontWeight="bold"
+                                 _hover={{ cursor: 'pointer' }}
+                                 onClick={() => navigate(`/profil/${blog.userCreateur.id}`)}
+                              >{` ${blog.userCreateur.prenom} ${blog.userCreateur.nom}`}</Text>
+                              <Text fontSize="15px">le {formatDateDdMmYyyy(blog.dateCreation)}</Text>
+                           </HStack>
+                        </Box>
+                     </Box>
+
+                     <HStack justify="center">
+                        <Button
+                           variant="outline"
+                           colorScheme="purple"
+                           leftIcon={<BsFillPencilFill />}
+                           size={{ base: 'xs', xs: 'sm', lg: 'md' }}
+                        >
+                           Modifier
+                        </Button>
+
+                        <DeleteActuButton />
+                     </HStack>
+                  </>
+               )}
+               
+               <UpdateActuButton />
+            </Box>
+         )}
+      </>
+   );
+}
+
+const blogQuery = `
+query Blog($blogId: Int!) {
+   blog(id: $blogId) {
+     id
+     title
+     categorie
+     content
+     pathImg
+     dateCreation
+     userCreateur {
+       id
+       nom
+       prenom
+     }
+   }
+ }
+`;

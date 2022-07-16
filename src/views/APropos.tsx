@@ -14,7 +14,7 @@ export function APropos(props: AProposProps) {
             bg={bgColor()}
             gap="10"
          >
-            <Heading>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, numquam.</Heading>
+            <Heading p="0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, numquam.</Heading>
 
             <Text>
                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore quis voluptas dolorem beatae facilis nesciunt!

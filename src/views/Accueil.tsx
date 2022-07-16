@@ -5,7 +5,7 @@ import { DisplayOffreGrid } from '../components/OffresEmploi/DisplayOffreGrid/Di
 export function Accueil() {
    return (
       <Box py="10" px="2">
-         <Heading textAlign="center" borderBottom="1px solid orange" mb="8">
+         <Heading textAlign="center" borderBottom="1px solid orange" mb="8" p="0">
             Ils ont récemment rejoint mon réseau
          </Heading>
 
@@ -19,7 +19,7 @@ export function Accueil() {
             </GridItem>
          </Grid> */}
          <VStack w="100%" align="stretch">
-            <Heading textAlign="center" borderBottom="1px solid orange" mb="8">
+            <Heading textAlign="center" borderBottom="1px solid orange" mb="8" p="0">
                Dernières annonces publiées
             </Heading>
 

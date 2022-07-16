@@ -29,7 +29,9 @@ export function OffreCard({ offre }: OffreCardProps) {
             _hover={{ cursor: 'pointer' }}
          >
             <Grid templateColumns={'2fr 1fr'} w="100%">
-               <Heading size="md">{nomDuPoste}</Heading>
+               <Heading size="md" p="2">
+                  {nomDuPoste}
+               </Heading>
                <Text fontSize="sm" textAlign="center" my="auto">{`Crée le ${formatDateDdMmYyyy(dateCreation)}`}</Text>
             </Grid>
 

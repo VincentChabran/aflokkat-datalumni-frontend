@@ -21,7 +21,7 @@ export function UserDetails({ user, setUser }: UserDetailsProps) {
    return (
       <VStack>
          <Box w="100%">
-            <Heading borderBottom="1px solid orange" letterSpacing="bold" size="lg" mb="5">
+            <Heading borderBottom="1px solid orange" letterSpacing="bold" size="lg" mb="5" p="0">
                Profil
             </Heading>
 

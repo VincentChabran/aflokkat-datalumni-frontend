@@ -107,11 +107,11 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
 
    const [__, exeUpdateUserMutation] = useMutation(udpateUserMutation);
    const submit = async (values: Values, { setSubmitting }: FormikHelpers<Values>): Promise<void> => {
-      const { file, nom, prenom, ...rest } = values;
+      const { file, nom, prenom, email, ...rest } = values;
       const variables = {
          updateUserInput: {
             id,
-            // email: email.toLowerCase(),
+            email: email.toLowerCase(),
             nom: nom.charAt(0).toUpperCase() + nom.slice(1),
             prenom: prenom.charAt(0).toUpperCase() + prenom.slice(1),
             ...rest,

@@ -20,7 +20,7 @@ export function UserExperiencePro({ user, reExeSpecifiqueUserQuery }: UserExperi
    return (
       <VStack mt="16">
          <Box w="100%">
-            <Heading borderBottom="1px solid orange" letterSpacing="bold" size="lg" mb="1">
+            <Heading borderBottom="1px solid orange" letterSpacing="bold" size="lg" mb="1" p="0">
                Expériences professionnelles
             </Heading>
 

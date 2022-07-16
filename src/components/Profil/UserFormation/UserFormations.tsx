@@ -18,7 +18,7 @@ export function UserFormations({ user, reExeSpecifiqueUserQuery }: UserFormation
    return (
       <VStack mt="8">
          <Box w="100%">
-            <Heading borderBottom="1px solid orange" letterSpacing="bold" size="lg" mb="1">
+            <Heading borderBottom="1px solid orange" letterSpacing="bold" size="lg" mb="1" p="0">
                Formations
             </Heading>
 

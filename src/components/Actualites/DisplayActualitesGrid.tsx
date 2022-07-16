@@ -1,6 +1,7 @@
 import { Box, SimpleGrid, Spinner } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useQuery } from 'urql';
+import { useActualitesCreateStore } from '../../store/useActualitesCreateStore';
 import { BlogCard } from './BlogCard';
 
 export interface ActualiteGrid {
@@ -20,13 +21,21 @@ export interface ActualiteGrid {
 export interface DisplayActualitesGridProps {}
 
 export function DisplayActualitesGrid(props: DisplayActualitesGridProps) {
+   const { isCreated, setIsCreated } = useActualitesCreateStore();
+
    const [{ data, fetching, error }, reExeBlogsQuery] = useQuery({ query: blogsQuery });
-   console.log(data);
 
    useEffect(() => {
       if (!fetching && !error && data) {
       }
    }, [fetching]);
+
+   useEffect(() => {
+      if (isCreated) {
+         reExeBlogsQuery({ requestPolicy: 'network-only' });
+         setIsCreated(false);
+      }
+   }, [isCreated]);
 
    return (
       <>
@@ -35,19 +44,11 @@ export function DisplayActualitesGrid(props: DisplayActualitesGridProps) {
          ) : !data ? (
             <Box>TODO Aucun résultat</Box>
          ) : (
-            <SimpleGrid columns={[1, 1, 2, 2, 3]} spacing={7} mx={{ base: 4, lg: 5, xl: 14 }}>
+            <SimpleGrid columns={[1, 1, 2, 3, 3]} spacing={7} mx={{ base: 4, lg: 5, xl: 14 }}>
                {data?.blogs?.map((blog: ActualiteGrid) => (
-                  <>
-                     <Box key={blog.id}>
-                        <BlogCard blog={blog} />
-                     </Box>
-                     <Box key={blog.id}>
-                        <BlogCard blog={blog} />
-                     </Box>
-                     <Box key={blog.id}>
-                        <BlogCard blog={blog} />
-                     </Box>
-                  </>
+                  <Box key={blog.id}>
+                     <BlogCard blog={blog} />
+                  </Box>
                ))}
             </SimpleGrid>
          )}

@@ -57,7 +57,7 @@ export function UserCard({
 
          <Avatar size="xl" src={profilPictureName ? `${pathDomaineName}/${pathProfilImg}/${profilPictureName}` : ''} />
 
-         <Heading as={'h3'} size={nomPrenomSize} textAlign="center">
+         <Heading as={'h3'} size={nomPrenomSize} textAlign="center" py="2">
             {`${prenom} ${nom}`}
          </Heading>
 

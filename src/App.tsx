@@ -12,6 +12,7 @@ import { APropos } from './views/APropos';
 import { OffresEmploi } from './views/OffresEmploi';
 import { Actualites } from './views/Actualites';
 import { CreateActualites } from './components/Actualites/CreateActualites';
+import { ActualiteDetail } from './components/Actualites/ActualiteDetail/ActualiteDetail';
 
 function App() {
    const navigate = useNavigate();
@@ -46,7 +47,8 @@ function App() {
                      <Route path="/apropos" element={<APropos />} />
 
                      <Route path="/actualites" element={<Actualites />} />
-                     <Route path="/actualites/crer" element={<CreateActualites />} />
+                     <Route path="/actualites/create" element={<CreateActualites />} />
+                     <Route path="/actualites/:blogId" element={<ActualiteDetail />} />
 
                      <Route path="/profil/:userId" element={<Profil />} />
 

@@ -45,7 +45,7 @@ export function Connexion() {
 
    return (
       <>
-         <Heading as="h4" textAlign="center" size="sm" variant="custom">
+         <Heading as="h4" textAlign="center" size="sm" variant="custom" p="0">
             {title}
          </Heading>
 

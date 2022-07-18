@@ -1,6 +1,6 @@
 import { Box, SimpleGrid } from '@chakra-ui/react';
 import { useQuery } from 'urql';
-import { SkeletonOffreEmploi } from '../../Skeleton/SkeletonOffreEmploi';
+import { SkeletonOffreEmploi } from '../Skeleton/SkeletonOffreEmploi';
 import { OffreCard } from './OffreCard';
 
 export interface OffreGrid {

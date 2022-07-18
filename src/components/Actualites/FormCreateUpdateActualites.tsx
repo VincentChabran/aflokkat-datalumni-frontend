@@ -1,13 +1,16 @@
-import { Button, HStack, SimpleGrid, VStack } from '@chakra-ui/react';
+import { Button, FormLabel, HStack, SimpleGrid, VStack } from '@chakra-ui/react';
 import { Editor } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
 import { Form, Formik, FormikHelpers } from 'formik';
+import * as yup from 'yup';
 import { Dispatch, SetStateAction, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../global/formikField/InputField';
 import TextAreaField from '../global/formikField/TextAreaField';
 import SelectField from '../global/formikField/SelectField';
 import InputFileField from '../global/formikField/InputFileField';
+
+const SUPPORTED_FORMATS = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'];
 
 export const optionsCategorie = [
    { value: '01', label: "Vie de l'établissement" },
@@ -21,15 +24,42 @@ export interface IFormCreateUpdateActualitesProps {
    initialValues: ValuesActualies;
    submit: (values: ValuesActualies, actions: FormikHelpers<ValuesActualies>) => Promise<void>;
    setContentState: Dispatch<SetStateAction<string>>;
+   isForUpdate?: boolean;
 }
 
-export function FormCreateUpdateActualites({ initialValues, submit, setContentState }: IFormCreateUpdateActualitesProps) {
+export function FormCreateUpdateActualites({
+   initialValues,
+   submit,
+   setContentState,
+   isForUpdate,
+}: IFormCreateUpdateActualitesProps) {
+   const schema = yup.object().shape({
+      title: yup.string().required('Champ requis'),
+      categorie: yup
+         .number()
+         .min(1, 'La valeur minimum est de 1')
+         .max(optionsCategorie.length, `La valeur maximum est de ${optionsCategorie.length}`)
+         .required('Champs requis')
+         .typeError(`La valeur dois étre entre 01 et ${optionsCategorie.length}`),
+      content: yup.string().required('Champ requis'),
+      file: isForUpdate
+         ? yup
+              .mixed()
+              .test('fileSize', 'File too large', (value) => (value ? value.size <= 7000000 : true))
+              .test('fileFormat', 'Unsupported Format', (value) => (value ? SUPPORTED_FORMATS.includes(value.type) : true))
+         : yup
+              .mixed()
+              .test('fileSize', 'File too large', (value) => (value ? value.size <= 7000000 : true))
+              .test('fileFormat', 'Unsupported Format', (value) => (value ? SUPPORTED_FORMATS.includes(value.type) : true))
+              .required('Cv requis'),
+   });
+
    const navigate = useNavigate();
 
    const editorRef = useRef<TinyMCEEditor>();
 
    return (
-      <Formik initialValues={initialValues} onSubmit={submit}>
+      <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
          {({ isSubmitting, values, setFieldValue }) => (
             <Form>
                <VStack align="stretch" w="100%" spacing={10}>
@@ -38,22 +68,42 @@ export function FormCreateUpdateActualites({ initialValues, submit, setContentSt
 
                      <SelectField name="categorie" label="Catègorie" options={optionsCategorie} isRequired />
                   </SimpleGrid>
-
-                  <InputFileField name="file" label="Image" value="file" setFieldValue={setFieldValue} isRequired />
-
+                  <InputFileField
+                     name="file"
+                     label="Image"
+                     value="file"
+                     setFieldValue={setFieldValue}
+                     isRequired={isForUpdate ? false : true}
+                  />
+                  <FormLabel m="0" pl={0} fontWeight="bold" fontSize="sm">
+                     Contenu
+                  </FormLabel>
                   <TextAreaField label="content" name="content" placeholder="content" isRequired hidden />
                   <Editor
                      initialValue={initialValues.content}
                      onInit={(event, editor) => (editorRef.current = editor)}
                      onEditorChange={(value, editor) => {
-                        // const data = editor.getContent();
                         setFieldValue('content', value);
                         setContentState(value);
-                        console.log(value);
                      }}
                      init={{
                         height: 350,
-                        menubar: false,
+                        menubar: 'edit insert format table',
+                        menu: {
+                           edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
+                           insert: {
+                              title: 'Insert',
+                              items: 'image link inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime',
+                           },
+                           format: {
+                              title: 'Format',
+                              items: 'underline strikethrough superscript subscript codeformat | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat',
+                           },
+                           table: {
+                              title: 'Table',
+                              items: 'inserttable | cell row column | advtablesort | tableprops deletetable',
+                           },
+                        },
                         plugins: [
                            'advlist',
                            'autolink',
@@ -75,14 +125,15 @@ export function FormCreateUpdateActualites({ initialValues, submit, setContentSt
                            'wordcount',
                         ],
                         toolbar:
-                           'undo redo | blocks | ' +
+                           'undo redo | blocks |' +
                            'bold italic forecolor | alignleft aligncenter ' +
                            'alignright alignjustify | bullist numlist outdent indent | ' +
                            'removeformat | help',
                         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                      }}
                   />
-
+                  backcolor Applies background color . blocks cut fontfamily fontsize forecolor hr indent language lineheight
+                  outdent selectall strikethrough styles subscript superscript visualaid
                   <HStack pt="5" justify="center" w="100%">
                      <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }} isLoading={isSubmitting}>
                         Valider

@@ -1,15 +1,52 @@
 import { DeleteIcon } from '@chakra-ui/icons';
-import { Button } from '@chakra-ui/react';
-import * as React from 'react';
+import { Button, useDisclosure, useToast } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'urql';
+import { useActualitesCreateStore } from '../../../store/useActualitesCreateStore';
+import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
+import { ModalConfirmationCustom } from '../../global/ModalConfirmationCustom';
 
-export interface DeleteActuButtonProps {}
+export interface DeleteActuButtonProps {
+   blogId: number;
+}
 
-export function DeleteActuButton(props: DeleteActuButtonProps) {
+export function DeleteActuButton({ blogId }: DeleteActuButtonProps) {
+   const { isOpen, onOpen, onClose } = useDisclosure();
+   const navigate = useNavigate();
+   const toast = useToast();
+
+   const { setIsCreatedOrDelete } = useActualitesCreateStore();
+
+   const [_, exeDeleteBlogMutation] = useMutation(deleteBlogMutation);
+   const handleValidate = async (): Promise<void> => {
+      const { data, error } = await exeDeleteBlogMutation({ blog: { id: blogId } });
+
+      toastSuccessError(toast, 'Article supprimé', 'Suppression fail', data, error);
+      if (data && !error) setIsCreatedOrDelete(true);
+      if (error && !data) console.log(error);
+
+      navigate('/actualites');
+   };
+
    return (
-      <div>
-         <Button variant="outline" colorScheme="red" leftIcon={<DeleteIcon />} size={{ base: 'xs', xs: 'sm', lg: 'md' }}>
+      <>
+         <Button
+            variant="outline"
+            colorScheme="red"
+            leftIcon={<DeleteIcon />}
+            onClick={onOpen}
+            size={{ base: 'xs', xs: 'sm', lg: 'md' }}
+         >
             Supprimer
          </Button>
-      </div>
+
+         <ModalConfirmationCustom isOpen={isOpen} onClose={onClose} handleValidate={handleValidate} />
+      </>
    );
 }
+
+const deleteBlogMutation = `
+mutation Mutation($blog: UpdateBlogInput!) {
+   removeBlog(blog: $blog)
+ }
+`;

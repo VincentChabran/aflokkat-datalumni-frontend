@@ -3,11 +3,11 @@ import axios from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
 import * as yup from 'yup';
-import { getLocalStorageToken } from '../../../../utils/jwtToken';
-import { pathDomaineName } from '../../../../utils/pathBackEnd';
-import InputField from '../../../global/formikField/InputField';
-import InputFileField from '../../../global/formikField/InputFileField';
-import TextAreaField from '../../../global/formikField/TextAreaField';
+import { getLocalStorageToken } from '../../../utils/jwtToken';
+import { pathDomaineName } from '../../../utils/pathBackEnd';
+import InputField from '../../global/formikField/InputField';
+import InputFileField from '../../global/formikField/InputFileField';
+import TextAreaField from '../../global/formikField/TextAreaField';
 
 const SUPPORTED_FORMATS = ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'];
 
@@ -91,7 +91,7 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
                },
             });
             toast({
-               title: 'Mail envoyée',
+               title: 'Mail envoyé',
                status: 'success',
                duration: 3000,
                position: 'top',

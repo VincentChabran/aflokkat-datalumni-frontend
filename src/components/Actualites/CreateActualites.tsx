@@ -19,8 +19,9 @@ export function CreateActualites(props: CreateActualitesProps) {
    const toast = useToast();
 
    const { idUserStore } = useUserStore();
-   const { setIsCreated } = useActualitesCreateStore();
+   const { setIsCreatedOrDelete } = useActualitesCreateStore();
 
+   // Pour l'editeur de text la previous
    const [contentState, setContentState] = useState('');
    useEffect(() => () => setContentState(''), []);
 
@@ -72,7 +73,7 @@ export function CreateActualites(props: CreateActualitesProps) {
                isClosable: true,
             });
 
-            setIsCreated(true);
+            setIsCreatedOrDelete(true);
          } catch (error) {
             console.log(error);
             toast({
@@ -93,7 +94,7 @@ export function CreateActualites(props: CreateActualitesProps) {
    return (
       <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 16 }}>
          <Box p={{ base: 3, sm: 8 }} bgColor={bgBox} borderRadius="lg">
-            <Heading as="h2" borderBottom="1px solid orange" mb="10">
+            <Heading as="h2" borderBottom="1px solid orange" mb="10" p="0">
                Crer un article
             </Heading>
 

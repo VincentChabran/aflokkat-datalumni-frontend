@@ -74,7 +74,7 @@ export function UpdateFormationButton({ formation, reExeSpecifiqueUserQuery }: U
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
       setSubmitting(false);
 
-      toastSuccessError(toast, 'Formation modifiée', 'Erreur modification', data, error);
+      toastSuccessError(toast, 'Formation modifié', 'Erreur modification', data, error);
    };
 
    return (

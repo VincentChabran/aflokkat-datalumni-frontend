@@ -1,6 +1,6 @@
 import { Box, Grid, GridItem, Heading, VStack } from '@chakra-ui/react';
 import { DisplayUserGrid } from '../components/Annuaire/DisplayUserGrid';
-import { DisplayOffreGrid } from '../components/OffresEmploi/DisplayOffreGrid/DisplayOffreGrid';
+import { DisplayOffreGrid } from '../components/OffresEmploi/DisplayOffreGrid';
 
 export function Accueil() {
    return (

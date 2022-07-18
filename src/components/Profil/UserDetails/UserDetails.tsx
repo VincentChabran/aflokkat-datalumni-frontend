@@ -45,7 +45,7 @@ export function UserDetails({ user, setUser }: UserDetailsProps) {
                   {/* Affiche la barre de settings que si c'est le bon user ou un admin */}
                   {(user.id === idUserStore || rolesUserStore.includes('Admin')) && (
                      <Flex justify="center" align="center" gap={{ base: 1, lg: 3 }}>
-                        <UpdateUserButton user={user} setUser={setUser} />
+                        {user.id === idUserStore && <UpdateUserButton user={user} setUser={setUser} />}
 
                         <DeleteUserButton userId={user.id} />
                      </Flex>

@@ -1,11 +1,11 @@
 import create from 'zustand';
 
 interface ActualitesCreateState {
-   isCreated: boolean;
-   setIsCreated: (isCreated: boolean) => void;
+   isCreatedOrDelete: boolean;
+   setIsCreatedOrDelete: (isCreatedOrDelete: boolean) => void;
 }
 
 export const useActualitesCreateStore = create<ActualitesCreateState>((set) => ({
-   isCreated: false,
-   setIsCreated: (isCreated) => set((state) => ({ isCreated })),
+   isCreatedOrDelete: false,
+   setIsCreatedOrDelete: (isCreatedOrDelete) => set((state) => ({ isCreatedOrDelete })),
 }));

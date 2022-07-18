@@ -129,7 +129,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
          if (id === idUserStore) setProfilPictureNameUserStore(profilPictureName ?? user.profilPictureName);
       }
 
-      toastSuccessError(toast, 'Profil modifiée', 'Erreur modification', data, error);
+      toastSuccessError(toast, 'Profil modifié', 'Erreur modification', data, error);
       onClose();
    };
 

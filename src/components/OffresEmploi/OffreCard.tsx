@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Heading, Image, Text, useDisclosure, VStack } from '@chakra-ui/react';
-import { bgColor } from '../../../themes/constants/bgColor';
-import { formatDateDdMmYyyy } from '../../../tools/functions/formatDateDdMmYyyy';
+import { bgColor } from '../../themes/constants/bgColor';
+import { formatDateDdMmYyyy } from '../../tools/functions/formatDateDdMmYyyy';
 import { OffreGrid } from './DisplayOffreGrid';
 import { OffreDetail } from './OffreDetail/OffreDetail';
 

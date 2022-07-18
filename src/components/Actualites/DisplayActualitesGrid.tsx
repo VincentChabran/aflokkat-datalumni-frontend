@@ -21,7 +21,7 @@ export interface ActualiteGrid {
 export interface DisplayActualitesGridProps {}
 
 export function DisplayActualitesGrid(props: DisplayActualitesGridProps) {
-   const { isCreated, setIsCreated } = useActualitesCreateStore();
+   const { isCreatedOrDelete, setIsCreatedOrDelete } = useActualitesCreateStore();
 
    const [{ data, fetching, error }, reExeBlogsQuery] = useQuery({ query: blogsQuery });
 
@@ -31,11 +31,11 @@ export function DisplayActualitesGrid(props: DisplayActualitesGridProps) {
    }, [fetching]);
 
    useEffect(() => {
-      if (isCreated) {
+      if (isCreatedOrDelete) {
          reExeBlogsQuery({ requestPolicy: 'network-only' });
-         setIsCreated(false);
+         setIsCreatedOrDelete(false);
       }
-   }, [isCreated]);
+   }, [isCreatedOrDelete]);
 
    return (
       <>

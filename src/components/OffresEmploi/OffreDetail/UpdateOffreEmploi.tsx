@@ -2,17 +2,17 @@ import { ModalBody, ModalCloseButton, ModalHeader, useToast } from '@chakra-ui/r
 import { FormikHelpers } from 'formik';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useMutation } from 'urql';
-import { dateToInputValue } from '../../../../tools/functions/formatDateForInputValue';
-import { formatOptionsRender } from '../../../../tools/functions/formatOptionsRender';
+import { dateToInputValue } from '../../../tools/functions/formatDateForInputValue';
+import { formatOptionsRender } from '../../../tools/functions/formatOptionsRender';
 import { OffreGrid } from '../DisplayOffreGrid';
 import {
    FormOffreEmploiCreateUpdate,
    optionsExperienceSouhaitee,
    optionsTypeContrat,
    ValuesOffreEmploi,
-} from '../../FormOffreEmploiCreateUpdate';
-import { toastSuccessError } from '../../../../tools/functions/toastSuccessError';
-import { optionsSecteurActiviter } from '../../../../utils/tabOptionsSecteurActiviter';
+} from '../FormOffreEmploiCreateUpdate';
+import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
+import { optionsSecteurActiviter } from '../../../utils/tabOptionsSecteurActiviter';
 
 export interface UpdateOffreEmploiProps {
    offre: OffreGrid;
@@ -81,7 +81,7 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       const { data, error } = await exeUpdateOffreEmploiMutation(variables);
       setSubmitting(false);
 
-      toastSuccessError(toast, 'Offre modifiée', 'Erreur modification', data, error);
+      toastSuccessError(toast, 'Offre modifié', 'Erreur modification', data, error);
       setDisplay('infos');
    };
 

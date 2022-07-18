@@ -65,7 +65,7 @@ export function UpdateExperienceProButton({ experiencePro, reExeSpecifiqueUserQu
       reExeSpecifiqueUserQuery({ requestPolicy: 'network-only' });
       setSubmitting(false);
 
-      toastSuccessError(toast, 'Expérience modifiée', 'Erreur modification', data, error);
+      toastSuccessError(toast, 'Expérience modifié', 'Erreur modification', data, error);
    };
 
    return (

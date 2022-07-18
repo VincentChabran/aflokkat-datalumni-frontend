@@ -1,7 +1,7 @@
 import { VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import { CreateOffreButton } from '../components/OffresEmploi/CreateOffreButton';
-import { DisplayOffreGrid } from '../components/OffresEmploi/DisplayOffreGrid/DisplayOffreGrid';
+import { DisplayOffreGrid } from '../components/OffresEmploi/DisplayOffreGrid';
 import { OffreSearchBar } from '../components/OffresEmploi/OffreSearchBar';
 import { useUserStore } from '../store/useUserStore';
 

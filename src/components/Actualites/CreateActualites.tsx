@@ -10,6 +10,7 @@ import axios from 'axios';
 import { pathDomaineName } from '../../utils/pathBackEnd';
 import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
 import { useUserStore } from '../../store/useUserStore';
+import { useActualitesDisplayStore } from '../../store/useActualitesDisplayStore';
 
 export interface CreateActualitesProps {}
 
@@ -18,6 +19,7 @@ export function CreateActualites(props: CreateActualitesProps) {
    const toast = useToast();
 
    const { idUserStore } = useUserStore();
+   const { addActualite, setDisplayActualites } = useActualitesDisplayStore();
 
    // Pour l'editeur de text la previous
    const [contentState, setContentState] = useState('');
@@ -70,9 +72,9 @@ export function CreateActualites(props: CreateActualitesProps) {
                position: 'top',
                isClosable: true,
             });
-            console.log(res.data.data);
 
-            // setIsCreatedOrDelete(true);
+            addActualite(res.data.data.createBlog);
+            setDisplayActualites();
          } catch (error) {
             console.log(error);
             toast({

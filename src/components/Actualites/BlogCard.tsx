@@ -1,9 +1,8 @@
-import { Badge, Box, Flex, Heading, Image, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, Heading, Image, VStack } from '@chakra-ui/react';
 import { ActualiteGrid } from './DisplayActualitesGrid';
 import parse from 'html-react-parser';
 import { bgColor } from '../../themes/constants/bgColor';
 import { pathBlogImg, pathDomaineName } from '../../utils/pathBackEnd';
-import { formatDateDdMmYyyy } from '../../tools/functions/formatDateDdMmYyyy';
 import { useNavigate } from 'react-router-dom';
 
 export interface BlogCardProps {

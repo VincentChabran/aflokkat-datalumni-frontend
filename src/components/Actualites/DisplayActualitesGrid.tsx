@@ -18,19 +18,15 @@ export interface ActualiteGrid {
    };
 }
 
-export interface DisplayActualitesGridProps {
-   selectByCategorie?: string;
-}
+export interface DisplayActualitesGridProps {}
 
-export function DisplayActualitesGrid({ selectByCategorie }: DisplayActualitesGridProps) {
-   const { setActualites, displayActualites, setDisplayActualites } = useActualitesDisplayStore();
+export function DisplayActualitesGrid(props: DisplayActualitesGridProps) {
+   const { actualites, setActualites, displayActualites, setDisplayActualites } = useActualitesDisplayStore();
 
-   const [{ data, fetching, error }, reExeBlogsQuery] = useQuery({ query: blogsQuery });
+   const [{ data, fetching, error }] = useQuery({ query: blogsQuery });
 
    useEffect(() => {
-      if (!fetching && !error && data) {
-         console.log('uef Display Actu grid');
-
+      if (!fetching && !error && data && !actualites) {
          setActualites(data.blogs);
          setDisplayActualites();
       }
@@ -40,17 +36,15 @@ export function DisplayActualitesGrid({ selectByCategorie }: DisplayActualitesGr
       <>
          {fetching ? (
             <Spinner />
-         ) : !data || data?.blogs?.filter((el: ActualiteGrid) => el.categorie.includes(selectByCategorie ?? '')) == 0 ? (
+         ) : !fetching && (displayActualites ? displayActualites.length <= 0 : !displayActualites) ? (
             <Box>TODO Aucun résultat</Box>
          ) : (
             <SimpleGrid columns={[1, 1, 2, 3, 3]} spacing={7} mx={{ base: 4, lg: 5, xl: 14 }}>
-               {displayActualites
-                  ?.filter((el: ActualiteGrid) => el.categorie.includes(selectByCategorie ?? ''))
-                  .map((blog: ActualiteGrid) => (
-                     <Box key={blog.id}>
-                        <BlogCard blog={blog} />
-                     </Box>
-                  ))}
+               {displayActualites?.map((blog: ActualiteGrid) => (
+                  <Box key={blog.id}>
+                     <BlogCard blog={blog} />
+                  </Box>
+               ))}
             </SimpleGrid>
          )}
       </>

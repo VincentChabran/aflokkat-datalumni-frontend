@@ -4,6 +4,7 @@ import { FormikHelpers } from 'formik';
 import parse from 'html-react-parser';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useMutation } from 'urql';
+import { useActualitesDisplayStore } from '../../../store/useActualitesDisplayStore';
 import { bgColor } from '../../../themes/constants/bgColor';
 import { formatOptionsRender } from '../../../tools/functions/formatOptionsRender';
 import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
@@ -20,6 +21,8 @@ export interface UpdateActuButtonProps {
 
 export function UpdateActuButton({ blog, setBlog, setDisplay }: UpdateActuButtonProps) {
    const toast = useToast();
+
+   const { updateActualite, setDisplayActualites } = useActualitesDisplayStore();
 
    const [contentState, setContentState] = useState('');
    useEffect(() => {
@@ -80,7 +83,11 @@ export function UpdateActuButton({ blog, setBlog, setDisplay }: UpdateActuButton
       setSubmitting(false);
 
       toastSuccessError(toast, 'Article modifié', 'Erreur modification', data, error);
-      if (data && !error) setBlog({ ...blog, ...variables.updateBlogInput, pathImg: newPathImg ?? blog.pathImg });
+      if (data && !error) {
+         setBlog({ ...blog, ...variables.updateBlogInput, pathImg: newPathImg ?? blog.pathImg });
+         updateActualite({ ...blog, ...variables.updateBlogInput, pathImg: newPathImg ?? blog.pathImg });
+         setDisplayActualites();
+      }
       setDisplay('detail');
    };
 

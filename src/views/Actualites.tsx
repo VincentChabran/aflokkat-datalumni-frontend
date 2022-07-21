@@ -1,6 +1,5 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Button, VStack } from '@chakra-ui/react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ActualitesSearchBar } from '../components/Actualites/ActualitesSearchBar';
 import { DisplayActualitesGrid } from '../components/Actualites/DisplayActualitesGrid';
@@ -12,8 +11,6 @@ export function Actualites(props: IActualitesProps) {
    const navigate = useNavigate();
 
    const { rolesUserStore } = useUserStore();
-
-   const [selectByCategorie, setSelectByCategorie] = useState('');
 
    return (
       <VStack py="10" px={{ base: '4', md: '8', lg: '14' }} spacing={10}>
@@ -31,9 +28,9 @@ export function Actualites(props: IActualitesProps) {
             )}
          </VStack>
 
-         <ActualitesSearchBar selectByCategorie={selectByCategorie} setSelectByCategorie={setSelectByCategorie} />
+         <ActualitesSearchBar />
 
-         <DisplayActualitesGrid selectByCategorie={selectByCategorie} />
+         <DisplayActualitesGrid />
       </VStack>
    );
 }

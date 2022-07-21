@@ -42,6 +42,7 @@ export function DisplayOffreGrid({ accueil = false }: DisplayOffreGridProps) {
    const { offres, setOffres, displayOffres, setDisplayOffres } = useOffresEmploiDisplayStore();
 
    useEffect(() => {
+      // le !offres c'est pour pas mètre réinitialiser la liste après les creates or delete
       if (!fetching && !error && data && !offres) {
          setOffres(data?.offreEmploiAll);
          setDisplayOffres();

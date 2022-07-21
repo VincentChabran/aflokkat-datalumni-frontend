@@ -21,7 +21,7 @@ interface SelectUserDisplayState {
 
    // Pour la valeur de searchByPromotion
    selectByPromotion: number;
-   setSelectByPromotion: (promo: number) => void;
+   setSelectByPromotion: (promo: string) => void;
 
    // Pour la valeur de checkboxJobSearch
    selectByJobSearch: boolean;
@@ -44,7 +44,7 @@ export const useSelectUserDisplayStore = create<SelectUserDisplayState>((set) =>
          displayUsers: state.users?.filter(
             (user) =>
                (state.selectByRoles ? user.roles.includes(state.selectByRoles) : user) &&
-               (state.selectByDiplome ? user.formations?.some((f) => f.typeDiplome === state.selectByDiplome) : user) &&
+               (state.selectByDiplome ? user.formations?.some((f) => f.typeDiplome.includes(state.selectByDiplome)) : user) &&
                (state.selectByPromotion
                   ? user.formations?.some((f) => f.anneeObtention === state.selectByPromotion)
                   : user) &&
@@ -60,7 +60,7 @@ export const useSelectUserDisplayStore = create<SelectUserDisplayState>((set) =>
    setSelectByDiplome: (diplome) => set(() => ({ selectByDiplome: diplome })),
 
    selectByPromotion: 0,
-   setSelectByPromotion: (promotion) => set(() => ({ selectByPromotion: promotion })),
+   setSelectByPromotion: (promotion) => set(() => ({ selectByPromotion: parseInt(promotion) })),
 
    selectByJobSearch: false,
    setSelectByJobSearch: (isChecked) => set(() => ({ selectByJobSearch: isChecked })),

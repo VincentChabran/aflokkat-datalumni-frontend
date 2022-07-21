@@ -33,20 +33,12 @@ export interface UsersGrid {
 }
 
 export interface DisplayUserGridProps {
-   isCreated?: boolean;
-   setIsCreated?: React.Dispatch<React.SetStateAction<boolean>>;
    columns?: number[];
    slice?: number | undefined;
    mentor?: boolean;
 }
 
-export function DisplayUserGrid({
-   isCreated,
-   setIsCreated,
-   columns = [1, 1, 2, 3, 4],
-   slice = undefined,
-   mentor = false,
-}: DisplayUserGridProps) {
+export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = undefined, mentor = false }: DisplayUserGridProps) {
    const { setUsers, displayUsers, setDisplayUsers } = useSelectUserDisplayStore();
 
    const navigate = useNavigate();
@@ -62,13 +54,6 @@ export function DisplayUserGrid({
          setDisplayUsers();
       }
    }, [fetching]);
-
-   useEffect(() => {
-      if (isCreated && setIsCreated) {
-         reExeUsersQuery({ requestPolicy: 'network-only' });
-         setIsCreated(false);
-      }
-   }, [isCreated]);
 
    return (
       <>

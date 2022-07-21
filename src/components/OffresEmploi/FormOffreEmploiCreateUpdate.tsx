@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from 'react';
 import * as yup from 'yup';
 import { optionsSecteurActiviter } from '../../utils/tabOptionsSecteurActiviter';
 import InputField from '../global/formikField/InputField';
+import InputFileField from '../global/formikField/InputFileField';
 import SelectField from '../global/formikField/SelectField';
 import TextAreaField from '../global/formikField/TextAreaField';
 
@@ -29,50 +30,15 @@ export const optionsExperienceSouhaitee = [
    { value: '04', label: 'Débutant accepté' },
 ];
 
-const schema = yup.object().shape({
-   nomDuPoste: yup.string().required('Champ requis'),
-   nomEntreprise: yup.string().required('Champ requis'),
-   ville: yup.string().required('Champ requis'),
-   domaineActivite: yup
-      .number()
-      .min(1, 'La valeur minimum est de 1')
-      .max(optionsSecteurActiviter.length, `La valeur maximum est de ${optionsSecteurActiviter.length}`)
-      .required('Champs requis')
-      .typeError(`La valeur dois étre entre 01 et ${optionsSecteurActiviter.length}`),
-   typeContrat: yup
-      .number()
-      .min(1, 'La valeur minimum est de 1')
-      .max(12, 'La valeur maximum est de 12')
-      .required('Champs requis')
-      .typeError('La valeur dois étre entre 01 et 12'),
-   experienceSouhaitee: yup
-      .number()
-      .min(1, 'La valeur minimum est de 1')
-      .max(4, 'La valeur maximum est de 4')
-      .required('Champs requis')
-      .typeError('La valeur dois étre entre 01 et 04'),
-   remuneration: yup.string().required('Champ requis'),
-   emailContact: yup.string().email('Format non valide pour un email...').required('Email requis...'),
-   dateDebut: yup
-      .date()
-      .typeError('Format non valide pour une date')
-      .min('2000-01-25', 'Date trop petite')
-      .required('Champ requis'),
-   dateLimiteCandidature: yup
-      .date()
-      .typeError('Format non valide pour une date')
-      .min('2000-01-25', 'Date trop petite')
-      .required('Champ requis'),
-   descriptionEntreprise: yup.string().required('Champ requis'),
-   descriptionPoste: yup.string().required('Champ requis'),
-   descriptionProfilCandidat: yup.string().required('Champ requis'),
-});
+const FILE_SIZE = 1000000;
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png'];
 
 export interface FormOffreEmploiCreateUpdateProps {
    initialValues: ValuesOffreEmploi;
    submit: (values: ValuesOffreEmploi, actions: FormikHelpers<ValuesOffreEmploi>) => Promise<void>;
    setDisplay?: Dispatch<SetStateAction<string>>;
    onClose?: () => void;
+   isForUpdate?: boolean;
 }
 
 export function FormOffreEmploiCreateUpdate({
@@ -80,10 +46,60 @@ export function FormOffreEmploiCreateUpdate({
    submit,
    setDisplay,
    onClose,
+   isForUpdate,
 }: FormOffreEmploiCreateUpdateProps) {
+   const schema = yup.object().shape({
+      nomDuPoste: yup.string().required('Champ requis'),
+      nomEntreprise: yup.string().required('Champ requis'),
+      ville: yup.string().required('Champ requis'),
+      domaineActivite: yup
+         .number()
+         .min(1, 'La valeur minimum est de 1')
+         .max(optionsSecteurActiviter.length, `La valeur maximum est de ${optionsSecteurActiviter.length}`)
+         .required('Champs requis')
+         .typeError(`La valeur dois étre entre 01 et ${optionsSecteurActiviter.length}`),
+      typeContrat: yup
+         .number()
+         .min(1, 'La valeur minimum est de 1')
+         .max(12, 'La valeur maximum est de 12')
+         .required('Champs requis')
+         .typeError('La valeur dois étre entre 01 et 12'),
+      experienceSouhaitee: yup
+         .number()
+         .min(1, 'La valeur minimum est de 1')
+         .max(4, 'La valeur maximum est de 4')
+         .required('Champs requis')
+         .typeError('La valeur dois étre entre 01 et 04'),
+      remuneration: yup.string().required('Champ requis'),
+      emailContact: yup.string().email('Format non valide pour un email...').required('Email requis...'),
+      dateDebut: yup
+         .date()
+         .typeError('Format non valide pour une date')
+         .min('2000-01-25', 'Date trop petite')
+         .required('Champ requis'),
+      dateLimiteCandidature: yup
+         .date()
+         .typeError('Format non valide pour une date')
+         .min('2000-01-25', 'Date trop petite')
+         .required('Champ requis'),
+      descriptionEntreprise: yup.string().required('Champ requis'),
+      descriptionPoste: yup.string().required('Champ requis'),
+      descriptionProfilCandidat: yup.string().required('Champ requis'),
+      file: isForUpdate
+         ? yup
+              .mixed()
+              .test('fileSize', 'File too large', (value) => (value ? value.size <= 7000000 : true))
+              .test('fileFormat', 'Unsupported Format', (value) => (value ? SUPPORTED_FORMATS.includes(value.type) : true))
+         : yup
+              .mixed()
+              .test('fileSize', 'File too large', (value) => (value ? value.size <= 7000000 : true))
+              .test('fileFormat', 'Unsupported Format', (value) => (value ? SUPPORTED_FORMATS.includes(value.type) : true))
+              .required('Cv requis'),
+   });
+
    return (
       <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
-         {({ isSubmitting }) => (
+         {({ isSubmitting, setFieldValue }) => (
             <Form>
                <VStack justify="center" w="100%">
                   <InputField name="nomDuPoste" label="Nom du poste" placeholder="Nom du poste" isRequired />
@@ -139,6 +155,14 @@ export function FormOffreEmploiCreateUpdate({
                      isRequired
                   />
 
+                  <InputFileField
+                     name="file"
+                     value="file"
+                     setFieldValue={setFieldValue}
+                     label="Logo"
+                     isRequired={isForUpdate ? false : true}
+                  />
+
                   <HStack pt="5" justify="center" w="100%">
                      <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }} isLoading={isSubmitting}>
                         Valider
@@ -177,4 +201,5 @@ export interface ValuesOffreEmploi {
    descriptionEntreprise: string;
    descriptionPoste: string;
    descriptionProfilCandidat: string;
+   file: null;
 }

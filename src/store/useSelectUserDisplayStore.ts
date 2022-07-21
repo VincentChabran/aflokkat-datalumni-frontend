@@ -2,11 +2,12 @@ import create from 'zustand';
 import { UsersGrid } from '../components/Annuaire/DisplayUserGrid';
 
 interface SelectUserDisplayState {
-   // Tous les users après la requete vers le back pour le displayUserGrid
+   // Tous les users après la requete du back pour le displayUserGrid
    users: UsersGrid[] | undefined;
    setUsers: (users: UsersGrid[]) => void;
+   addUser: (user: UsersGrid) => void;
 
-   // Pour l'affichage avec la sélection des champs de recherche Select
+   // Pour l'affichage avec la sélection des champs de recherche
    displayUsers: UsersGrid[] | undefined;
    setDisplayUsers: () => void;
 
@@ -35,6 +36,7 @@ interface SelectUserDisplayState {
 export const useSelectUserDisplayStore = create<SelectUserDisplayState>((set) => ({
    users: undefined,
    setUsers: (users) => set(() => ({ users })),
+   addUser: (user) => set((state) => ({ users: state.users?.concat(user) })),
 
    displayUsers: undefined,
    setDisplayUsers: () =>

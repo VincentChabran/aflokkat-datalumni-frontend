@@ -13,17 +13,18 @@ import {
 } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
 import { useMutation } from 'urql';
+import { useSelectUserDisplayStore } from '../../../store/useSelectUserDisplayStore';
 import { formatRolesArray } from '../../../tools/functions/formatRolesArray';
 import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
 import { FormUserCreate, ValuesUserCreate } from './FormUserCreate';
 
-export interface CreateUserButtonProps {
-   setIsCreated: React.Dispatch<React.SetStateAction<boolean>>;
-}
+export interface CreateUserButtonProps {}
 
-export function CreateUserButton({ setIsCreated }: CreateUserButtonProps) {
+export function CreateUserButton(props: CreateUserButtonProps) {
    const { isOpen, onOpen, onClose } = useDisclosure();
    const toast = useToast();
+
+   const { addUser, setDisplayUsers } = useSelectUserDisplayStore();
 
    const initialValues = {
       email: '',
@@ -53,9 +54,14 @@ export function CreateUserButton({ setIsCreated }: CreateUserButtonProps) {
       setSubmitting(true);
       const { data, error } = await exeSignUpMutation(variables);
       setSubmitting(false);
+      console.log(data);
 
       toastSuccessError(toast, 'Utilisateur crée', 'Erreur création', data, error);
-      if (data && !error) setIsCreated(true);
+
+      // Update de l'affiche sans requete grace au store
+      addUser(data.singUp);
+      setDisplayUsers();
+
       onClose();
    };
 
@@ -91,6 +97,22 @@ mutation Mutation($singupUserInput: CreateUserInput!) {
      id
      nom
      prenom
+     roles
+     mentor
+     rechercheEmploi
+     profilPictureName
+     formations {
+       id
+       nomFormation
+       nomEtablissement
+       anneeObtention
+       typeDiplome
+     }
+     experiencePro {
+       id
+       fonction
+       entreprise
+     }
    }
  }
 `;

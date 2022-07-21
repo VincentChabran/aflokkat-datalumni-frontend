@@ -1,6 +1,7 @@
 import { Box, Flex, Grid, Heading, Image, Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { bgColor } from '../../themes/constants/bgColor';
 import { formatDateDdMmYyyy } from '../../tools/functions/formatDateDdMmYyyy';
+import { pathDomaineName, pathOffreLogo } from '../../utils/pathBackEnd';
 import { OffreGrid } from './DisplayOffreGrid';
 import { OffreDetail } from './OffreDetail/OffreDetail';
 
@@ -55,7 +56,11 @@ export function OffreCard({ offre }: OffreCardProps) {
                   </Box>
                </VStack>
 
-               <Image borderRadius="none" src="./src/assets/img/konoha.jpg" maxW="100px" />
+               <Image
+                  borderRadius="none"
+                  src={`${pathDomaineName}/${pathOffreLogo}/${pathLogo ?? 'default.jpg'}`}
+                  maxW="100px"
+               />
             </Flex>
          </VStack>
 

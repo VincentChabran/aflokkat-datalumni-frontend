@@ -1,24 +1,12 @@
-import { FormControl, FormLabel, Input, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
+import { MostClesNomDuPoste } from './OffreSearchBar/motsClesNomDuPoste';
 
-export interface OffreSearchBarProps {
-   search: string;
-   setSearch: React.Dispatch<React.SetStateAction<string>>;
-}
+export interface OffreSearchBarProps {}
 
-export function OffreSearchBar({ search, setSearch }: OffreSearchBarProps) {
+export function OffreSearchBar(props: OffreSearchBarProps) {
    return (
       <VStack align="center">
-         <FormControl maxW="600px">
-            <FormLabel htmlFor="search" textAlign="center" fontWeight="normal">
-               Mots-clés secteur d'activité
-            </FormLabel>
-            <Input
-               id="search"
-               value={search}
-               onChange={(e) => setSearch(e.target.value)}
-               placeholder="Mots-clés secteur d'activité"
-            />
-         </FormControl>
+         <MostClesNomDuPoste />
       </VStack>
    );
 }

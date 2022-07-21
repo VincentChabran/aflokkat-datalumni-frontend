@@ -18,9 +18,11 @@ export interface ActualiteGrid {
    };
 }
 
-export interface DisplayActualitesGridProps {}
+export interface DisplayActualitesGridProps {
+   selectByCategorie?: string;
+}
 
-export function DisplayActualitesGrid(props: DisplayActualitesGridProps) {
+export function DisplayActualitesGrid({ selectByCategorie }: DisplayActualitesGridProps) {
    const { isCreatedOrDelete, setIsCreatedOrDelete } = useActualitesCreateStore();
 
    const [{ data, fetching, error }, reExeBlogsQuery] = useQuery({ query: blogsQuery });
@@ -41,15 +43,17 @@ export function DisplayActualitesGrid(props: DisplayActualitesGridProps) {
       <>
          {fetching ? (
             <Spinner />
-         ) : !data ? (
+         ) : !data || data?.blogs?.filter((el: ActualiteGrid) => el.categorie.includes(selectByCategorie ?? '')) == 0 ? (
             <Box>TODO Aucun résultat</Box>
          ) : (
             <SimpleGrid columns={[1, 1, 2, 3, 3]} spacing={7} mx={{ base: 4, lg: 5, xl: 14 }}>
-               {data?.blogs?.map((blog: ActualiteGrid) => (
-                  <Box key={blog.id}>
-                     <BlogCard blog={blog} />
-                  </Box>
-               ))}
+               {data?.blogs
+                  ?.filter((el: ActualiteGrid) => el.categorie.includes(selectByCategorie ?? ''))
+                  .map((blog: ActualiteGrid) => (
+                     <Box key={blog.id}>
+                        <BlogCard blog={blog} />
+                     </Box>
+                  ))}
             </SimpleGrid>
          )}
       </>

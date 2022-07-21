@@ -81,9 +81,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
             query: 'mutation Mutation($file: Upload!, $user: UpdateUserInput!) {\r\n  uploadProfilePicture(file: $file, user: $user)\r\n}',
             variables: { file: null, user: { id } },
          };
-         const map = {
-            0: ['variables.file'],
-         };
+         const map = { 0: ['variables.file'] };
          formData.append('operations', JSON.stringify(operations));
          formData.append('map', JSON.stringify(map));
          formData.append('0', file);

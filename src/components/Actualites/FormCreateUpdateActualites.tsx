@@ -88,20 +88,16 @@ export function FormCreateUpdateActualites({
                      }}
                      init={{
                         height: 350,
-                        menubar: 'edit insert format table',
+                        menubar: 'edit insert format',
                         menu: {
                            edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
                            insert: {
                               title: 'Insert',
-                              items: 'image link inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime',
+                              items: 'image link inserttable | charmap hr',
                            },
                            format: {
                               title: 'Format',
-                              items: 'underline strikethrough superscript subscript codeformat | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat',
-                           },
-                           table: {
-                              title: 'Table',
-                              items: 'inserttable | cell row column | advtablesort | tableprops deletetable',
+                              items: 'styles fontfamily fontsize lineheight | underline strikethrough superscript subscript codeformat',
                            },
                         },
                         plugins: [
@@ -125,15 +121,14 @@ export function FormCreateUpdateActualites({
                            'wordcount',
                         ],
                         toolbar:
-                           'undo redo | blocks |' +
-                           'bold italic forecolor | alignleft aligncenter ' +
+                           'blocks |' +
+                           'bold italic forecolor backcolor | alignleft aligncenter ' +
                            'alignright alignjustify | bullist numlist outdent indent | ' +
                            'removeformat | help',
                         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                      }}
                   />
-                  backcolor Applies background color . blocks cut fontfamily fontsize forecolor hr indent language lineheight
-                  outdent selectall strikethrough styles subscript superscript visualaid
+
                   <HStack pt="5" justify="center" w="100%">
                      <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }} isLoading={isSubmitting}>
                         Valider

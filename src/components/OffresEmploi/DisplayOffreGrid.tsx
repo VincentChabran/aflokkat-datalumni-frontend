@@ -43,13 +43,7 @@ export function DisplayOffreGrid({ accueil = false }: DisplayOffreGridProps) {
 
    useEffect(() => {
       if (!fetching && !error && data && !offres) {
-         let { offreEmploiAll } = data;
-         // offreEmploiAll.sort((a: any, b: any) => {
-         //    return !accueil
-         //       ? new Date(a.dateLimiteCandidature).getTime() - new Date(b.dateLimiteCandidature).getTime()
-         //       : new Date(a.dateCreation).getTime() - new Date(b.dateCreation).getTime();
-         // });
-         setOffres(offreEmploiAll);
+         setOffres(data?.offreEmploiAll);
          setDisplayOffres();
       }
    }, [fetching]);

@@ -7,6 +7,7 @@ interface useOffresEmploiDisplayState {
    setOffres: (offres: OffreGrid[]) => void;
    addOffre: (offre: OffreGrid) => void;
    updateOffre: (offre: OffreGrid) => void;
+   deleteOffre: (id: number) => void;
 
    // Pour l'affichage avec la sélection des champs de recherche
    displayOffres: OffreGrid[] | undefined;
@@ -24,6 +25,12 @@ export const useOffresEmploiDisplayStore = create<useOffresEmploiDisplayState>((
       set((state) => {
          const index = state.offres?.findIndex((el) => el.id === offre.id);
          state.offres?.splice(index!, 1, offre);
+         return { offres: state.offres };
+      }),
+   deleteOffre: (id) =>
+      set((state) => {
+         const index = state.offres?.findIndex((el) => el.id === id);
+         state.offres?.splice(index!, 1);
          return { offres: state.offres };
       }),
 

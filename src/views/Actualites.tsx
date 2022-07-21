@@ -1,5 +1,5 @@
 import { AddIcon } from '@chakra-ui/icons';
-import { Box, Button, VStack } from '@chakra-ui/react';
+import { Button, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ActualitesSearchBar } from '../components/Actualites/ActualitesSearchBar';

@@ -57,6 +57,9 @@ export function Profil(props: ProfilProps) {
 
    useEffect(() => {
       if (!fetching) {
+         // Pour trier dans l'ordre id = 1 -> id > 1
+         data?.user?.formations?.sort((a: any, b: any) => a.id - b.id);
+         data?.user?.experiencePro?.sort((a: any, b: any) => a.id - b.id);
          setUser(data?.user);
       }
    }, [fetching]);

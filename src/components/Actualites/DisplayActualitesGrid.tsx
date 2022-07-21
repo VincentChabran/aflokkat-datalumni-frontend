@@ -1,7 +1,7 @@
 import { Box, SimpleGrid, Spinner } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useQuery } from 'urql';
-import { useActualitesCreateStore } from '../../store/useActualitesCreateStore';
+import { useActualitesDisplayStore } from '../../store/useActualitesDisplayStore';
 import { BlogCard } from './BlogCard';
 
 export interface ActualiteGrid {
@@ -23,21 +23,18 @@ export interface DisplayActualitesGridProps {
 }
 
 export function DisplayActualitesGrid({ selectByCategorie }: DisplayActualitesGridProps) {
-   const { isCreatedOrDelete, setIsCreatedOrDelete } = useActualitesCreateStore();
+   const { setActualites, displayActualites, setDisplayActualites } = useActualitesDisplayStore();
 
    const [{ data, fetching, error }, reExeBlogsQuery] = useQuery({ query: blogsQuery });
 
    useEffect(() => {
       if (!fetching && !error && data) {
+         console.log('uef Display Actu grid');
+
+         setActualites(data.blogs);
+         setDisplayActualites();
       }
    }, [fetching]);
-
-   useEffect(() => {
-      if (isCreatedOrDelete) {
-         reExeBlogsQuery({ requestPolicy: 'network-only' });
-         setIsCreatedOrDelete(false);
-      }
-   }, [isCreatedOrDelete]);
 
    return (
       <>
@@ -47,7 +44,7 @@ export function DisplayActualitesGrid({ selectByCategorie }: DisplayActualitesGr
             <Box>TODO Aucun résultat</Box>
          ) : (
             <SimpleGrid columns={[1, 1, 2, 3, 3]} spacing={7} mx={{ base: 4, lg: 5, xl: 14 }}>
-               {data?.blogs
+               {displayActualites
                   ?.filter((el: ActualiteGrid) => el.categorie.includes(selectByCategorie ?? ''))
                   .map((blog: ActualiteGrid) => (
                      <Box key={blog.id}>

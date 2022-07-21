@@ -2,6 +2,7 @@ import { WarningTwoIcon } from '@chakra-ui/icons';
 import { Button, Input, ModalBody, ModalCloseButton, ModalFooter, ModalHeader, Text } from '@chakra-ui/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useMutation } from 'urql';
+import { useOffresEmploiDisplayStore } from '../../../store/useOffresEmploiDisplayStore';
 
 export interface DeleteOffreEmploiProps {
    isOpen: boolean;
@@ -14,16 +15,25 @@ export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: Dele
    const [confirm, setConfirm] = useState('');
    const [isLoad, setIsLoad] = useState(false);
 
+   const { deleteOffre, setDisplayOffres } = useOffresEmploiDisplayStore();
+
    useEffect(() => {
       setConfirm('');
    }, [isOpen]);
 
    useEffect(() => () => setDisplay('infos'), []);
 
+   console.log(offreId);
+
    const [_, exeDeleteOffreEmploiMutation] = useMutation(deleteOffreEmploiMutation);
    const handleValidate = async (): Promise<void> => {
       setIsLoad(true);
-      const { data, error } = await exeDeleteOffreEmploiMutation({ removeOffreEmploiId: offreId });
+      const { data, error } = await exeDeleteOffreEmploiMutation({ offre: { id: offreId } });
+
+      if (data && !error) {
+         deleteOffre(offreId);
+         setDisplayOffres();
+      }
       setIsLoad(false);
       onClose();
    };
@@ -63,9 +73,14 @@ export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: Dele
 }
 
 const deleteOffreEmploiMutation = `
-mutation RemoveOffreEmploi($removeOffreEmploiId: Int!) {
-   removeOffreEmploi(id: $removeOffreEmploiId) {
-     id
-   }
+mutation Mutation($offre: UpdateOffreEmploiInput!) {
+   removeOffreEmploi(offre: $offre)
  }
 `;
+// const deleteOffreEmploiMutation = `
+// mutation RemoveOffreEmploi($removeOffreEmploiId: Int!) {
+//    removeOffreEmploi(id: $removeOffreEmploiId) {
+//      id
+//    }
+//  }
+// `;

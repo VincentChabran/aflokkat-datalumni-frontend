@@ -35,21 +35,23 @@ export interface UsersGrid {
 export interface DisplayUserGridProps {
    columns?: number[];
    slice?: number | undefined;
-   mentor?: boolean;
 }
 
-export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = undefined, mentor = false }: DisplayUserGridProps) {
+export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = undefined }: DisplayUserGridProps) {
    const { setUsers, displayUsers, setDisplayUsers } = useSelectUserDisplayStore();
 
    const navigate = useNavigate();
 
-   const [{ data, fetching, error }, reExeUsersQuery] = useQuery({ query: usersQuery });
+   const [{ data, fetching, error }] = useQuery({ query: usersQuery });
 
    useEffect(() => {
       if (!fetching && !error && data) {
          let { users } = data;
-         users.sort((a: any, b: any) => a.id - b.id); // sort id 1 à max
-         if (mentor) users = users.filter((user: UsersGrid) => user.mentor === true);
+         users.sort((a: UsersGrid, b: UsersGrid) => a.id - b.id); // sort id 1 à max
+         users.forEach((el: UsersGrid) => {
+            el.formations?.sort((a, b) => a.id - b.id);
+            el.experiencePro?.sort((a, b) => a.id - b.id);
+         });
          setUsers(users);
          setDisplayUsers();
       }

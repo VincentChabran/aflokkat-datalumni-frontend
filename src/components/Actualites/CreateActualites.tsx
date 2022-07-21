@@ -10,7 +10,6 @@ import axios from 'axios';
 import { pathDomaineName } from '../../utils/pathBackEnd';
 import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
 import { useUserStore } from '../../store/useUserStore';
-import { useActualitesCreateStore } from '../../store/useActualitesCreateStore';
 
 export interface CreateActualitesProps {}
 
@@ -19,7 +18,6 @@ export function CreateActualites(props: CreateActualitesProps) {
    const toast = useToast();
 
    const { idUserStore } = useUserStore();
-   const { setIsCreatedOrDelete } = useActualitesCreateStore();
 
    // Pour l'editeur de text la previous
    const [contentState, setContentState] = useState('');
@@ -38,7 +36,7 @@ export function CreateActualites(props: CreateActualitesProps) {
       if (values.file) {
          const formData = new FormData();
          const operations = {
-            query: 'mutation Mutation($createBlogInput: CreateBlogInput!, $file: Upload!) {\r\n  createBlog(createBlogInput: $createBlogInput, file: $file) {\r\n    id\r\n  }\r\n}',
+            query: 'mutation Mutation($createBlogInput: CreateBlogInput!, $file: Upload!) {\r\n  createBlog(createBlogInput: $createBlogInput, file: $file) {\r\n    id\r\n    title\r\n    categorie\r\n    content\r\n    pathImg\r\n    dateCreation\r\n    userCreateur {\r\n      id\r\n      nom\r\n      prenom\r\n    }\r\n  }\r\n}',
             variables: {
                createBlogInput: {
                   title: values.title,
@@ -72,8 +70,9 @@ export function CreateActualites(props: CreateActualitesProps) {
                position: 'top',
                isClosable: true,
             });
+            console.log(res.data.data);
 
-            setIsCreatedOrDelete(true);
+            // setIsCreatedOrDelete(true);
          } catch (error) {
             console.log(error);
             toast({

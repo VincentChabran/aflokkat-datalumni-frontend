@@ -18,8 +18,14 @@ export function CreateActualites(props: CreateActualitesProps) {
    const navigate = useNavigate();
    const toast = useToast();
 
-   const { idUserStore } = useUserStore();
+   const { idUserStore, rolesUserStore } = useUserStore();
    const { addActualite, setDisplayActualites } = useActualitesDisplayStore();
+
+   useEffect(() => {
+      if (!rolesUserStore.includes('Admin') || !rolesUserStore.includes('Equipe_administrative')) {
+         navigate('/actualites');
+      }
+   }, []);
 
    // Pour l'editeur de text la previous
    const [contentState, setContentState] = useState('');

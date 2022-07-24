@@ -11,7 +11,13 @@ export function MostClesNomDuPoste(props: MostClesNomDuPosteProps) {
       setDisplayOffres();
    }, [selectByMotsClesNomDuPoste]);
 
-   useEffect(() => () => setSelectByMotsClesNomDuPoste(''), []);
+   useEffect(
+      () => () => {
+         setSelectByMotsClesNomDuPoste('');
+         setDisplayOffres();
+      },
+      [],
+   );
 
    return (
       <FormControl maxW="600px">

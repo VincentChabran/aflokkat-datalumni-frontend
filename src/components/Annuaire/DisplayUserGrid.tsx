@@ -1,8 +1,10 @@
-import { Box, SimpleGrid } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'urql';
 import { useSelectUserDisplayStore } from '../../store/useSelectUserDisplayStore';
+import { NotFound } from '../global/Error/NotFound';
+import { ServeurError } from '../global/Error/ServeurError';
 import { SkeletonUserCard } from '../Skeleton/SkeletonUserCard';
 import { UserCard } from './UserCard';
 
@@ -61,8 +63,15 @@ export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = undefined }
       <>
          {fetching ? (
             <SkeletonUserCard columns={columns} max={slice ? -slice : 8} />
-         ) : !fetching && (displayUsers ? displayUsers.length <= 0 : !displayUsers) ? (
-            <Box>Todo affichage utilisateur non trouvé</Box>
+         ) : // Si ca ne fetch pas, et que la lenght de displayUser plus petit ou égal à 0
+         !fetching && (displayUsers ? displayUsers.length <= 0 : !displayUsers) ? (
+            <>
+               {data ? (
+                  <NotFound texte="Aucun utilisateur ne correspond à cette recherche, veuillez réessayer..." />
+               ) : (
+                  <ServeurError />
+               )}
+            </>
          ) : (
             <SimpleGrid columns={columns} spacing={6} mx={{ base: 2, lg: 5, xl: 10 }}>
                {displayUsers?.slice(slice).map((user: UsersGrid) => (
@@ -72,7 +81,6 @@ export function DisplayUserGrid({ columns = [1, 1, 2, 3, 4], slice = undefined }
                ))}
             </SimpleGrid>
          )}
-         <Box h="100px"></Box>
       </>
    );
 }

@@ -2,6 +2,8 @@ import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'urql';
+import { NotFound } from '../components/global/Error/NotFound';
+import { ServeurError } from '../components/global/Error/ServeurError';
 import { UserDetails } from '../components/Profil/UserDetails/UserDetails';
 import { UserExperiencePro } from '../components/Profil/UserExperiencePro/UserExperiencePro';
 import { UserFormations } from '../components/Profil/UserFormation/UserFormations';
@@ -62,6 +64,7 @@ export function Profil(props: ProfilProps) {
          data?.user?.experiencePro?.sort((a: any, b: any) => a.id - b.id);
          setUser(data?.user);
       }
+      console.log(error?.message);
    }, [fetching]);
 
    useEffect(() => {
@@ -75,7 +78,13 @@ export function Profil(props: ProfilProps) {
          {fetching ? (
             <SkeletonProfil />
          ) : !user ? (
-            <Box>Nothing</Box>
+            <>
+               {error?.message.includes(`[GraphQL] Could not find any entity of type "User" matching:`) ? (
+                  <NotFound texte="Cet utilisateur n'existe pas" />
+               ) : (
+                  <ServeurError />
+               )}
+            </>
          ) : (
             <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 20 }}>
                <Box p={{ base: 3, sm: 8 }} px={{ base: 3, lg: 16 }} bgColor={bgBox} borderRadius="lg">

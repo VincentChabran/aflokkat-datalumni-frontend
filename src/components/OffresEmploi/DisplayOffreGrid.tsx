@@ -2,6 +2,8 @@ import { Box, SimpleGrid } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useQuery } from 'urql';
 import { useOffresEmploiDisplayStore } from '../../store/useOffresEmploiDisplayStore';
+import { NotFound } from '../global/Error/NotFound';
+import { ServeurError } from '../global/Error/ServeurError';
 import { SkeletonOffreEmploi } from '../Skeleton/SkeletonOffreEmploi';
 import { OffreCard } from './OffreCard';
 
@@ -55,7 +57,13 @@ export function DisplayOffreGrid({ accueil = false }: DisplayOffreGridProps) {
             <SkeletonOffreEmploi />
          ) : // Si la length du tab renvoyer par le filtre plus petite que 0 on affichie la aucun res sinon on affiche la grille
          !fetching && (displayOffres ? displayOffres.length <= 0 : !displayOffres) ? (
-            <Box>TODO Aucun résultat</Box>
+            <>
+               {data ? (
+                  <NotFound texte="Aucune offre ne correspond à cette recherche, veuillez réessayer" />
+               ) : (
+                  <ServeurError />
+               )}
+            </>
          ) : (
             <SimpleGrid columns={[1, 1, 2, 2, 3]} spacing={4} mx={{ base: 4, lg: 5, xl: 10 }}>
                {displayOffres

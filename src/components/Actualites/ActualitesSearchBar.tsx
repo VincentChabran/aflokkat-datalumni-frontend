@@ -18,6 +18,7 @@ export function ActualitesSearchBar(props: IActualitesSearchBarProps) {
       () => () => {
          setSelectByCategorie('');
          setSortByMoreRecent('');
+         setDisplayActualites();
       },
       [],
    );

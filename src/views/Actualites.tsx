@@ -14,8 +14,8 @@ export function Actualites(props: IActualitesProps) {
 
    return (
       <VStack py="10" px={{ base: '4', md: '8', lg: '14' }} spacing={10}>
-         <VStack>
-            {(rolesUserStore.includes('Admin') || rolesUserStore.includes('Equipe_administrative')) && (
+         {(rolesUserStore.includes('Admin') || rolesUserStore.includes('Equipe_administrative')) && (
+            <VStack>
                <Button
                   size={{ base: 'xs', sm: 'sm' }}
                   variant="outline"
@@ -25,8 +25,8 @@ export function Actualites(props: IActualitesProps) {
                >
                   Ajouter un article
                </Button>
-            )}
-         </VStack>
+            </VStack>
+         )}
 
          <ActualitesSearchBar />
 

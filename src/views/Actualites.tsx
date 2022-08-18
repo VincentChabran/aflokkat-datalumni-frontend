@@ -14,7 +14,7 @@ export function Actualites(props: IActualitesProps) {
 
    return (
       <VStack py="10" px={{ base: '4', md: '8', lg: '14' }} spacing={10}>
-         {(rolesUserStore.includes('Admin') || rolesUserStore.includes('Equipe_administrative')) && (
+         {(rolesUserStore.includes('Admin') || rolesUserStore.includes('Équipe-administrative')) && (
             <VStack>
                <Button
                   size={{ base: 'xs', sm: 'sm' }}

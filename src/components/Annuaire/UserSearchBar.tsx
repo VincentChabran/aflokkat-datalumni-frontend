@@ -8,7 +8,7 @@ import { CheckboxJobSearch } from './selectiveUserSearch/CheckboxJobSearch';
 import { ResetSearch } from './selectiveUserSearch/ResetSearch';
 
 const rolesOptions = [
-   { value: 'Admin', label: 'Admin' },
+   // { value: 'Admin', label: 'Admin' },
    { value: 'Equipe_administrative', label: 'Équipe-Administrative' },
    { value: 'Recruteur', label: 'Recruteur' },
    { value: 'Enseignant', label: 'Enseignant' },

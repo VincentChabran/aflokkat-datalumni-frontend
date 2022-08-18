@@ -74,13 +74,13 @@ export function CreateUserButton(props: CreateUserButtonProps) {
             onClick={onOpen}
             leftIcon={<AddIcon />}
          >
-            Crer un utilisateur
+            Créer un utilisateur
          </Button>
 
          <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-               <ModalHeader>Crer un utilisateur</ModalHeader>
+               <ModalHeader>Créer un utilisateur</ModalHeader>
                <ModalCloseButton top="4" />
                <ModalBody>
                   <FormUserCreate initialValues={initialValues} submit={submit} onClose={onClose} />

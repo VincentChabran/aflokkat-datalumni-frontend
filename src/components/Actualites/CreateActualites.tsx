@@ -22,7 +22,7 @@ export function CreateActualites(props: CreateActualitesProps) {
    const { addActualite, setDisplayActualites } = useActualitesDisplayStore();
 
    useEffect(() => {
-      if (!rolesUserStore.includes('Admin') || !rolesUserStore.includes('Equipe_administrative')) {
+      if (!rolesUserStore.includes('Admin') && !rolesUserStore.includes('Équipe-administrative')) {
          navigate('/actualites');
       }
    }, []);
@@ -102,7 +102,7 @@ export function CreateActualites(props: CreateActualitesProps) {
       <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 16 }}>
          <Box p={{ base: 3, sm: 8 }} bgColor={bgBox} borderRadius="lg">
             <Heading as="h2" borderBottom="1px solid orange" mb="10" p="0">
-               Crer un article
+               Crée un article
             </Heading>
 
             <FormCreateUpdateActualites initialValues={initialValues} submit={submit} setContentState={setContentState} />

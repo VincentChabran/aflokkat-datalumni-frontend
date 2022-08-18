@@ -52,60 +52,6 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
       file: null,
    };
 
-   // const uploadOffreLogo = async (file: any, id: number): Promise<string | undefined> => {
-   //    if (file) {
-   //       const formData = new FormData();
-   //       const operations = {
-   //          query: 'mutation Mutation($offre: UpdateOffreEmploiInput!, $file: Upload!) {\r\n  uploadOffreLogo(offre: $offre, file: $file)\r\n}',
-   //          variables: { file: null, offre: { id } },
-   //       };
-
-   //       const map = { 0: ['variables.file'] };
-   //       formData.append('operations', JSON.stringify(operations));
-   //       formData.append('map', JSON.stringify(map));
-   //       formData.append('0', file);
-
-   //       try {
-   //          const response = await axios({
-   //             method: 'post',
-   //             url: `${pathDomaineName}/graphql`,
-   //             data: formData,
-   //             headers: {
-   //                'Content-Type': 'multipart/form-data',
-   //                Authorization: `Bearer ${getLocalStorageToken()}`,
-   //             },
-   //          });
-   //          return response.data.data.uploadProfilePicture;
-   //       } catch (error) {
-   //          console.log(error);
-   //       }
-   //    }
-   // };
-
-   // const [_, exeCreateOffreEmploiMutation] = useMutation(createOffreEmploiMutation);
-
-   // const submit = async (values: ValuesOffreEmploi, { setSubmitting }: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
-   // const { typeContrat, experienceSouhaitee, domaineActivite, file, ...rest } = values;
-
-   // const variables = {
-   //    createOffreEmploiInput: {
-   //       ...rest,
-   //       typeContrat: formatOptionsRender(optionsTypeContrat, parseInt(typeContrat)),
-   //       experienceSouhaitee: formatOptionsRender(optionsExperienceSouhaitee, parseInt(experienceSouhaitee)),
-   //       domaineActivite: formatOptionsRender(optionsSecteurActiviter, parseInt(domaineActivite)),
-   //       userCreateurId: idUserStore,
-   //    },
-   // };
-
-   //    setSubmitting(true);
-   //    const { data, error } = await exeCreateOffreEmploiMutation(variables);
-   //    const res = await uploadOffreLogo(file, data.createOffreEmploi.id);
-   //    setSubmitting(false);
-
-   //    toastSuccessError(toast, 'Offre crée', 'Erreur création', data, error);
-   //    onClose();
-   // };
-
    const submit = async (values: ValuesOffreEmploi, { setSubmitting }: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
       const { typeContrat, experienceSouhaitee, domaineActivite, file, ...rest } = values;
       setSubmitting(true);
@@ -175,13 +121,13 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
             onClick={onOpen}
             leftIcon={<AddIcon />}
          >
-            Crer une offre
+            Créer une offre
          </Button>
 
          <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-               <ModalHeader>Crer un offre</ModalHeader>
+               <ModalHeader>Créer une offre</ModalHeader>
                <ModalCloseButton top="4" />
                <ModalBody>
                   <FormOffreEmploiCreateUpdate initialValues={initialValues} submit={submit} onClose={onClose} />

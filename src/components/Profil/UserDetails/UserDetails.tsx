@@ -36,7 +36,7 @@ export function UserDetails({ user, setUser }: UserDetailsProps) {
                />
 
                <Flex flexDir="column" justify="center" align="center" gap="3">
-                  {user.mentor && parseInt(userId ?? idUserStore.toString()) !== idUserStore && (
+                  {parseInt(userId ?? idUserStore.toString()) !== idUserStore && (
                      <Box>
                         <ContactMentorMail to={user.email} />
                      </Box>

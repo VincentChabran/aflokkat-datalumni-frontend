@@ -68,6 +68,7 @@ export function FormCreateUpdateActualites({
 
                      <SelectField name="categorie" label="Catègorie" options={optionsCategorie} isRequired />
                   </SimpleGrid>
+
                   <InputFileField
                      name="file"
                      label="Image"
@@ -75,6 +76,7 @@ export function FormCreateUpdateActualites({
                      setFieldValue={setFieldValue}
                      isRequired={isForUpdate ? false : true}
                   />
+
                   <FormLabel m="0" pl={0} fontWeight="bold" fontSize="sm">
                      Contenu
                   </FormLabel>

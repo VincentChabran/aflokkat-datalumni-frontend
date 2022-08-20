@@ -1,7 +1,6 @@
 import { Button, HStack, ModalBody, ModalCloseButton, ModalHeader, useToast, VStack } from '@chakra-ui/react';
 import axios from 'axios';
 import { Form, Formik, FormikHelpers } from 'formik';
-import { Dispatch, SetStateAction } from 'react';
 import * as yup from 'yup';
 import { getLocalStorageToken } from '../../../utils/jwtToken';
 import { pathDomaineName } from '../../../utils/pathBackEnd';
@@ -35,13 +34,12 @@ const schema = yup.object().shape({
 });
 
 export interface PostulerOffreEmploiProps {
-   setDisplay: Dispatch<SetStateAction<string>>;
    onClose: () => void;
    nomDuPoste: string;
    emailContact: string;
 }
 
-export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailContact }: PostulerOffreEmploiProps) {
+export function PostulerOffreEmploi({ onClose, nomDuPoste, emailContact }: PostulerOffreEmploiProps) {
    const toast = useToast();
 
    const initialValues = {
@@ -109,7 +107,7 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
          }
       }
       setSubmitting(false);
-      setDisplay('infos');
+      onClose();
    };
 
    return (
@@ -142,15 +140,7 @@ export function PostulerOffreEmploi({ setDisplay, onClose, nomDuPoste, emailCont
                               Envoyer
                            </Button>
 
-                           <Button
-                              colorScheme="red"
-                              mr={3}
-                              onClick={() => {
-                                 if (setDisplay) setDisplay('infos');
-                                 else if (onClose) onClose();
-                              }}
-                              size={{ base: 'sm', sm: 'md' }}
-                           >
+                           <Button colorScheme="red" mr={3} onClick={() => onClose()} size={{ base: 'sm', sm: 'md' }}>
                               Annuler
                            </Button>
                         </HStack>

@@ -1,38 +1,30 @@
-import { AddIcon } from '@chakra-ui/icons';
-import {
-   Button,
-   Modal,
-   ModalBody,
-   ModalCloseButton,
-   ModalContent,
-   ModalHeader,
-   ModalOverlay,
-   useDisclosure,
-   useToast,
-   VStack,
-} from '@chakra-ui/react';
-import axios from 'axios';
-import { FormikHelpers } from 'formik';
-import { useOffresEmploiDisplayStore } from '../../store/useOffresEmploiDisplayStore';
+import { Box, Divider, Heading, Text, useToast, VStack } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../store/useUserStore';
-import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
-import { getLocalStorageToken } from '../../utils/jwtToken';
-import { pathDomaineName } from '../../utils/pathBackEnd';
-import { optionsSecteurActiviter } from '../../utils/tabOptionsSecteurActiviter';
+import { bgColor } from '../../themes/constants/bgColor';
+import parse from 'html-react-parser';
 import {
    FormOffreEmploiCreateUpdate,
    optionsExperienceSouhaitee,
    optionsTypeContrat,
    ValuesOffreEmploi,
 } from './FormOffreEmploiCreateUpdate';
+import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
+import { optionsSecteurActiviter } from '../../utils/tabOptionsSecteurActiviter';
+import axios from 'axios';
+import { pathDomaineName } from '../../utils/pathBackEnd';
+import { getLocalStorageToken } from '../../utils/jwtToken';
+import { useOffresEmploiDisplayStore } from '../../store/useOffresEmploiDisplayStore';
+import { FormikHelpers } from 'formik';
 
-export interface CreateOffreButtonProps {}
+export interface CreateOffreProps {}
 
-export function CreateOffreButton(props: CreateOffreButtonProps) {
-   const { isOpen, onOpen, onClose } = useDisclosure();
+export function CreateOffre(props: CreateOffreProps) {
+   const navigate = useNavigate();
    const toast = useToast();
 
-   const { idUserStore } = useUserStore();
+   const { idUserStore, rolesUserStore } = useUserStore();
    const { addOffre, setDisplayOffres } = useOffresEmploiDisplayStore();
 
    const initialValues: ValuesOffreEmploi = {
@@ -51,6 +43,27 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
       descriptionProfilCandidat: '',
       file: null,
    };
+
+   // Pour l'editeur de text la previous
+   const [descriptionEntrepriseState, setDescriptionEntrepriseState] = useState('');
+   useEffect(() => () => setDescriptionEntrepriseState(''), []);
+
+   const [descriptionPosteState, setdescriptionPosteState] = useState('');
+   useEffect(() => () => setdescriptionPosteState(''), []);
+
+   const [descriptionProfilCandidatState, setDescriptionProfilCandidatState] = useState('');
+   useEffect(() => () => setDescriptionProfilCandidatState(''), []);
+
+   // Roles permis sur la page
+   useEffect(() => {
+      if (
+         !rolesUserStore.includes('Admin') &&
+         !rolesUserStore.includes('Équipe-administrative') &&
+         !rolesUserStore.includes('Recruteur')
+      ) {
+         navigate('/offresemploi');
+      }
+   }, []);
 
    const submit = async (values: ValuesOffreEmploi, { setSubmitting }: FormikHelpers<ValuesOffreEmploi>): Promise<void> => {
       const { typeContrat, experienceSouhaitee, domaineActivite, file, ...rest } = values;
@@ -109,56 +122,59 @@ export function CreateOffreButton(props: CreateOffreButtonProps) {
          }
       }
       setSubmitting(false);
-      onClose();
+      navigate('/offresemploi');
    };
 
-   return (
-      <VStack>
-         <Button
-            size={{ base: 'xs', sm: 'sm' }}
-            variant="outline"
-            colorScheme="green"
-            onClick={onOpen}
-            leftIcon={<AddIcon />}
-         >
-            Créer une offre
-         </Button>
+   const bgBox = bgColor();
 
-         <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-               <ModalHeader>Créer une offre</ModalHeader>
-               <ModalCloseButton top="4" />
-               <ModalBody>
-                  <FormOffreEmploiCreateUpdate initialValues={initialValues} submit={submit} onClose={onClose} />
-               </ModalBody>
-            </ModalContent>
-         </Modal>
-      </VStack>
+   return (
+      <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 16 }}>
+         <Box p={{ base: 3, sm: 8 }} bgColor={bgBox} borderRadius="lg">
+            <Heading as="h2" borderBottom="1px solid orange" mb="10" p="0">
+               Créer une offre
+            </Heading>
+
+            <FormOffreEmploiCreateUpdate
+               initialValues={initialValues}
+               submit={submit}
+               setDescriptionEntrepriseState={setDescriptionEntrepriseState}
+               setDescriptionPosteState={setdescriptionPosteState}
+               setDescriptionProfilCandidat={setDescriptionProfilCandidatState}
+            />
+
+            <VStack align="start" spacing={4}>
+               <Heading as="h4" size="md">
+                  Previous
+               </Heading>
+
+               <Divider />
+
+               <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+                  <Text fontStyle="italic" mb={1}>
+                     Description Entreprise :
+                  </Text>
+                  {parse(descriptionEntrepriseState)}
+               </Box>
+
+               <Divider />
+
+               <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+                  <Text fontStyle="italic" mb={1}>
+                     Description Poste :
+                  </Text>
+                  {parse(descriptionPosteState)}
+               </Box>
+
+               <Divider />
+
+               <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+                  <Text fontStyle="italic" mb={1}>
+                     Description Profil Candidat :
+                  </Text>
+                  {parse(descriptionProfilCandidatState)}
+               </Box>
+            </VStack>
+         </Box>
+      </Box>
    );
 }
-
-const createOffreEmploiMutation = `
-mutation Mutation($createOffreEmploiInput: CreateOffreEmploiInput!) {
-   createOffreEmploi(createOffreEmploiInput: $createOffreEmploiInput) {
-     id
-     nomDuPoste
-     nomEntreprise
-     ville
-     typeContrat
-     domaineActivite
-     descriptionEntreprise
-     descriptionPoste
-     descriptionProfilCandidat
-     active
-     experienceSouhaitee
-     remuneration
-     emailContact
-     pathLienCandidature
-     dateDebut
-     dateLimiteCandidature
-     pathLogo
-     pathPieceJointe
-   }
- }
-`;

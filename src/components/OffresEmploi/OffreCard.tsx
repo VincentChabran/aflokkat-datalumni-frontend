@@ -1,18 +1,19 @@
 import { Box, Flex, Grid, Heading, Image, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { bgColor } from '../../themes/constants/bgColor';
 import { formatDateDdMmYyyy } from '../../tools/functions/formatDateDdMmYyyy';
 import { pathDomaineName, pathOffreLogo } from '../../utils/pathBackEnd';
 import { OffreGrid } from './DisplayOffreGrid';
-import { OffreDetail } from './OffreDetail/OffreDetail';
 
 export interface OffreCardProps {
    offre: OffreGrid;
 }
 
 export function OffreCard({ offre }: OffreCardProps) {
-   const { isOpen, onOpen, onClose } = useDisclosure();
+   const navigate = useNavigate();
 
-   const { nomDuPoste, dateCreation, nomEntreprise, ville, typeContrat, dateDebut, dateLimiteCandidature, pathLogo } = offre;
+   const { id, nomDuPoste, dateCreation, nomEntreprise, ville, typeContrat, dateDebut, dateLimiteCandidature, pathLogo } =
+      offre;
 
    return (
       <>
@@ -26,7 +27,7 @@ export function OffreCard({ offre }: OffreCardProps) {
             borderRadius="sm"
             bg={bgColor()}
             align="start"
-            onClick={onOpen}
+            onClick={() => navigate(`/offresemploi/${id}`)}
             _hover={{ cursor: 'pointer' }}
          >
             <Grid templateColumns={'2fr 1fr'} w="100%">
@@ -63,8 +64,6 @@ export function OffreCard({ offre }: OffreCardProps) {
                />
             </Flex>
          </VStack>
-
-         <OffreDetail isOpen={isOpen} onClose={onClose} offre={offre} />
       </>
    );
 }

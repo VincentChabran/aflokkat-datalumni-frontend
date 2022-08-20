@@ -13,11 +13,13 @@ import { OffresEmploi } from './views/OffresEmploi';
 import { Actualites } from './views/Actualites';
 import { CreateActualites } from './components/Actualites/CreateActualites';
 import { ActualiteDetail } from './components/Actualites/ActualiteDetail/ActualiteDetail';
+import { CreateOffre } from './components/OffresEmploi/CreateOffre';
+import { OffreDetail } from './components/OffresEmploi/OffreDetail/OffreDetail';
 
 function App() {
    const navigate = useNavigate();
 
-   const { setUserStore } = useUserStore();
+   const { rolesUserStore, setUserStore } = useUserStore();
 
    useEffect(() => {
       const lsToken = getLocalStorageToken();
@@ -43,12 +45,16 @@ function App() {
                   <NavBar />
                   <Routes>
                      <Route path="/annuaire" element={<Annuaire />} />
+
                      <Route path="/offresemploi" element={<OffresEmploi />} />
-                     <Route path="/apropos" element={<APropos />} />
+                     <Route path="/offresemploi/create" element={<CreateOffre />} />
+                     <Route path="/offresemploi/:offreId" element={<OffreDetail />} />
 
                      <Route path="/actualites" element={<Actualites />} />
                      <Route path="/actualites/create" element={<CreateActualites />} />
                      <Route path="/actualites/:blogId" element={<ActualiteDetail />} />
+
+                     <Route path="/apropos" element={<APropos />} />
 
                      <Route path="/profil/:userId" element={<Profil />} />
 

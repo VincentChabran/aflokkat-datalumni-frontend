@@ -56,7 +56,7 @@ export function FormCreateUpdateActualites({
 
    const navigate = useNavigate();
 
-   const editorRef = useRef<TinyMCEEditor>();
+   // const editorRef = useRef<TinyMCEEditor>();
 
    return (
       <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
@@ -83,7 +83,7 @@ export function FormCreateUpdateActualites({
                   <TextAreaField label="content" name="content" placeholder="content" isRequired hidden />
                   <Editor
                      initialValue={initialValues.content}
-                     onInit={(event, editor) => (editorRef.current = editor)}
+                     // onInit={(event, editor) => (editorRef.current = editor)}
                      onEditorChange={(value, editor) => {
                         setFieldValue('content', value);
                         setContentState(value);

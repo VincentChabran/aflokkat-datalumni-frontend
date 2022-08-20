@@ -1,5 +1,5 @@
 import { VStack } from '@chakra-ui/react';
-import { MostClesNomDuPoste } from './OffreSearchBar/MotsClesNomDuPoste';
+import { MostClesNomDuPoste } from './MotsClesNomDuPoste';
 
 export interface OffreSearchBarProps {}
 

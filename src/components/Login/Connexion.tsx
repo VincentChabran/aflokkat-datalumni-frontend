@@ -31,7 +31,10 @@ export function Connexion() {
       setSubmitting(true);
       const { data, error } = await execLoginUserMutation(variables);
 
-      if (error) setTitle('Identifiants incorrect... Veuillez réessayer.');
+      if (error?.message.includes("[GraphQL] Votre compte n'est pas encore activé"))
+         setTitle("Votre compte n'est pas encore activé");
+      else if (error) setTitle('Identifiants incorrect... Veuillez réessayer.');
+
       if (data) {
          const { accessToken, user } = data.login;
 

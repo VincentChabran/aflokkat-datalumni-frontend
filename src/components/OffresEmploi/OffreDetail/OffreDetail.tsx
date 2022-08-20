@@ -7,218 +7,206 @@ import {
    Image,
    ListItem,
    Modal,
-   ModalBody,
-   ModalCloseButton,
    ModalContent,
-   ModalFooter,
-   ModalHeader,
    ModalOverlay,
    SimpleGrid,
+   Spinner,
    Text,
    UnorderedList,
    useColorModeValue,
+   useDisclosure,
    VStack,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { BsFillPencilFill } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery } from 'urql';
 import { useUserStore } from '../../../store/useUserStore';
+import { bgColor } from '../../../themes/constants/bgColor';
 import { formatDateDdMmYyyy } from '../../../tools/functions/formatDateDdMmYyyy';
 import { OffreGrid } from '../DisplayOffreGrid';
+import parse from 'html-react-parser';
+import { BsFillPencilFill } from 'react-icons/bs';
+import { UpdateOffre } from '../UpdateOffre';
+import { pathDomaineName, pathOffreLogo } from '../../../utils/pathBackEnd';
 import { DeleteOffreEmploi } from './DeleteOffreEmploi';
 import { PostulerOffreEmploi } from './PostulerOffreEmploi';
-import { UpdateOffreEmploi } from './UpdateOffreEmploi';
 
-export interface OffreDetailProps {
-   isOpen: boolean;
-   onClose: () => void;
-   offre: OffreGrid;
-}
+export interface OffreDetailProps {}
 
-export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
-   const {
-      nomDuPoste,
-      nomEntreprise,
-      ville,
-      pathLogo,
-      dateCreation,
-      dateDebut,
-      dateLimiteCandidature,
-      experienceSouhaitee,
-      domaineActivite,
-      typeContrat,
-      emailContact,
-      remuneration,
-      pathLienCandidature,
-      userCreateurId,
-      userCreateur,
-      descriptionEntreprise,
-      descriptionPoste,
-      descriptionProfilCandidat,
-   } = offre;
-
-   const description = [
-      { title: 'Détail entreprise', value: descriptionEntreprise },
-      { title: 'Détail poste', value: descriptionPoste },
-      { title: 'Profil du candidat', value: descriptionProfilCandidat },
-   ];
-
-   const displayLeftSide = [
-      { value: domaineActivite.slice(3), label: 'Secteur:' },
-      { value: typeContrat.slice(3), label: 'Type de contrat:' },
-      { value: experienceSouhaitee.slice(3), label: 'Expérience souhaitée:' },
-      { value: remuneration, label: 'Rémunération(brut annuel):' },
-      { value: emailContact, label: 'Contact:' },
-   ];
-
-   const [display, setDisplay] = useState('infos');
+export function OffreDetail(props: OffreDetailProps) {
+   const { offreId } = useParams();
+   const navigate = useNavigate();
+   const { isOpen, onOpen, onClose } = useDisclosure();
 
    const { idUserStore, rolesUserStore } = useUserStore();
 
-   const navigate = useNavigate();
+   const [display, setDisplay] = useState('detail');
+   const [modalDisplay, setModalDisplay] = useState('');
 
+   const [offre, setOffre] = useState<OffreGrid>();
+
+   const [{ data, fetching, error }] = useQuery({
+      query: offreEmploiQuery,
+      variables: { offreEmploiId: parseInt(offreId ?? '') },
+   });
+
+   useEffect(() => {
+      if (!fetching && data) setOffre(data.offreEmploi);
+   }, [fetching]);
+
+   // Color
+   const bgBox = bgColor();
    const bgImpair = useColorModeValue('gray.100', 'blackAlpha.300');
    const bgPair = useColorModeValue('gray.300', 'blackAlpha.400');
 
+   const spanColor = useColorModeValue('orange.500', 'orange.300');
+   const descriptionColor = useColorModeValue('orange.400', 'orange.300');
+
+   const sizeGridText = ['xs', 'xs', 'xs', 'sm'];
+
    return (
-      <Modal isOpen={isOpen} onClose={onClose} size="3xl">
-         <ModalOverlay />
-         <ModalContent>
-            {display === 'infos' && (
-               <>
-                  <ModalHeader textAlign="center" fontWeight="normal" pos="relative">
-                     <Image
-                        borderRadius="none"
-                        src="./src/assets/img/konoha.jpg"
-                        maxW="100px"
-                        maxH="100px"
-                        m="auto"
-                        pos={{ base: 'relative', sm: 'absolute' }}
-                     />
+      <>
+         {fetching ? (
+            <Spinner />
+         ) : !offre ? (
+            <Box>TODO R</Box>
+         ) : (
+            <Box bgColor={bgBox} borderRadius="lg" mx={{ base: 0, sm: 2, md: 10 }} my={8} p={{ base: 0, sm: 0, md: 8 }}>
+               {display === 'detail' && (
+                  <>
+                     {/* Header de l'offre */}
+                     <Box mb={2}>
+                        <Image
+                           borderRadius="none"
+                           src={
+                              offre?.pathLogo
+                                 ? `${pathDomaineName}/${pathOffreLogo}/${offre?.pathLogo}`
+                                 : `${pathDomaineName}/${pathOffreLogo}/default.jpg`
+                           }
+                           maxW="100px"
+                           maxH="100px"
+                           m="auto"
+                           pos={{ base: 'relative', sm: 'absolute' }}
+                        />
 
-                     <VStack>
-                        <Heading p="0" pt="2">
-                           {nomDuPoste}
-                        </Heading>
-                        <Text fontSize="lg">{`${nomEntreprise} - ${ville}`}</Text>
-                     </VStack>
-                  </ModalHeader>
-                  <ModalCloseButton top="4" />
+                        <VStack>
+                           <Heading p="0" pt="2">
+                              {offre?.nomDuPoste}
+                           </Heading>
+                           <Text fontSize={['md', 'md', 'md', 'lg']}>{`${offre.nomEntreprise} - ${offre?.ville}`}</Text>
+                        </VStack>
+                     </Box>
 
-                  <ModalBody fontSize={{ base: 'xs', sm: 'sm', md: 'md' }} color="orange.400" p={{ base: '2', sm: '2' }}>
+                     {/*  */}
+                     {/* Liste des Infos, parti haute */}
                      <SimpleGrid
                         columns={{ base: 1, sm: 2 }}
-                        maxW="680px"
+                        maxW="780px"
                         m="auto"
                         py="8"
-                        pl={{ base: '2', sm: '3' }}
+                        pl={{ base: 1, sm: 0, md: 2 }}
                         bg={bgImpair}
                         borderTopRadius="md"
+                        overflow="hidden"
                      >
+                        {/* Gauche */}
                         <VStack align="start">
                            <UnorderedList pl="0">
-                              {displayLeftSide.map((el) => (
-                                 <ListItem key={el.label}>
+                              {[
+                                 { value: offre?.domaineActivite.slice(3), label: 'Secteur:' },
+                                 { value: offre?.typeContrat.slice(3), label: 'Type de contrat:' },
+                                 { value: offre?.experienceSouhaitee.slice(3), label: 'Expérience souhaitée:' },
+                                 { value: offre?.remuneration, label: 'Rémunération(brut annuel):' },
+                                 { value: offre?.emailContact, label: 'Contact:' },
+                              ].map((el) => (
+                                 <ListItem key={el.label} fontSize={sizeGridText}>
                                     {el.label + ' '}
-                                    <Text as="span" sx={cssSpan()}>
+                                    <Text as="span" fontWeight="semibold" color={spanColor} fontSize={sizeGridText}>
                                        {el.value + '.'}
                                     </Text>
                                  </ListItem>
                               ))}
                            </UnorderedList>
                         </VStack>
+                        {/*  */}
 
+                        {/* Droite */}
                         <VStack align="start">
-                           <UnorderedList pl="1">
-                              <ListItem>
-                                 Date de début{' '}
-                                 <Text as="span" sx={cssSpan()}>
-                                    {formatDateDdMmYyyy(dateDebut) + '.'}
-                                 </Text>
-                              </ListItem>
-                              <ListItem>
-                                 Fin des candidatures{' '}
-                                 <Text as="span" sx={cssSpan()}>
-                                    {formatDateDdMmYyyy(dateLimiteCandidature) + '.'}
-                                 </Text>
-                              </ListItem>
+                           <UnorderedList pl="0">
+                              {[
+                                 { value: formatDateDdMmYyyy(offre?.dateDebut), label: ' Date de début:' },
+                                 {
+                                    value: formatDateDdMmYyyy(offre?.dateLimiteCandidature),
+                                    label: ' Fin des candidatures',
+                                 },
+                                 { value: offre?.pathLienCandidature, label: 'Lien de candidature:' },
+                                 { value: formatDateDdMmYyyy(offre?.dateCreation), label: ' Publier le' },
+                              ].map((el) => (
+                                 <ListItem key={el.label} fontSize={sizeGridText}>
+                                    {el.label + ' '}
+                                    <Text as="span" fontWeight="semibold" color={spanColor} fontSize={sizeGridText}>
+                                       {el.value + '.'}
+                                    </Text>
+                                 </ListItem>
+                              ))}
 
-                              <ListItem>
-                                 Lien de candidature{' '}
-                                 <Text as="span" sx={cssSpan()}>
-                                    {pathLienCandidature + '.'}
-                                 </Text>
-                              </ListItem>
-
-                              <ListItem>
+                              <ListItem fontSize={sizeGridText}>
                                  Auteur{' '}
                                  <Text
                                     as="span"
-                                    sx={cssSpan()}
-                                    onClick={() => navigate(`/profil/${userCreateurId}`)}
+                                    fontWeight="semibold"
+                                    fontSize={sizeGridText}
+                                    color={spanColor}
+                                    onClick={() => navigate(`/profil/${offre?.userCreateurId}`)}
                                     _hover={{ cursor: 'pointer' }}
                                  >
-                                    {`${userCreateur.prenom} ${userCreateur.nom}`}
-                                 </Text>
-                              </ListItem>
-                              <ListItem>
-                                 Publier le{' '}
-                                 <Text as="span" sx={cssSpan()}>
-                                    {formatDateDdMmYyyy(dateCreation) + '.'}
+                                    {`${offre?.userCreateur.prenom} ${offre?.userCreateur.nom}`}
                                  </Text>
                               </ListItem>
                            </UnorderedList>
                         </VStack>
+                        {/*  */}
                      </SimpleGrid>
 
-                     <VStack maxW="680px" m="auto" spacing={0}>
-                        {description.map((el, i) => (
-                           <Box key={el.title} bg={i % 2 == 0 ? bgPair : bgImpair} py="14" px="4" w="100%">
-                              <Heading size="md" color={useColorModeValue('orange.500', 'orange.300')} p="0">
-                                 {el.title}
-                              </Heading>
-                              <Text
-                                 pt="6"
-                                 m="auto"
-                                 maxW="650px"
-                                 fontSize="sm"
-                                 color={useColorModeValue('orange.400', 'orange.300')}
-                              >
-                                 {el.value}
-                              </Text>
-                           </Box>
-                        ))}
-
-                        {/* <Box bg={bgImpair} py="14" px="4" w="100%">
-                           <Heading size="md" color="orange.300">
-                              Description du poste
+                     {/* Description (entreprise, poste, candidat) */}
+                     {[
+                        { title: 'Détail entreprise', value: parse(offre?.descriptionEntreprise) },
+                        { title: 'Détail poste', value: parse(offre?.descriptionPoste) },
+                        { title: 'Profil du candidat', value: parse(offre?.descriptionProfilCandidat) },
+                     ].map((el, i) => (
+                        <Box
+                           key={el.title}
+                           bg={i % 2 == 0 ? bgPair : bgImpair}
+                           py="14"
+                           px={{ base: '2', md: 4 }}
+                           w="100%"
+                           maxW="780px"
+                           m="auto"
+                        >
+                           <Heading size="md" color={descriptionColor} p="0">
+                              {el.title}
                            </Heading>
-                           <pre>
-                              <Text
-                                 pt="6"
-                                 m="auto"
-                                 maxW="650"
-                                 fontSize="sm"
-                                 color={useColorModeValue('orange.500', 'orange.200')}
-                              >
-                              </Text>
-                           </pre>
-                        </Box> */}
-                     </VStack>
-                  </ModalBody>
+                           <Box pt="6" m="auto" maxW="650px" fontSize="sm">
+                              {el.value}
+                           </Box>
+                        </Box>
+                     ))}
 
-                  <ModalFooter justifyContent={'center'}>
-                     <HStack>
+                     {/* Button */}
+                     <HStack justify="center" mt={6}>
                         <Button
                            size={{ base: 'xs', sm: 'sm' }}
                            colorScheme="green"
                            leftIcon={<EmailIcon />}
-                           onClick={() => setDisplay('postuler')}
+                           onClick={() => {
+                              onOpen();
+                              setModalDisplay('postuler');
+                           }}
                         >
                            Postuler
                         </Button>
 
-                        {(userCreateurId === idUserStore || rolesUserStore.includes('Admin')) && (
+                        {(offre?.userCreateurId === idUserStore || rolesUserStore.includes('Admin')) && (
                            <>
                               <Button
                                  leftIcon={<BsFillPencilFill />}
@@ -232,7 +220,10 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                               <Button
                                  colorScheme="red"
                                  leftIcon={<DeleteIcon />}
-                                 onClick={() => setDisplay('delete')}
+                                 onClick={() => {
+                                    onOpen();
+                                    setModalDisplay('delete');
+                                 }}
                                  size={{ base: 'xs', sm: 'sm' }}
                               >
                                  Suprimer
@@ -240,28 +231,63 @@ export function OffreDetail({ isOpen, onClose, offre }: OffreDetailProps) {
                            </>
                         )}
                      </HStack>
-                  </ModalFooter>
-               </>
-            )}
+                  </>
+               )}
 
-            {display === 'postuler' && (
-               <PostulerOffreEmploi
-                  setDisplay={setDisplay}
-                  onClose={onClose}
-                  nomDuPoste={nomDuPoste}
-                  emailContact={emailContact}
-               />
-            )}
+               {display === 'update' && <UpdateOffre offre={offre} setOffre={setOffre} setDisplay={setDisplay} />}
 
-            {display === 'update' && <UpdateOffreEmploi offre={offre} setDisplay={setDisplay} />}
+               {/*  */}
+               {/* Modal en fonction de l'état (postuler ou delete)*/}
+               <Modal isOpen={isOpen} onClose={onClose} size="3xl">
+                  <ModalOverlay />
+                  <ModalContent>
+                     {modalDisplay === 'postuler' && (
+                        <PostulerOffreEmploi
+                           onClose={onClose}
+                           nomDuPoste={offre?.nomDuPoste}
+                           emailContact={offre?.emailContact}
+                        />
+                     )}
 
-            {display === 'delete' && (
-               <DeleteOffreEmploi isOpen={isOpen} setDisplay={setDisplay} offreId={offre.id} onClose={onClose} />
-            )}
-         </ModalContent>
-      </Modal>
+                     {modalDisplay === 'delete' && <DeleteOffreEmploi isOpen={isOpen} offreId={offre.id} onClose={onClose} />}
+                  </ModalContent>
+               </Modal>
+            </Box>
+         )}
+      </>
    );
 }
+
+const offreEmploiQuery = `
+query Query($offreEmploiId: Int!) {
+   offreEmploi(id: $offreEmploiId) {
+      id
+      nomDuPoste
+      nomEntreprise
+      ville
+      typeContrat
+      dateCreation
+      domaineActivite
+      descriptionEntreprise
+      descriptionPoste
+      descriptionProfilCandidat
+      active
+      experienceSouhaitee
+      remuneration
+      emailContact
+      pathLienCandidature
+      dateDebut
+      dateLimiteCandidature
+      pathLogo
+      pathPieceJointe
+      userCreateurId
+      userCreateur {
+       nom
+       prenom
+     }
+   }
+ }
+`;
 
 const cssSpan = () => ({
    fontWeight: 'semibold',

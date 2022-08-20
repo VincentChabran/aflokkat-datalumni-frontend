@@ -1,6 +1,7 @@
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import { Button, Input, ModalBody, ModalCloseButton, ModalFooter, ModalHeader, Text } from '@chakra-ui/react';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'urql';
 import { useOffresEmploiDisplayStore } from '../../../store/useOffresEmploiDisplayStore';
 
@@ -8,10 +9,11 @@ export interface DeleteOffreEmploiProps {
    isOpen: boolean;
    offreId: number;
    onClose: () => void;
-   setDisplay: Dispatch<SetStateAction<string>>;
 }
 
-export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: DeleteOffreEmploiProps) {
+export function DeleteOffreEmploi({ isOpen, offreId, onClose }: DeleteOffreEmploiProps) {
+   const navigate = useNavigate();
+
    const [confirm, setConfirm] = useState('');
    const [isLoad, setIsLoad] = useState(false);
 
@@ -20,10 +22,6 @@ export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: Dele
    useEffect(() => {
       setConfirm('');
    }, [isOpen]);
-
-   useEffect(() => () => setDisplay('infos'), []);
-
-   console.log(offreId);
 
    const [_, exeDeleteOffreEmploiMutation] = useMutation(deleteOffreEmploiMutation);
    const handleValidate = async (): Promise<void> => {
@@ -36,6 +34,7 @@ export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: Dele
       }
       setIsLoad(false);
       onClose();
+      navigate('/offresemploi');
    };
 
    return (
@@ -64,7 +63,7 @@ export function DeleteOffreEmploi({ isOpen, offreId, onClose, setDisplay }: Dele
                Valider
             </Button>
 
-            <Button colorScheme="red" mr={3} size={{ base: 'xs', sm: 'sm' }} onClick={() => setDisplay('infos')}>
+            <Button colorScheme="red" mr={3} size={{ base: 'xs', sm: 'sm' }} onClick={() => onClose()}>
                Annuler
             </Button>
          </ModalFooter>

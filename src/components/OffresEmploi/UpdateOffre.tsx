@@ -1,29 +1,37 @@
-import { ModalBody, ModalCloseButton, ModalHeader, useToast } from '@chakra-ui/react';
+import { Box, Divider, Heading, Text, useToast, VStack } from '@chakra-ui/react';
+import axios from 'axios';
 import { FormikHelpers } from 'formik';
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import { useMutation } from 'urql';
-import { dateToInputValue } from '../../../tools/functions/formatDateForInputValue';
-import { formatOptionsRender } from '../../../tools/functions/formatOptionsRender';
-import { OffreGrid } from '../DisplayOffreGrid';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import parse from 'html-react-parser';
+import { useMutation, useQuery } from 'urql';
+import { useOffresEmploiDisplayStore } from '../../store/useOffresEmploiDisplayStore';
+import { bgColor } from '../../themes/constants/bgColor';
+import { dateToInputValue } from '../../tools/functions/formatDateForInputValue';
+import { formatOptionsRender } from '../../tools/functions/formatOptionsRender';
+import { toastSuccessError } from '../../tools/functions/toastSuccessError';
+import { getLocalStorageToken } from '../../utils/jwtToken';
+import { pathDomaineName } from '../../utils/pathBackEnd';
+import { optionsSecteurActiviter } from '../../utils/tabOptionsSecteurActiviter';
+import { OffreGrid } from './DisplayOffreGrid';
 import {
    FormOffreEmploiCreateUpdate,
    optionsExperienceSouhaitee,
    optionsTypeContrat,
    ValuesOffreEmploi,
-} from '../FormOffreEmploiCreateUpdate';
-import { toastSuccessError } from '../../../tools/functions/toastSuccessError';
-import { optionsSecteurActiviter } from '../../../utils/tabOptionsSecteurActiviter';
-import { useOffresEmploiDisplayStore } from '../../../store/useOffresEmploiDisplayStore';
-import axios from 'axios';
-import { pathDomaineName } from '../../../utils/pathBackEnd';
-import { getLocalStorageToken } from '../../../utils/jwtToken';
+} from './FormOffreEmploiCreateUpdate';
 
-export interface UpdateOffreEmploiProps {
+export interface UpdateOffreProps {
    offre: OffreGrid;
+   setOffre: Dispatch<SetStateAction<OffreGrid | undefined>>;
    setDisplay: Dispatch<SetStateAction<string>>;
 }
 
-export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps) {
+export function UpdateOffre({ offre, setOffre, setDisplay }: UpdateOffreProps) {
+   const toast = useToast();
+
+   const { updateOffre, setDisplayOffres } = useOffresEmploiDisplayStore();
+
    const {
       id,
       nomDuPoste,
@@ -42,10 +50,6 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       descriptionProfilCandidat,
    } = offre;
 
-   const toast = useToast();
-
-   const { updateOffre, setDisplayOffres } = useOffresEmploiDisplayStore();
-
    const initialValues: ValuesOffreEmploi = {
       nomDuPoste,
       nomEntreprise,
@@ -63,7 +67,14 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
       file: null,
    };
 
-   useEffect(() => () => setDisplay('infos'), []);
+   const [descriptionEntrepriseState, setDescriptionEntrepriseState] = useState('');
+   useEffect(() => () => setDescriptionEntrepriseState(''), []);
+
+   const [descriptionPosteState, setdescriptionPosteState] = useState('');
+   useEffect(() => () => setdescriptionPosteState(''), []);
+
+   const [descriptionProfilCandidatState, setDescriptionProfilCandidatState] = useState('');
+   useEffect(() => () => setDescriptionProfilCandidatState(''), []);
 
    const uploadOffreLogo = async (file: any): Promise<string | undefined> => {
       if (file) {
@@ -129,21 +140,64 @@ export function UpdateOffreEmploi({ offre, setDisplay }: UpdateOffreEmploiProps)
 
       toastSuccessError(toast, 'Offre modifié', 'Erreur modification', data, error);
 
+      setOffre(data.updateOffreEmploi);
       updateOffre(data.updateOffreEmploi);
       setDisplayOffres();
 
-      setDisplay('infos');
+      setDisplay('detail');
    };
 
-   return (
-      <>
-         <ModalHeader>Modifer l'annonce</ModalHeader>
-         <ModalCloseButton />
+   const bgBox = bgColor();
 
-         <ModalBody>
-            <FormOffreEmploiCreateUpdate initialValues={initialValues} submit={sumbit} setDisplay={setDisplay} isForUpdate />
-         </ModalBody>
-      </>
+   return (
+      <Box p={{ base: 3, sm: 6 }} bgColor={bgBox} borderRadius="lg">
+         <Heading as="h2" borderBottom="1px solid orange" mb="10" p="0">
+            Modifier une offre
+         </Heading>
+
+         <FormOffreEmploiCreateUpdate
+            initialValues={initialValues}
+            submit={sumbit}
+            setDisplay={setDisplay}
+            setDescriptionEntrepriseState={setDescriptionEntrepriseState}
+            setDescriptionPosteState={setdescriptionPosteState}
+            setDescriptionProfilCandidat={setDescriptionProfilCandidatState}
+            isForUpdate
+         />
+
+         <VStack align="start" spacing={4}>
+            <Heading as="h4" size="md">
+               Previous
+            </Heading>
+
+            <Divider />
+
+            <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+               <Text fontStyle="italic" mb={1}>
+                  Description Entreprise :
+               </Text>
+               {parse(descriptionEntrepriseState)}
+            </Box>
+
+            <Divider />
+
+            <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+               <Text fontStyle="italic" mb={1}>
+                  Description Poste :
+               </Text>
+               {parse(descriptionPosteState)}
+            </Box>
+
+            <Divider />
+
+            <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+               <Text fontStyle="italic" mb={1}>
+                  Description Profil Candidat :
+               </Text>
+               {parse(descriptionProfilCandidatState)}
+            </Box>
+         </VStack>
+      </Box>
    );
 }
 

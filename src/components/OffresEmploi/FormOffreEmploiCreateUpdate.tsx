@@ -1,12 +1,12 @@
-import { Button, HStack, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, VStack } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { Dispatch, SetStateAction } from 'react';
 import * as yup from 'yup';
 import { optionsSecteurActiviter } from '../../utils/tabOptionsSecteurActiviter';
+import { CustomEditor } from '../global/CustomEditor';
 import InputField from '../global/formikField/InputField';
 import InputFileField from '../global/formikField/InputFileField';
 import SelectField from '../global/formikField/SelectField';
-import TextAreaField from '../global/formikField/TextAreaField';
 
 export const optionsTypeContrat = [
    { value: '01', label: 'Stage' },
@@ -37,6 +37,9 @@ export interface FormOffreEmploiCreateUpdateProps {
    initialValues: ValuesOffreEmploi;
    submit: (values: ValuesOffreEmploi, actions: FormikHelpers<ValuesOffreEmploi>) => Promise<void>;
    setDisplay?: Dispatch<SetStateAction<string>>;
+   setDescriptionEntrepriseState: Dispatch<SetStateAction<string>>;
+   setDescriptionPosteState: Dispatch<SetStateAction<string>>;
+   setDescriptionProfilCandidat: Dispatch<SetStateAction<string>>;
    onClose?: () => void;
    isForUpdate?: boolean;
 }
@@ -45,6 +48,9 @@ export function FormOffreEmploiCreateUpdate({
    initialValues,
    submit,
    setDisplay,
+   setDescriptionEntrepriseState,
+   setDescriptionPosteState,
+   setDescriptionProfilCandidat,
    onClose,
    isForUpdate,
 }: FormOffreEmploiCreateUpdateProps) {
@@ -94,7 +100,7 @@ export function FormOffreEmploiCreateUpdate({
               .mixed()
               .test('fileSize', 'File too large', (value) => (value ? value.size <= 7000000 : true))
               .test('fileFormat', 'Unsupported Format', (value) => (value ? SUPPORTED_FORMATS.includes(value.type) : true))
-              .required('Cv requis'),
+              .required('Logo requis'),
    });
 
    return (
@@ -106,7 +112,6 @@ export function FormOffreEmploiCreateUpdate({
                   <InputField name="nomEntreprise" label="Nom de l'entreprise" placeholder="Nom de l'entreprise" isRequired />
                   <InputField name="ville" label="nom de la ville" placeholder="Nom de la ville" isRequired />
 
-                  {/* <InputField name="domaineActivite" label="Secteur d'activité" placeholder="Secteur d'activité" isRequired /> */}
                   <SelectField
                      name="domaineActivite"
                      label="Secteur d'activité"
@@ -136,24 +141,50 @@ export function FormOffreEmploiCreateUpdate({
                      isRequired
                   />
 
-                  <TextAreaField
+                  {/* <TextAreaField
                      label="Description entreprise"
                      name="descriptionEntreprise"
                      placeholder="Description entreprise"
                      isRequired
-                  />
-                  <TextAreaField
+                  /> */}
+                  {/* <TextAreaField
                      label="Description poste"
                      name="descriptionPoste"
                      placeholder="Description poste"
                      isRequired
-                  />
-                  <TextAreaField
+                  /> */}
+                  {/* <TextAreaField
                      label="Description profil candidat"
                      name="descriptionProfilCandidat"
                      placeholder="Description profil candidat"
                      isRequired
+                  /> */}
+
+                  <CustomEditor
+                     label="Description entreprise"
+                     name="descriptionEntreprise"
+                     initialValue={initialValues.descriptionEntreprise}
+                     setFieldValue={setFieldValue}
+                     setFieldState={setDescriptionEntrepriseState}
                   />
+
+                  <CustomEditor
+                     initialValue={initialValues.descriptionPoste}
+                     label={'Description poste'}
+                     name={'descriptionPoste'}
+                     setFieldValue={setFieldValue}
+                     setFieldState={setDescriptionPosteState}
+                  />
+
+                  <CustomEditor
+                     label="Description profil candidat"
+                     name="descriptionProfilCandidat"
+                     initialValue={initialValues.descriptionProfilCandidat}
+                     setFieldValue={setFieldValue}
+                     setFieldState={setDescriptionProfilCandidat}
+                  />
+
+                  {/*  */}
 
                   <InputFileField
                      name="file"
@@ -172,7 +203,7 @@ export function FormOffreEmploiCreateUpdate({
                         colorScheme="red"
                         mr={3}
                         onClick={() => {
-                           if (setDisplay) setDisplay('infos');
+                           if (setDisplay) setDisplay('detail');
                            else if (onClose) onClose();
                         }}
                         size={{ base: 'sm', sm: 'md' }}

@@ -40,7 +40,7 @@ export function FormCreateUpdateActualites({
          .min(1, 'La valeur minimum est de 1')
          .max(optionsCategorie.length, `La valeur maximum est de ${optionsCategorie.length}`)
          .required('Champs requis')
-         .typeError(`La valeur dois étre entre 01 et ${optionsCategorie.length}`),
+         .typeError(`La valeur doit étre entre 01 et ${optionsCategorie.length}`),
       content: yup.string().required('Champ requis'),
       file: isForUpdate
          ? yup

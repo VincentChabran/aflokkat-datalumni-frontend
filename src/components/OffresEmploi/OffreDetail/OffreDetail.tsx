@@ -69,7 +69,7 @@ export function OffreDetail(props: OffreDetailProps) {
          {fetching ? (
             <Spinner />
          ) : !offre ? (
-            <Box>TODO R</Box>
+            <Box>L'offre n'existe pas</Box>
          ) : (
             <Box bgColor={bgBox} borderRadius="lg" mx={{ base: 0, sm: 2, md: 10 }} my={8} p={{ base: 0, sm: 0, md: 8 }}>
                {display === 'detail' && (

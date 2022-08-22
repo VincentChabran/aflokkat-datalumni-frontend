@@ -12,7 +12,7 @@ interface errorExtensions {
 export const errorMessageToast = (errorRow: CombinedError) => {
    // Juste pour typer le .extensions car légèrement buger de base
    const formatResponse = [];
-   console.log(errorRow);
+   // console.log(errorRow);
 
    if (errorRow.message === '[Network] Failed to fetch') {
       formatResponse.push('Connexion au serveur impossible');

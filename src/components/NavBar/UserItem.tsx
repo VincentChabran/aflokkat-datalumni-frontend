@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { FaUserEdit } from 'react-icons/fa';
 import { BiLogOut } from 'react-icons/bi';
+import { CgReadme } from 'react-icons/cg';
 import { ColorModeSwitcher } from '../global/ColorModoSwitcher';
 import NavItem from './NavItem';
 import { useUserStore } from '../../store/useUserStore';
@@ -20,7 +21,8 @@ import { deleteLocalStorageToken } from '../../utils/jwtToken';
 import { pathDomaineName, pathProfilImg } from '../../utils/pathBackEnd';
 
 export function UserItem() {
-   const { idUserStore, prenomUserStore, nomUserStore, profilPictureNameUserStore, setUserStore } = useUserStore();
+   const { idUserStore, prenomUserStore, nomUserStore, profilPictureNameUserStore, rolesUserStore, setUserStore } =
+      useUserStore();
 
    const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -33,7 +35,6 @@ export function UserItem() {
       <Popover placement="bottom-start" isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
          <PopoverTrigger>
             <Button variant="custom" h="50px" minW="100px" mr="3px" overflow="hidden">
-               {/* <Flex w="100%" justify={{ base: 'space-around', lg: 'space-evenly' }} align="center"> */}
                <Avatar
                   size="sm"
                   src={profilPictureNameUserStore ? `${pathDomaineName}/${pathProfilImg}/${profilPictureNameUserStore}` : ''}
@@ -46,9 +47,7 @@ export function UserItem() {
 
                <Text fontFamily="heading" display={{ base: 'contents', xs: 'none', lg: 'contents', xl: 'none' }}>
                   {prenomUserStore}
-                  {/* {prenom.charAt(0)} {nom.charAt(0)} */}
                </Text>
-               {/* </Flex> */}
             </Button>
          </PopoverTrigger>
 
@@ -64,6 +63,12 @@ export function UserItem() {
                   <NavItem href={`/profil/${idUserStore}`} icon={FaUserEdit} h="40px">
                      Profil
                   </NavItem>
+
+                  {rolesUserStore.includes('Admin') && (
+                     <NavItem href={`/gestionNewAccount`} icon={CgReadme}>
+                        Admin
+                     </NavItem>
+                  )}
 
                   <NavItem href="/login" icon={BiLogOut} h="40px" onClick={deconnection}>
                      Déconnexion

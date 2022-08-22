@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, VStack } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, VStack } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useMutation } from 'urql';
@@ -33,7 +33,7 @@ export function Connexion() {
 
       if (error?.message.includes("[GraphQL] Votre compte n'est pas encore activé"))
          setTitle("Votre compte n'est pas encore activé");
-      else if (error) setTitle('Identifiants incorrect... Veuillez réessayer.');
+      else if (error) setTitle('Identifiants incorrects... Veuillez réessayer.');
 
       if (data) {
          const { accessToken, user } = data.login;
@@ -47,7 +47,7 @@ export function Connexion() {
    };
 
    return (
-      <>
+      <VStack w="100%" my={10}>
          <Heading as="h4" textAlign="center" size="sm" variant="custom" p="0">
             {title}
          </Heading>
@@ -71,7 +71,7 @@ export function Connexion() {
                )}
             </Formik>
          </Flex>
-      </>
+      </VStack>
    );
 }
 

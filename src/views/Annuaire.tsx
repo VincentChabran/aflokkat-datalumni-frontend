@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, VStack } from '@chakra-ui/react';
 import { CreateUserButton } from '../components/Annuaire/createUserButton/CreateUserButton';
 import { DisplayUserGrid } from '../components/Annuaire/DisplayUserGrid';
 import { UserSearchBar } from '../components/Annuaire/UserSearchBar';
@@ -8,7 +8,7 @@ export function Annuaire() {
    const { rolesUserStore } = useUserStore();
 
    return (
-      <>
+      <VStack py={6}>
          {rolesUserStore.includes('Admin') && <CreateUserButton />}
 
          <UserSearchBar />
@@ -16,6 +16,6 @@ export function Annuaire() {
          <Box>
             <DisplayUserGrid />
          </Box>
-      </>
+      </VStack>
    );
 }

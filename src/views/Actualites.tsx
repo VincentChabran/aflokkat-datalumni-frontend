@@ -13,7 +13,7 @@ export function Actualites(props: IActualitesProps) {
    const { rolesUserStore } = useUserStore();
 
    return (
-      <VStack py="10" px={{ base: '4', md: '8', lg: '14' }} spacing={10}>
+      <VStack py="6" px={{ base: '4', md: '8', lg: '14' }} spacing={10}>
          {(rolesUserStore.includes('Admin') || rolesUserStore.includes('Équipe-administrative')) && (
             <VStack>
                <Button

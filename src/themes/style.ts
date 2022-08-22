@@ -10,10 +10,10 @@ export const styles = {
          lineHeight: 'base',
       },
       '&::-webkit-scrollbar': {
-         width: '4px',
+         width: '2px',
       },
       '&::-webkit-scrollbar-track': {
-         width: '6px',
+         width: '2px',
          backgroundColor: '#4A5568',
          borderRadius: '24px',
       },

@@ -48,13 +48,13 @@ export function UserSearchBar(props: UserSearchBarProps) {
       {
          selectByX: selectByRoles,
          setSelectByX: setSelectByRoles,
-         title: 'Tous les roles',
+         title: 'Tous les rôles',
          optionsSelect: rolesOptions,
       },
       {
          selectByX: selectByDiplome,
          setSelectByX: setSelectByDiplome,
-         title: 'Tous les Diplôme',
+         title: 'Tous les diplômes',
          optionsSelect: optionsDiplome,
       },
       {

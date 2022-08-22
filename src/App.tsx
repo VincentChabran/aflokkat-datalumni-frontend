@@ -15,6 +15,7 @@ import { CreateActualites } from './components/Actualites/CreateActualites';
 import { ActualiteDetail } from './components/Actualites/ActualiteDetail/ActualiteDetail';
 import { CreateOffre } from './components/OffresEmploi/CreateOffre';
 import { OffreDetail } from './components/OffresEmploi/OffreDetail/OffreDetail';
+import { GestionNewAccount } from './views/GestionNewAccount';
 
 function App() {
    const navigate = useNavigate();
@@ -57,6 +58,7 @@ function App() {
                      <Route path="/apropos" element={<APropos />} />
 
                      <Route path="/profil/:userId" element={<Profil />} />
+                     <Route path="/gestionNewAccount" element={<GestionNewAccount />} />
 
                      <Route path="*" element={<Accueil />} />
                   </Routes>

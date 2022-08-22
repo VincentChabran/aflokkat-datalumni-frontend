@@ -13,7 +13,7 @@ export function OffresEmploi(props: OffresEmploiProps) {
    const { rolesUserStore } = useUserStore();
 
    return (
-      <VStack align="normal" py="4" px={{ base: '1', sm: '2', md: '4' }} spacing={10}>
+      <VStack align="normal" py="6" px={{ base: '1', sm: '2', md: '4' }} spacing={10}>
          {(rolesUserStore.includes('Admin') ||
             rolesUserStore.includes('Recruteur') ||
             rolesUserStore.includes('Équipe-administrative')) && (

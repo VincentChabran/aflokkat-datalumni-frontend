@@ -72,7 +72,7 @@ export function CreateActualites(props: CreateActualitesProps) {
                },
             });
             toast({
-               title: 'Actualité crée',
+               title: 'Actualité créée',
                status: 'success',
                duration: 3000,
                position: 'top',
@@ -102,7 +102,7 @@ export function CreateActualites(props: CreateActualitesProps) {
       <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 16 }}>
          <Box p={{ base: 3, sm: 8 }} bgColor={bgBox} borderRadius="lg">
             <Heading as="h2" borderBottom="1px solid orange" mb="10" p="0">
-               Crée un article
+               Créer un article
             </Heading>
 
             <FormCreateUpdateActualites initialValues={initialValues} submit={submit} setContentState={setContentState} />

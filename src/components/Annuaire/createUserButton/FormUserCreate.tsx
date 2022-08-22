@@ -20,8 +20,8 @@ const schema = yup.object().shape({
       .required('Le nom est requis...'),
    prenom: yup
       .string()
-      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Le prenom ne peut pas contenir de caractères spéciaux')
-      .required('Le prenom est requis...'),
+      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Le prénom ne peut pas contenir de caractères spéciaux')
+      .required('Le prénom est requis...'),
 
    Admin: yup.boolean().typeError('Admin ne peut être que vrai ou faux'),
    Equipe_administrative: yup.boolean().typeError('Equipe_administrative ne peut être que vrai ou faux'),
@@ -33,43 +33,57 @@ const schema = yup.object().shape({
 export interface FormUserCreateProps {
    initialValues: ValuesUserCreate;
    submit: (values: ValuesUserCreate, actions: FormikHelpers<ValuesUserCreate>) => Promise<void>;
-   onClose: () => void;
+   onClose?: () => void;
+   isForInscription?: boolean;
 }
 
-export function FormUserCreate({ initialValues, submit, onClose }: FormUserCreateProps) {
+export function FormUserCreate({ initialValues, submit, onClose, isForInscription }: FormUserCreateProps) {
    return (
       <Formik initialValues={initialValues} onSubmit={submit} validationSchema={schema}>
          {({ isSubmitting }) => (
-            <Form>
-               <VStack justify="center" w="100%">
+            <VStack align="stretch" w="100%">
+               <Form>
                   <InputField name="email" label="Email" placeholder="Email" isRequired />
                   <InputField name="password" label="Password" placeholder="Password" isRequired />
                   <InputField name="nom" label="Nom" placeholder="Nom" isRequired />
                   <InputField name="prenom" label="Prenom" placeholder="Prenom" isRequired />
 
-                  <Box w="100%" pt="4">
-                     <Text fontWeight="semibold">Roles :</Text>
-                  </Box>
+                  {!isForInscription && (
+                     <>
+                        <Box w="100%" pt="4">
+                           <Text fontWeight="semibold">Roles :</Text>
+                        </Box>
 
-                  <Flex wrap="wrap" gap="4">
-                     <CheckboxField name="Admin" label="Admin" />
-                     <CheckboxField name="Equipe_administrative" label="Équipe-Administrative" />
-                     <CheckboxField name="Recruteur" label="Recruteur" />
-                     <CheckboxField name="Enseignant" label="Enseignant" />
-                     <CheckboxField name="Etudiant" label="Étudiant" />
-                  </Flex>
+                        <Flex wrap="wrap" gap="4">
+                           <CheckboxField name="Admin" label="Admin" />
+                           <CheckboxField name="Equipe_administrative" label="Équipe-Administrative" />
+                           <CheckboxField name="Recruteur" label="Recruteur" />
+                           <CheckboxField name="Enseignant" label="Enseignant" />
+                           <CheckboxField name="Etudiant" label="Étudiant" />
+                        </Flex>
+                     </>
+                  )}
 
                   <HStack pt="5" justify="center" w="100%">
                      <Button type="submit" colorScheme="green" size={{ base: 'sm', sm: 'md' }} isLoading={isSubmitting}>
                         Valider
                      </Button>
 
-                     <Button colorScheme="red" mr={3} onClick={() => onClose()} size={{ base: 'sm', sm: 'md' }}>
-                        Annuler
-                     </Button>
+                     {!isForInscription && (
+                        <Button
+                           colorScheme="red"
+                           mr={3}
+                           onClick={() => {
+                              if (onClose) onClose();
+                           }}
+                           size={{ base: 'sm', sm: 'md' }}
+                        >
+                           Annuler
+                        </Button>
+                     )}
                   </HStack>
-               </VStack>
-            </Form>
+               </Form>
+            </VStack>
          )}
       </Formik>
    );

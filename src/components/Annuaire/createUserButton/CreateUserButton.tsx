@@ -48,15 +48,15 @@ export function CreateUserButton(props: CreateUserButtonProps) {
          singupUserInput: {
             roles,
             ...rest,
+            isActive: true,
          },
       };
 
       setSubmitting(true);
       const { data, error } = await exeSignUpMutation(variables);
       setSubmitting(false);
-      console.log(data);
 
-      toastSuccessError(toast, 'Utilisateur crée', 'Erreur création', data, error);
+      toastSuccessError(toast, 'Utilisateur créé', 'Erreur création', data, error);
 
       // Update de l'affiche sans requete grace au store
       addUser(data.singUp);
@@ -66,7 +66,7 @@ export function CreateUserButton(props: CreateUserButtonProps) {
    };
 
    return (
-      <VStack mt="4">
+      <VStack>
          <Button
             size={{ base: 'xs', sm: 'sm' }}
             variant="outline"

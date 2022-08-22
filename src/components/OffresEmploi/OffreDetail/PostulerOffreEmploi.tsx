@@ -17,8 +17,8 @@ const schema = yup.object().shape({
       .required('Le nom est requis...'),
    prenom: yup
       .string()
-      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Le prenom ne peut pas contenir de caractères spéciaux')
-      .required('Le prenom est requis...'),
+      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Le prénom ne peut pas contenir de caractères spéciaux')
+      .required('Le prénom est requis...'),
    email: yup.string().email('Format non valide pour un email...').required('Champ requis'),
    message: yup.string(),
    file: yup

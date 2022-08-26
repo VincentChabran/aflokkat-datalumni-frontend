@@ -30,6 +30,8 @@ import { UpdateOffre } from '../UpdateOffre';
 import { pathDomaineName, pathOffreLogo } from '../../../utils/pathBackEnd';
 import { DeleteOffreEmploi } from './DeleteOffreEmploi';
 import { PostulerOffreEmploi } from './PostulerOffreEmploi';
+import { SkeletonOffreDetail } from '../../Skeleton/OffreEmploi/SkeletonOffreDetail';
+import { NotFound } from '../../global/Error/NotFound';
 
 export interface OffreDetailProps {}
 
@@ -67,9 +69,9 @@ export function OffreDetail(props: OffreDetailProps) {
    return (
       <>
          {fetching ? (
-            <Spinner />
+            <SkeletonOffreDetail />
          ) : !offre ? (
-            <Box>L'offre n'existe pas</Box>
+            <NotFound texte="L'offre que vous cherchez n'existe pas." />
          ) : (
             <Box bgColor={bgBox} borderRadius="lg" mx={{ base: 0, sm: 2, md: 10 }} my={8} p={{ base: 0, sm: 0, md: 8 }}>
                {display === 'detail' && (
@@ -101,7 +103,7 @@ export function OffreDetail(props: OffreDetailProps) {
                      {/* Liste des Infos, parti haute */}
                      <SimpleGrid
                         columns={{ base: 1, sm: 2 }}
-                        maxW="780px"
+                        maxW="850px"
                         m="auto"
                         py="8"
                         pl={{ base: 1, sm: 0, md: 2 }}
@@ -110,7 +112,7 @@ export function OffreDetail(props: OffreDetailProps) {
                         overflow="hidden"
                      >
                         {/* Gauche */}
-                        <VStack align="start">
+                        <VStack align="center">
                            <UnorderedList pl="0">
                               {[
                                  { value: offre?.domaineActivite.slice(3), label: 'Secteur:' },
@@ -131,7 +133,7 @@ export function OffreDetail(props: OffreDetailProps) {
                         {/*  */}
 
                         {/* Droite */}
-                        <VStack align="start">
+                        <VStack align="center">
                            <UnorderedList pl="0">
                               {[
                                  { value: formatDateDdMmYyyy(offre?.dateDebut), label: ' Date de début:' },
@@ -180,13 +182,13 @@ export function OffreDetail(props: OffreDetailProps) {
                            py="14"
                            px={{ base: '2', md: 4 }}
                            w="100%"
-                           maxW="780px"
+                           maxW="850px"
                            m="auto"
                         >
                            <Heading size="md" color={descriptionColor} p="0">
                               {el.title}
                            </Heading>
-                           <Box pt="6" m="auto" maxW="650px" fontSize="sm">
+                           <Box pt="6" m="auto" maxW="750px" fontSize="sm">
                               {el.value}
                            </Box>
                         </Box>

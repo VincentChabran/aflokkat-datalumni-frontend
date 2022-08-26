@@ -2,9 +2,8 @@ import { Box, Divider, Heading, Text, useToast, VStack } from '@chakra-ui/react'
 import axios from 'axios';
 import { FormikHelpers } from 'formik';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
-import { useMutation, useQuery } from 'urql';
+import { useMutation } from 'urql';
 import { useOffresEmploiDisplayStore } from '../../store/useOffresEmploiDisplayStore';
 import { bgColor } from '../../themes/constants/bgColor';
 import { dateToInputValue } from '../../tools/functions/formatDateForInputValue';
@@ -67,13 +66,13 @@ export function UpdateOffre({ offre, setOffre, setDisplay }: UpdateOffreProps) {
       file: null,
    };
 
-   const [descriptionEntrepriseState, setDescriptionEntrepriseState] = useState('');
+   const [descriptionEntrepriseState, setDescriptionEntrepriseState] = useState(descriptionEntreprise);
    useEffect(() => () => setDescriptionEntrepriseState(''), []);
 
-   const [descriptionPosteState, setdescriptionPosteState] = useState('');
+   const [descriptionPosteState, setdescriptionPosteState] = useState(descriptionPoste);
    useEffect(() => () => setdescriptionPosteState(''), []);
 
-   const [descriptionProfilCandidatState, setDescriptionProfilCandidatState] = useState('');
+   const [descriptionProfilCandidatState, setDescriptionProfilCandidatState] = useState(descriptionProfilCandidat);
    useEffect(() => () => setDescriptionProfilCandidatState(''), []);
 
    const uploadOffreLogo = async (file: any): Promise<string | undefined> => {
@@ -172,7 +171,7 @@ export function UpdateOffre({ offre, setOffre, setDisplay }: UpdateOffreProps) {
 
             <Divider />
 
-            <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+            <Box maxW="750px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
                <Text fontStyle="italic" mb={1}>
                   Description Entreprise :
                </Text>
@@ -181,7 +180,7 @@ export function UpdateOffre({ offre, setOffre, setDisplay }: UpdateOffreProps) {
 
             <Divider />
 
-            <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+            <Box maxW="750px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
                <Text fontStyle="italic" mb={1}>
                   Description Poste :
                </Text>
@@ -190,7 +189,7 @@ export function UpdateOffre({ offre, setOffre, setDisplay }: UpdateOffreProps) {
 
             <Divider />
 
-            <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+            <Box maxW="750px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
                <Text fontStyle="italic" mb={1}>
                   Description Profil Candidat :
                </Text>

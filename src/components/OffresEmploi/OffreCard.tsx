@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Heading, Image, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { Box, Flex, Grid, Heading, Image, Text, VStack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { bgColor } from '../../themes/constants/bgColor';
 import { formatDateDdMmYyyy } from '../../tools/functions/formatDateDdMmYyyy';

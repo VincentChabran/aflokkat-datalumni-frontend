@@ -4,7 +4,7 @@ import { useQuery } from 'urql';
 import { useOffresEmploiDisplayStore } from '../../store/useOffresEmploiDisplayStore';
 import { NotFound } from '../global/Error/NotFound';
 import { ServeurError } from '../global/Error/ServeurError';
-import { SkeletonOffreEmploi } from '../Skeleton/SkeletonOffreEmploi';
+import { SkeletonOffreEmploi } from '../Skeleton/OffreEmploi/SkeletonOffreEmploi';
 import { OffreCard } from './OffreCard';
 
 export interface OffreGrid {

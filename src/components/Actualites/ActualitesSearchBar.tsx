@@ -1,4 +1,4 @@
-import { Flex, FormControl, FormLabel, HStack, Input, Select, VStack } from '@chakra-ui/react';
+import { Flex, VStack } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useActualitesDisplayStore } from '../../store/useActualitesDisplayStore';
 import { SearchWithSelect } from '../global/SearchWithSelect';

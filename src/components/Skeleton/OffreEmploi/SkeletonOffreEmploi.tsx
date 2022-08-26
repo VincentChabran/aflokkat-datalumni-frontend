@@ -1,6 +1,5 @@
 import { Box, Flex, Grid, SimpleGrid, Skeleton, SkeletonCircle, SkeletonText, VStack } from '@chakra-ui/react';
-import * as React from 'react';
-import { bgColor } from '../../themes/constants/bgColor';
+import { bgColor } from '../../../themes/constants/bgColor';
 
 export interface SkeletonOffreEmploiProps {}
 

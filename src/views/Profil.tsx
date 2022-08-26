@@ -64,7 +64,7 @@ export function Profil(props: ProfilProps) {
          data?.user?.experiencePro?.sort((a: any, b: any) => a.id - b.id);
          setUser(data?.user);
       }
-      console.log(error?.message);
+      // console.log(error?.message);
    }, [fetching]);
 
    useEffect(() => {
@@ -86,8 +86,8 @@ export function Profil(props: ProfilProps) {
                )}
             </>
          ) : (
-            <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 20 }}>
-               <Box p={{ base: 3, sm: 8 }} px={{ base: 3, lg: 16 }} bgColor={bgBox} borderRadius="lg">
+            <Box p={{ base: 3, sm: 6 }} px={{ base: 0, lg: 12 }}>
+               <Box p={{ base: 3, sm: 6 }} px={{ base: 1, lg: 10 }} bgColor={bgBox} borderRadius="lg">
                   <UserDetails user={user} setUser={setUser} />
 
                   <UserExperiencePro user={user} reExeSpecifiqueUserQuery={reExeSpecifiqueUserQuery} />

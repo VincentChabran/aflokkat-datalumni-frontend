@@ -1,4 +1,5 @@
-import { Box, VStack } from '@chakra-ui/react';
+import { Box, HStack, VStack } from '@chakra-ui/react';
+import { AddUsersByCsv } from '../components/Annuaire/createUserButton/AddUsersByCsv';
 import { CreateUserButton } from '../components/Annuaire/createUserButton/CreateUserButton';
 import { DisplayUserGrid } from '../components/Annuaire/DisplayUserGrid';
 import { UserSearchBar } from '../components/Annuaire/UserSearchBar';
@@ -9,11 +10,16 @@ export function Annuaire() {
 
    return (
       <VStack py={6}>
-         {rolesUserStore.includes('Admin') && <CreateUserButton />}
+         {(rolesUserStore.includes('Admin') || rolesUserStore.includes('Equipe_administrative')) && (
+            <HStack>
+               <CreateUserButton />
+               <AddUsersByCsv />
+            </HStack>
+         )}
 
          <UserSearchBar />
 
-         <Box>
+         <Box w="100%">
             <DisplayUserGrid />
          </Box>
       </VStack>

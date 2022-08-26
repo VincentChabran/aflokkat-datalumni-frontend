@@ -11,6 +11,7 @@ import { DeleteActuButton } from './DeleteActuButton';
 import { formatDateDdMmYyyy } from '../../../tools/functions/formatDateDdMmYyyy';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { useUserStore } from '../../../store/useUserStore';
+import { NotFound } from '../../global/Error/NotFound';
 
 export interface ActualiteDetailProps {}
 
@@ -36,7 +37,7 @@ export function ActualiteDetail(props: ActualiteDetailProps) {
          {fetching ? (
             <Spinner />
          ) : !blog ? (
-            <Box>TODO R</Box>
+            <NotFound texte="L'actualité que vous cherchez n'existe pas." />
          ) : (
             <Box p={{ base: 3, sm: 9 }} px={{ base: 3, lg: 16 }}>
                {display === 'detail' && (

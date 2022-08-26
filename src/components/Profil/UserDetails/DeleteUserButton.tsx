@@ -20,6 +20,8 @@ export function DeleteUserButton({ userId }: IDeleteUserButtonProps) {
 
    const handleValidate = async (): Promise<void> => {
       const { data, error } = await exeDeleteUserMutation({ user: { id: userId } });
+      console.log(data);
+
       if (error) console.log(error);
 
       // Si le user actuel === le user delete , on le déconnecte

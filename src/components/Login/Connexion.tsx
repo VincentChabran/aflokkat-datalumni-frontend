@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, VStack } from '@chakra-ui/react';
+import { Button, Flex, Heading, VStack } from '@chakra-ui/react';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useMutation } from 'urql';

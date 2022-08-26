@@ -18,6 +18,7 @@ export function DeleteButton({ userId, reExeUsersByIsNotActiveQuery }: DeleteBut
    const handleValidate = async () => {
       const { data, error } = await exeDeleteUserMutation({ user: { id: userId } });
       if (data) reExeUsersByIsNotActiveQuery();
+      console.log(error);
 
       toastSuccessError(toast, 'Utilisateur suprimé', 'Erreur suppression', data, error);
    };

@@ -1,9 +1,8 @@
 import { Button, FormLabel, HStack, SimpleGrid, VStack } from '@chakra-ui/react';
 import { Editor } from '@tinymce/tinymce-react';
-import { Editor as TinyMCEEditor } from 'tinymce';
 import { Form, Formik, FormikHelpers } from 'formik';
 import * as yup from 'yup';
-import { Dispatch, SetStateAction, useRef } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../global/formikField/InputField';
 import TextAreaField from '../global/formikField/TextAreaField';

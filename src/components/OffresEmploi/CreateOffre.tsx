@@ -149,7 +149,7 @@ export function CreateOffre(props: CreateOffreProps) {
 
                <Divider />
 
-               <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+               <Box maxW="750px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
                   <Text fontStyle="italic" mb={1}>
                      Description Entreprise :
                   </Text>
@@ -158,7 +158,7 @@ export function CreateOffre(props: CreateOffreProps) {
 
                <Divider />
 
-               <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+               <Box maxW="750px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
                   <Text fontStyle="italic" mb={1}>
                      Description Poste :
                   </Text>
@@ -167,7 +167,7 @@ export function CreateOffre(props: CreateOffreProps) {
 
                <Divider />
 
-               <Box maxW="680px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
+               <Box maxW="750px" m="auto" py="8" pl={{ base: '2', sm: '3' }} fontSize="sm">
                   <Text fontStyle="italic" mb={1}>
                      Description Profil Candidat :
                   </Text>

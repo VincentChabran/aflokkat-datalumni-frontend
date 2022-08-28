@@ -42,6 +42,7 @@ export function Inscription({ setDisplay }: InscriptionProps) {
          singupUserInput: {
             roles,
             ...rest,
+            isActive: false,
          },
       };
 

@@ -1,8 +1,5 @@
 import { CheckIcon } from '@chakra-ui/icons';
 import {
-   Button,
-   Flex,
-   HStack,
    IconButton,
    Modal,
    ModalBody,
@@ -12,14 +9,13 @@ import {
    ModalOverlay,
    useDisclosure,
    useToast,
-   VStack,
 } from '@chakra-ui/react';
-import { Form, Formik, FormikHelpers } from 'formik';
+import { FormikHelpers } from 'formik';
 import { OperationContext, useMutation } from 'urql';
 import { formatRolesArray } from '../../tools/functions/formatRolesArray';
 import { toastSuccessError } from '../../tools/functions/toastSuccessError';
 import { UsersNotActive } from '../../views/GestionNewAccount';
-import CheckboxField from '../global/formikField/CheckboxField';
+import { FormUpdateRolesUser, ValuesFormUserRoles } from './FormUpdateRolesUser';
 
 export interface ValiderButtonProps {
    user: UsersNotActive;
@@ -51,13 +47,12 @@ export function ValiderButton({ user, reExeUsersByIsNotActiveQuery }: ValiderBut
             status: 'valide',
          },
       };
-
       const { data, error } = await exeSendEmailValidationCreationAccountMutation(variables);
    };
 
    const [_, exeUpdatUserMutation] = useMutation(updateUserMutation);
 
-   const submit = async (values: ValuesUserValidate, { setSubmitting }: FormikHelpers<ValuesUserValidate>) => {
+   const submit = async (values: ValuesFormUserRoles, { setSubmitting }: FormikHelpers<ValuesFormUserRoles>) => {
       const { Admin, Equipe_administrative, Recruteur, Enseignant, Etudiant } = values;
       const roles = formatRolesArray(Admin, Equipe_administrative, Recruteur, Enseignant, Etudiant);
 
@@ -99,49 +94,12 @@ export function ValiderButton({ user, reExeUsersByIsNotActiveQuery }: ValiderBut
                <ModalHeader>Assigner les rôles</ModalHeader>
                <ModalCloseButton top="4" />
                <ModalBody>
-                  <Formik initialValues={initialValues} onSubmit={submit}>
-                     {({ isSubmitting }) => (
-                        <VStack align="stretch" w="100%">
-                           <Form>
-                              <Flex wrap="wrap" gap="4">
-                                 <CheckboxField name="Admin" label="Admin" />
-                                 <CheckboxField name="Equipe_administrative" label="Équipe-Administrative" />
-                                 <CheckboxField name="Recruteur" label="Recruteur" />
-                                 <CheckboxField name="Enseignant" label="Enseignant" />
-                                 <CheckboxField name="Etudiant" label="Étudiant" />
-                              </Flex>
-
-                              <HStack pt="5" justify="center" w="100%">
-                                 <Button
-                                    type="submit"
-                                    colorScheme="green"
-                                    size={{ base: 'sm', sm: 'md' }}
-                                    isLoading={isSubmitting}
-                                 >
-                                    Valider
-                                 </Button>
-
-                                 <Button colorScheme="red" mr={3} onClick={() => onClose()} size={{ base: 'sm', sm: 'md' }}>
-                                    Annuler
-                                 </Button>
-                              </HStack>
-                           </Form>
-                        </VStack>
-                     )}
-                  </Formik>
+                  <FormUpdateRolesUser initialValues={initialValues} submit={submit} onClose={onClose} />
                </ModalBody>
             </ModalContent>
          </Modal>
       </>
    );
-}
-
-export interface ValuesUserValidate {
-   Admin: boolean;
-   Equipe_administrative: boolean;
-   Recruteur: boolean;
-   Enseignant: boolean;
-   Etudiant: boolean;
 }
 
 const updateUserMutation = `

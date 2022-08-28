@@ -1,6 +1,16 @@
-import { Input, FormControl, FormLabel, FormErrorMessage, InputGroup, InputLeftElement, Text } from '@chakra-ui/react';
+import {
+   Input,
+   FormControl,
+   FormLabel,
+   FormErrorMessage,
+   InputGroup,
+   InputLeftElement,
+   Text,
+   VStack,
+} from '@chakra-ui/react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { FieldHookConfig, useField } from 'formik';
+import parse from 'html-react-parser';
 
 export type InputFieldProps = FieldHookConfig<string> & {
    label: string;
@@ -51,7 +61,7 @@ const InputField = ({
             />
          </InputGroup>
 
-         <FormErrorMessage>{meta.error}</FormErrorMessage>
+         <FormErrorMessage mb="2">{meta.error ? parse(meta.error) : ''}</FormErrorMessage>
       </FormControl>
    );
 };

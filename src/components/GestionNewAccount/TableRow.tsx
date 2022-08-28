@@ -20,7 +20,7 @@ export function TableRow({ user, reExeUsersByIsNotActiveQuery }: TableRowProps) 
          <Td px={paddingTable}>
             <ValiderButton user={user} reExeUsersByIsNotActiveQuery={reExeUsersByIsNotActiveQuery} />
 
-            <DeleteButton userId={user.id} reExeUsersByIsNotActiveQuery={reExeUsersByIsNotActiveQuery} />
+            <DeleteButton user={user} reExeUsersByIsNotActiveQuery={reExeUsersByIsNotActiveQuery} />
          </Td>
       </Tr>
    );

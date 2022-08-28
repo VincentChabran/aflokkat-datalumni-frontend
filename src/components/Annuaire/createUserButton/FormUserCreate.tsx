@@ -8,11 +8,11 @@ const schema = yup.object().shape({
    email: yup.string().email('Format non valide pour un email...').required('Email requis...'),
    password: yup
       .string()
-      // .min(6, 'Le password dois avoir minimum 6 caractères')
-      // .matches(
-      //    /((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-      //    'Le password doit contenir au moin, 1 Majuscule,\n 1 Minuscule,\n 1 Chiffre,\n 1 Caractère spéciale(ex: ?!&*)',
-      // )
+      .min(6, 'Le password doit avoir minimum 6 caractères')
+      .matches(
+         /((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+         '<div>Le password doit contenir au moin :<ul> <li>1 Majuscule</li> <li>1 Minuscule</li> <li>1 Chiffre</li> <li>1 Caractère spéciale (ex: ?!&*)</li> </ul></div>',
+      )
       .required('Password requis...'),
    nom: yup
       .string()

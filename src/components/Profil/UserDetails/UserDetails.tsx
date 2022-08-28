@@ -6,6 +6,7 @@ import { UserSpecifique } from '../../../views/Profil';
 import { ContactMentorMail } from './ContactMentorMail';
 import { DeleteUserButton } from './DeleteUserButton';
 import { UpdateUserButton } from './UpdateUserButton';
+import { UpdateUserRolesButton } from './UpdateUserRolesButton';
 import { UserCardDetail } from './UserCardDetail';
 
 export interface UserDetailsProps {
@@ -31,9 +32,15 @@ export function UserDetails({ user, setUser }: UserDetailsProps) {
             <Flex flexDir="column" justify="center" align="start" gap="2" mt="3">
                {parseInt(userId ?? idUserStore.toString()) !== idUserStore && <ContactMentorMail to={user.email} />}
 
-               {(user.id === idUserStore || rolesUserStore.includes('Admin')) && (
+               {(user.id === idUserStore ||
+                  rolesUserStore.includes('Admin') ||
+                  rolesUserStore.includes('Equipe_administrative')) && (
                   <Flex justify="center" align="center" gap={{ base: 1, lg: 3 }}>
                      {user.id === idUserStore && <UpdateUserButton user={user} setUser={setUser} />}
+
+                     {(rolesUserStore.includes('Admin') || rolesUserStore.includes('Equipe_administrative')) && (
+                        <UpdateUserRolesButton user={user} setUser={setUser} />
+                     )}
 
                      <DeleteUserButton userId={user.id} />
                   </Flex>

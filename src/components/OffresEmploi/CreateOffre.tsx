@@ -58,7 +58,7 @@ export function CreateOffre(props: CreateOffreProps) {
    useEffect(() => {
       if (
          !rolesUserStore.includes('Admin') &&
-         !rolesUserStore.includes('Équipe-administrative') &&
+         !rolesUserStore.includes('Equipe_administrative') &&
          !rolesUserStore.includes('Recruteur')
       ) {
          navigate('/offresemploi');

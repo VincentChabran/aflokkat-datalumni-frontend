@@ -1,6 +1,6 @@
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import { Button, Input, ModalBody, ModalCloseButton, ModalFooter, ModalHeader, Text } from '@chakra-ui/react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'urql';
 import { useOffresEmploiDisplayStore } from '../../../store/useOffresEmploiDisplayStore';
@@ -76,10 +76,3 @@ mutation Mutation($offre: UpdateOffreEmploiInput!) {
    removeOffreEmploi(offre: $offre)
  }
 `;
-// const deleteOffreEmploiMutation = `
-// mutation RemoveOffreEmploi($removeOffreEmploiId: Int!) {
-//    removeOffreEmploi(id: $removeOffreEmploiId) {
-//      id
-//    }
-//  }
-// `;

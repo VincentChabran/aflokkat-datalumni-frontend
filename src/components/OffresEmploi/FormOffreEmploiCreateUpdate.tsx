@@ -141,25 +141,6 @@ export function FormOffreEmploiCreateUpdate({
                      isRequired
                   />
 
-                  {/* <TextAreaField
-                     label="Description entreprise"
-                     name="descriptionEntreprise"
-                     placeholder="Description entreprise"
-                     isRequired
-                  /> */}
-                  {/* <TextAreaField
-                     label="Description poste"
-                     name="descriptionPoste"
-                     placeholder="Description poste"
-                     isRequired
-                  /> */}
-                  {/* <TextAreaField
-                     label="Description profil candidat"
-                     name="descriptionProfilCandidat"
-                     placeholder="Description profil candidat"
-                     isRequired
-                  /> */}
-
                   <CustomEditor
                      label="Description entreprise"
                      name="descriptionEntreprise"

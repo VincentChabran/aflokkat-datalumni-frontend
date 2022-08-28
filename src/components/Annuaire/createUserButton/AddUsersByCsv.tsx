@@ -8,6 +8,7 @@ import {
    ModalFooter,
    ModalHeader,
    ModalOverlay,
+   Text,
    useDisclosure,
    useToast,
    VStack,
@@ -109,7 +110,13 @@ export function AddUsersByCsv(props: AddUsersByCsvProps) {
                   </Formik>
                </ModalBody>
 
-               <ModalFooter>Explication</ModalFooter>
+               <ModalFooter fontSize="sm" display="block">
+                  Ajoutez un fichier au format CSV pour créer les utilisateurs, le fichier doit contenir les 4 champs
+                  suivants:{' '}
+                  <Text as="span" fontWeight="bold">
+                     nom,prenom,password,email
+                  </Text>
+               </ModalFooter>
             </ModalContent>
          </Modal>
       </>

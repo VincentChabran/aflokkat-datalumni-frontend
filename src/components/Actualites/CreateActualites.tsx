@@ -22,7 +22,7 @@ export function CreateActualites(props: CreateActualitesProps) {
    const { addActualite, setDisplayActualites } = useActualitesDisplayStore();
 
    useEffect(() => {
-      if (!rolesUserStore.includes('Admin') && !rolesUserStore.includes('Équipe-administrative')) {
+      if (!rolesUserStore.includes('Admin') && !rolesUserStore.includes('Equipe_administrative')) {
          navigate('/actualites');
       }
    }, []);

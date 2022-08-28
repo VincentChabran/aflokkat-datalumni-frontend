@@ -20,7 +20,7 @@ import { GestionNewAccount } from './views/GestionNewAccount';
 function App() {
    const navigate = useNavigate();
 
-   const { rolesUserStore, setUserStore } = useUserStore();
+   const { setUserStore } = useUserStore();
 
    useEffect(() => {
       const lsToken = getLocalStorageToken();
@@ -38,7 +38,6 @@ function App() {
    return (
       <Routes>
          <Route path="/login" element={<Login />} />
-
          <Route
             path="/*"
             element={

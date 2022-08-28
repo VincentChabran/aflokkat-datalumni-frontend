@@ -16,7 +16,7 @@ export function OffresEmploi(props: OffresEmploiProps) {
       <VStack align="normal" py="6" px={{ base: '1', sm: '2', md: '4' }} spacing={10}>
          {(rolesUserStore.includes('Admin') ||
             rolesUserStore.includes('Recruteur') ||
-            rolesUserStore.includes('Équipe-administrative')) && (
+            rolesUserStore.includes('Equipe_administrative')) && (
             <VStack>
                <Button
                   size={{ base: 'xs', sm: 'sm' }}

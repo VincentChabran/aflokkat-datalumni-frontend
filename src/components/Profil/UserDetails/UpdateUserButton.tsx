@@ -22,7 +22,7 @@ import { UserSpecifique } from '../../../views/Profil';
 import CheckboxField from '../../global/formikField/CheckboxField';
 import InputField from '../../global/formikField/InputField';
 import * as yup from 'yup';
-import { getLocalStorageToken } from '../../../utils/jwtToken';
+import { getLocalStorageToken, setLocalStorageToken } from '../../../utils/jwtToken';
 import InputFileField from '../../global/formikField/InputFileField';
 import { pathDomaineName } from '../../../utils/pathBackEnd';
 import { useUserStore } from '../../../store/useUserStore';
@@ -61,9 +61,8 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
 
    const { id, email, nom, prenom, telephone, dateDeNaissance, mentor, rechercheEmploi } = user;
 
-   const { idUserStore, setProfilPictureNameUserStore } = useUserStore();
+   const { idUserStore, setUserStore } = useUserStore();
 
-   // TODO telephone input
    const initialValues = {
       email,
       nom,
@@ -103,7 +102,7 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
       }
    };
 
-   const [__, exeUpdateUserMutation] = useMutation(udpateUserMutation);
+   const [__, exeUpdateUserMutation] = useMutation(updateUserMutation);
    const submit = async (values: Values, { setSubmitting }: FormikHelpers<Values>): Promise<void> => {
       const { file, nom, prenom, email, ...rest } = values;
       const variables = {
@@ -118,15 +117,20 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
       };
 
       setSubmitting(true);
-      const { data, error } = await exeUpdateUserMutation(variables);
       const profilPictureName = await uploadProfilImg(file);
+      const { data, error } = await exeUpdateUserMutation(variables);
       setSubmitting(false);
 
-      if (data && !error) {
-         setUser({ ...user, ...variables.updateUserInput, profilPictureName: profilPictureName ?? user.profilPictureName });
-         if (id === idUserStore) setProfilPictureNameUserStore(profilPictureName ?? user.profilPictureName);
-      }
+      console.log(data);
+      console.log(error);
 
+      if (data && !error) {
+         setUser(data.updateUser.user);
+         if (user.id === idUserStore) {
+            setUserStore(data.updateUser.user);
+            setLocalStorageToken(data.updateUser.accessToken);
+         }
+      }
       toastSuccessError(toast, 'Profil modifié', 'Erreur modification', data, error);
       onClose();
    };
@@ -197,13 +201,19 @@ export function UpdateUserButton({ user, setUser }: UpdateUserButtonProps) {
    );
 }
 
-const udpateUserMutation = `
-mutation UpdateUser($updateUserInput: UpdateUserInput!) {
+const updateUserMutation = `
+mutation Mutation($updateUserInput: UpdateUserInput!) {
    updateUser(updateUserInput: $updateUserInput) {
-     id
-     email
-     nom
-     prenom
+     accessToken
+     user {
+       id
+       email
+       nom
+       prenom
+       profilPictureName
+       roles
+       mentor
+     }
    }
  }
 `;
@@ -212,7 +222,6 @@ interface Values {
    email: string;
    nom: string;
    prenom: string;
-
    dateDeNaissance: string;
    mentor: boolean;
    rechercheEmploi: boolean;

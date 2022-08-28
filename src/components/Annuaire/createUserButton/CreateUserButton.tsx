@@ -38,6 +38,19 @@ export function CreateUserButton(props: CreateUserButtonProps) {
       Etudiant: true,
    };
 
+   const [__, exeSendEmailAfterCreateUserMutation] = useMutation(sendEmailAfterCreateUserMutation);
+
+   const sendEmail = async (nom: string, prenom: string, email: string, password: string) => {
+      await exeSendEmailAfterCreateUserMutation({
+         creationAccountInput: {
+            nom,
+            prenom,
+            email,
+            password,
+         },
+      });
+   };
+
    const [_, exeSignUpMutation] = useMutation(singUpMutation);
 
    const submit = async (values: ValuesUserCreate, { setSubmitting }: FormikHelpers<ValuesUserCreate>): Promise<void> => {
@@ -54,6 +67,8 @@ export function CreateUserButton(props: CreateUserButtonProps) {
 
       setSubmitting(true);
       const { data, error } = await exeSignUpMutation(variables);
+
+      if (data) sendEmail(values.nom, values.prenom, values.email, values.password);
       setSubmitting(false);
 
       toastSuccessError(toast, 'Utilisateur créé', 'Erreur création', data, error);
@@ -114,5 +129,11 @@ mutation Mutation($singupUserInput: CreateUserInput!) {
        entreprise
      }
    }
+ }
+`;
+
+const sendEmailAfterCreateUserMutation = `
+mutation Mutation($creationAccountInput: CreationAccountInput!) {
+   sendEmailAfterCreateUser(creationAccountInput: $creationAccountInput)
  }
 `;

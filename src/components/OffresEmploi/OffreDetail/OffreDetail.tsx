@@ -10,7 +10,6 @@ import {
    ModalContent,
    ModalOverlay,
    SimpleGrid,
-   Spinner,
    Text,
    UnorderedList,
    useColorModeValue,

@@ -11,7 +11,7 @@ const schema = yup.object().shape({
       .min(6, 'Le password doit avoir minimum 6 caractères')
       .matches(
          /((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-         '<div>Le password doit contenir au moin :<ul> <li>1 Majuscule</li> <li>1 Minuscule</li> <li>1 Chiffre</li> <li>1 Caractère spéciale (ex: ?!&*)</li> </ul></div>',
+         '<div>Le password doit contenir au moin :<ul> <li>1 Majuscule</li> <li>1 Minuscule</li> <li>1 Chiffre</li> <li>1 Caractère spécial (ex: ?!&*)</li> </ul></div>',
       )
       .required('Password requis...'),
    nom: yup

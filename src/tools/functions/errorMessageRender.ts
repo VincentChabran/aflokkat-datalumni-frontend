@@ -17,7 +17,10 @@ export const errorMessageToast = (errorRow: CombinedError) => {
    if (errorRow.message === '[Network] Failed to fetch') {
       formatResponse.push('Connexion au serveur impossible');
       return formatResponse;
-   } else if (errorRow.message === '[GraphQL] Conflict') {
+   } else if (
+      errorRow.message === '[GraphQL] Conflict' ||
+      errorRow.message.includes("[GraphQL] la valeur d'une clé dupliquée rompt la contrainte unique")
+   ) {
       formatResponse.push('Cette email est déjà utilisé');
    }
 

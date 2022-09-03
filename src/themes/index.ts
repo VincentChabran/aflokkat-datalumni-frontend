@@ -11,9 +11,7 @@ const config: ThemeConfig = {
 
 const overrides = {
    styles,
-
    ...foundations,
-
    components: {
       ...components,
    },

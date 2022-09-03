@@ -71,6 +71,9 @@ export function CreateUserButton(props: CreateUserButtonProps) {
       if (data) sendEmail(values.nom, values.prenom, values.email, values.password);
       setSubmitting(false);
 
+      console.log(data);
+      console.log(error);
+
       toastSuccessError(toast, 'Utilisateur créé', 'Erreur création', data, error);
 
       // Update de l'affiche sans requete grace au store

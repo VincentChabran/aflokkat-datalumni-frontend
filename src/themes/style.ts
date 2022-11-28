@@ -9,6 +9,7 @@ export const styles = {
          bg: mode('gray.100', 'gray.900')(props),
          lineHeight: 'base',
       },
+      // ScrollBar GoogleChrome
       '&::-webkit-scrollbar': {
          width: '2px',
       },
@@ -21,6 +22,7 @@ export const styles = {
          backgroundColor: '#1A202C',
          borderRadius: '24px',
       },
+      // End ScrollBar
       ...editor,
       // "*::placeholder": {
       //    color: mode("gray.400", "whiteAlpha.400")(props),

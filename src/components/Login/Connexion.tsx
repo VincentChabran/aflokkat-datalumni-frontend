@@ -33,6 +33,8 @@ export function Connexion() {
 
       if (error?.message.includes("[GraphQL] Votre compte n'est pas encore activé"))
          setTitle("Votre compte n'est pas encore activé");
+      else if (error?.message.includes('[Network] Failed to fetch'))
+         setTitle('Connexion au serveur impossible. Veuillez réessayer');
       else if (error) setTitle('Identifiants incorrects... Veuillez réessayer.');
 
       if (data) {

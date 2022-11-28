@@ -1,5 +1,4 @@
 import { extendTheme, ThemeConfig } from '@chakra-ui/react';
-
 import { styles } from './style';
 import { foundations } from './foundations';
 import { components } from './components';

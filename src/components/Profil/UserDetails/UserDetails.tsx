@@ -35,7 +35,7 @@ export function UserDetails({ user, setUser }: UserDetailsProps) {
                {(user.id === idUserStore ||
                   rolesUserStore.includes('Admin') ||
                   rolesUserStore.includes('Equipe_administrative')) && (
-                  <Flex justify="center" align="center" gap={{ base: 1, lg: 3 }}>
+                  <Flex justify="center" align="center" gap={{ base: 1, lg: 3 }} wrap="wrap">
                      {user.id === idUserStore && <UpdateUserButton user={user} setUser={setUser} />}
 
                      {(rolesUserStore.includes('Admin') || rolesUserStore.includes('Equipe_administrative')) && (
